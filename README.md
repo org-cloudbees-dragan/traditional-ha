@@ -176,17 +176,27 @@ docker-compose restart ha-client-controller-2
 
 ## Add your public key the agent container
 
-> docker exec -ti agent -c cat $(cat id_rsa.pub) > /home/jenkins/.ssh(authorized_keys
+add the ssh-pub key in your `docker-compose.yaml` file  
 
-## Apply the public key to the agent
+```
+    environment:
+      - JENKINS_AGENT_SSH_PUBKEY="YOUR_PUB_KEY"
 
-TODO describe how to add  to docker compose using the env var 
+```
+
+Restart the agent container if required
+
+> docker-compose restart agent 
+
+Verify if the key has been applied: (Join the docker agent container and check the `/home/jenkins/.ssh` directory)
 
 
 
 ## On the controller: Create a jenkins ssh credential
 
-Todo: Screenshot
+Join the controller and add an SSH Credentials (private key)
+
+TODO: Screenshot 
 
 ## Create a SSH Agent Node
 
