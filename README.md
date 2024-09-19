@@ -178,7 +178,15 @@ docker-compose restart ha-client-controller-2
 
 > docker exec -ti agent -c cat $(cat id_rsa.pub) > /home/jenkins/.ssh(authorized_keys
 
+## Apply the public key to the agent
+
+TODO describe how to add  to docker compose using the env var 
+
+
+
 ## On the controller: Create a jenkins ssh credential
+
+Todo: Screenshot
 
 ## Create a SSH Agent Node
 
@@ -189,17 +197,20 @@ docker-compose restart ha-client-controller-2
 When setting up SSH, it's important to ensure that the permissions for the SSH directory and its files are configured correctly for security. Here’s how the typical directory structure and permissions should look:
 
 Directory Structure
+
 SSH Directory:
 
-Path: ~/.ssh/
+Agent: Path: /home/jenkins/.ssh/
+
 Files in the SSH Directory:
 
-id_rsa (private key)
-id_rsa.pub (public key)
-authorized_keys (contains public keys for SSH access)
-config (optional configuration file)
-known_hosts (tracks known host public keys)
-Recommended Permissions
+* id_rsa (private key)
+* id_rsa.pub (public key)
+* authorized_keys (contains public keys for SSH access)
+* config (optional configuration file)
+* known_hosts (tracks known host public keys)
+
+* Recommended Permissions
 Here's how to set the permissions correctly:
 
 
@@ -226,8 +237,11 @@ Explanation of Permissions
 * 700 for ~/.ssh/: This allows only the user to read, write, and execute. This is essential to prevent other users from accessing the SSH configuration.
 * 600 for id_rsa and authorized_keys: This restricts the files so only the user can read and write them. The private key must be kept secret.
 * 644 for id_rsa.pub, config, and known_hosts: These files can be read by others, but only the owner can write to them.
-Example Commands
-You can set these permissions using the following commands in your terminal:
+
+* Example Commands
+You can set these permissions using the following commands in your agent:
+
+TODO: update 
 
 ```
 mkdir -p ~/.ssh
@@ -239,11 +253,6 @@ chmod 644 ~/.ssh/id_rsa.pub ~/.ssh/config ~/.ssh/known_hosts
 
 This ensures that your SSH setup is secure and functions correctly. Let me know if you have further questions!
 
-
-
-
-
-ChatGPT can make mistakes. Check important info.
 
 ## TODO and next steps
 
