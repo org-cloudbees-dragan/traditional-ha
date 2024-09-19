@@ -21,7 +21,7 @@ The docker-compose setup follows this design with the following limitations:
 * SSL 443 is not enabled yet. All traffic for local demo is going through port 80/8080
 * NFS server is not part of the demo. We will use a local directory on the host system 
 
-* ![Ci-HAProxy.png](docs/docs/Ci-HAProxy.png)
+* ![Ci-HAProxy.png](docs/Ci-HAProxy.png)
 
 
 ## Setup
