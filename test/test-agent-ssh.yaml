@@ -1,0 +1,23 @@
+kind: pipeline
+name: pipelinetest
+concurrentBuild: true
+definition:
+  cpsFlowDefinition:
+    sandbox: true
+    script: |
+      pipeline {
+        agent {
+            label 'ssh-agent'
+        }
+          stages {
+              stage('Hello') {
+                  steps {
+                      echo 'Hello World'
+                  }
+              }
+          }
+      }
+description: ''
+disabled: false
+displayName: pipelinetest
+resumeBlocked: false
