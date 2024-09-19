@@ -7,8 +7,10 @@ export OC_URL=oc.ha
 export CLIENTS_URL=client.ha
 
 # CB CI version for Operations Center and Controllers
-export DOCKER_IMAGE_OC=cloudbees/cloudbees-core-oc:2.426.3.3
-export DOCKER_IMAGE_CLIENT=cloudbees/cloudbees-core-cm:2.426.3.3
+#export DOCKER_IMAGE_OC=cloudbees/cloudbees-core-oc:2.426.3.3
+export DOCKER_IMAGE_OC=cloudbees/cloudbees-core-oc:latest
+#export DOCKER_IMAGE_CLIENT=cloudbees/cloudbees-core-cm:2.426.3.3
+export DOCKER_IMAGE_CLIENT=cloudbees/cloudbees-core-cm:latest
 
 # We put static IP addresses for docker containers
 export IP_PREFIX=172.47
@@ -20,7 +22,7 @@ export AGENT_IP=$IP_PREFIX.0.9
 export BROWSER_IP=$IP_PREFIX.0.10
 
 # Paths on Docker host for mapped volumes
-export PERSISTENCE_PREFIX=/tmp/jenkins_ha
+export PERSISTENCE_PREFIX=$(pwd)/jenkins_ha
 export OC_PERSISTENCE=$PERSISTENCE_PREFIX/oc
 export CONTROLLER_PERSISTENCE=$PERSISTENCE_PREFIX/controllers
 export CONTROLLER1_CACHES=$PERSISTENCE_PREFIX/controller1_caches

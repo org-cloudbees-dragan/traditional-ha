@@ -10,10 +10,10 @@ version: '3'
 services:
 
   operations-center:
-    image: ${DOCKER_IMAGE_OC}
+    image: cloudbees/cloudbees-core-oc:latest
     extra_hosts:
-      - "${OC_URL}:${HAPROXY_IP}"
-      - "${CLIENTS_URL}:${HAPROXY_IP}"
+      - "oc.ha:172.47.0.5"
+      - "client.ha:172.47.0.5"
     #privileged: true
     #user: root
     healthcheck:
@@ -28,15 +28,15 @@ services:
 #    - 50000:50000
     container_name: operations-center
     volumes:
-    - ${OC_PERSISTENCE}:/var/jenkins_home
+    - /Users/acaternberg/projects/traditional-ha/jenkins_ha/oc:/var/jenkins_home
     networks:
       demo-network:
-        ipv4_address: ${OC_IP}
+        ipv4_address: 172.47.0.6
 
   ha-client-controller-1:
-    image: ${DOCKER_IMAGE_CLIENT}
+    image: cloudbees/cloudbees-core-cm:latest
     extra_hosts:
-      - "${OC_URL}:${HAPROXY_IP}"
+      - "oc.ha:172.47.0.5"
    #privileged: true
    # user: root
     healthcheck:
@@ -61,17 +61,17 @@ services:
     # Controller 1 is mapping the same underlying dir as controller 2. They share the same jenkins_home
     # Cache dir is different for each
     volumes:
-    - ${CONTROLLER_PERSISTENCE}:/var/jenkins_home
-    - ${CONTROLLER1_CACHES}:/var/cache/cloudbees-core-cm/caches
+    - /Users/acaternberg/projects/traditional-ha/jenkins_ha/controllers:/var/jenkins_home
+    - /Users/acaternberg/projects/traditional-ha/jenkins_ha/controller1_caches:/var/cache/cloudbees-core-cm/caches
 
     networks:
       demo-network:
-        ipv4_address: ${CLIENT1_IP}
+        ipv4_address: 172.47.0.7
 
   ha-client-controller-2:
-    image: ${DOCKER_IMAGE_CLIENT}
+    image: cloudbees/cloudbees-core-cm:latest
     extra_hosts:
-      - "${OC_URL}:${HAPROXY_IP}"
+      - "oc.ha:172.47.0.5"
    #privileged: true
    # user: root
     healthcheck:
@@ -98,12 +98,12 @@ services:
     # Controller 2 is mapping the same underlying dir as controller 1. They share the same jenkins_home
     # Cache dir is different for each
     volumes:
-    - ${CONTROLLER_PERSISTENCE}:/var/jenkins_home
-    - ${CONTROLLER2_CACHES}:/var/cache/cloudbees-core-cm/caches
+    - /Users/acaternberg/projects/traditional-ha/jenkins_ha/controllers:/var/jenkins_home
+    - /Users/acaternberg/projects/traditional-ha/jenkins_ha/controller2_caches:/var/cache/cloudbees-core-cm/caches
 
     networks:
       demo-network:
-        ipv4_address: ${CLIENT2_IP}
+        ipv4_address: 172.47.0.8
 
 
   agent:
@@ -117,10 +117,10 @@ services:
 #    expose:
 #      - 22
     volumes:
-    - ${AGENT_PERSISTENCE}:/home/jenkins/agent
+    - /Users/acaternberg/projects/traditional-ha/jenkins_ha/ssh-agent1:/home/jenkins/agent
     networks:
       demo-network:
-        ipv4_address: ${AGENT_IP}
+        ipv4_address: 172.47.0.9
     environment:
       - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDCsjZisGoSB/00geKfQRRkFvSmOJZnsp5D4x0qSrcUzfcklgQQf5ARADg9FhOVV6C4LkzPIZ1dVy8HKUKLT4KhkTsjPtzj1lJHMulNhc1Kco2VwQi4mVDwQmGqKz7hKjFkfp3hGE76AAhMeHZWqT86VNmAsgTKBd/llNVJ97RIp+bE/9vVF2XtWjjXhx2v3UIh9m2j7y+PNvWiW96bnFkQqvuk/Ig2zVxI2xt/pkelQAgUgOkre7ICJTtJUdKXPQ3pIhPIPhAinRrfl+H3mrHTQgozg91nroT83n2r2lMGCIBV1moVItJH6NMFEwkvW7aDmGLnz0rznGqsGLhOyxSfCaq6rKfFNoSxT03ChAelEpFs3DO2W6jfG8gC/AaYO6spabYEM296ioCH91g9jWsH22o2RUHW5yui9fJP9Gu9zTS8pOuXerGdf2zeFV2ZJHrg2w0f7WP8h62Zet+Zdbm8gxf710n8fvbjqdzsxnYIn+2Cu9zF6R4uuIyuxDd2q60=
 
@@ -133,12 +133,12 @@ services:
       - "80:80"
     networks:
       demo-network:
-        ipv4_address: ${HAPROXY_IP}
+        ipv4_address: 172.47.0.5
     depends_on:
       ha-client-controller-1:
         condition: service_healthy
     extra_hosts:
-      - "${OC_URL}:${OC_IP}"
+      - "oc.ha:172.47.0.6"
 
   browser:
     image: dorowu/ubuntu-desktop-lxde-vnc
@@ -146,17 +146,15 @@ services:
     ports:
       - "6080:80"
     extra_hosts:
-      - "${OC_URL}:${HAPROXY_IP}"
-      - "${CLIENTS_URL}:${HAPROXY_IP}"
+      - "oc.ha:172.47.0.5"
+      - "client.ha:172.47.0.5"
     networks:
       demo-network:
-        ipv4_address: ${BROWSER_IP}
+        ipv4_address: 172.47.0.10
 
 networks:
   demo-network:
     driver: bridge
-    #driver_opts:
-    #  com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
     ipam:
       config:
-        - subnet: ${IP_PREFIX}.0.0/16
+        - subnet: 172.47.0.0/16
