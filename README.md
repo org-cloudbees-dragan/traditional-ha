@@ -133,7 +133,7 @@ docker-compose restart ha-client-controller-2
 
 Create a key pair with: `ssh-keygen -t rsa -f agent-key`
 
-Put the contents of agent-key.pub in the env var JENKINS_AGENT_SSH_PUBKEY in docker-compose.yaml.template.
+Put the contents of agent-key.pub in the env var JENKINS_AGENT_SSH_PUBKEY in `docker-compose.yaml.template`.
 Use the private part in the Controller when defining credentials to connect to the agent.
 Choose credentials with username and private key. Username is jenkins.
 
@@ -168,7 +168,7 @@ docker-compose restart ha-client-controller-1
 docker-compose restart ha-client-controller-2
 ```
 
-# SSH Agents
+# Details SSH Agents
 
 ## Create your ssh keys
 
