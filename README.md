@@ -2,6 +2,8 @@
 
 Docker compose setup for a traditional Cloudbees CI installation in HA (active/active) mode
 
+
+
 # Links
 
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
@@ -12,7 +14,17 @@ Docker compose setup for a traditional Cloudbees CI installation in HA (active/a
 * https://www.claudiokuenzler.com/blog/900/how-to-use-docker-host-ip-address-inside-application-container
 * https://eventuate.io/docs/usingdocker.html
 
-## Intro
+## Architecture
+
+The docker-compose setup follows this design with the following limitations:
+
+* SSL 443 is not enabled yet. All traffic for local demo is going through port 80/8080
+* NFS server is not part of the demo. We will use a local directory on the host system 
+
+* ![Ci-HAProxy.png](docs/docs/Ci-HAProxy.png)
+
+
+## Setup
 
 The setup consists of the following containers:
 
@@ -159,6 +171,8 @@ docker-compose restart ha-client-controller-2
 ## TODO and next steps
 
 - Use {DOCKER_IP} and Controller/Cjoc sub path in ha_proxy, remove the vnc ubuntu image
+- Verify to introduce NFS
+- Enable SSL on HAPRoxy (Lets-encrypt or self-signed certs?) 
 - Agents: Creating agent key pair in up.sh
 - Fill the public part automatically in docker compose template (with envsubst in up.sh)
 - Casc: Add configuration as code to simplify the setup and plugin installation
