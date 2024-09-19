@@ -89,7 +89,7 @@ properties:
 ```
 
 
-* ![Screenshot20240919at084705.png](assets/Screenshot 2024-09-19 at 08.47.05.png)
+* ![Screenshot20240919at084705.png](images/Screenshot 2024-09-19 at 08.47.05.png)
 * Push the configuration to http://$CLIENTS_URL  (by default this is http://client.ha/ )
   * Try to access http://$CLIENTS_URL/ in Firefox (VNC)
   * alternative: try to access http://ha-client-controller-1:8080
@@ -104,7 +104,7 @@ docker-compose restart ha-client-controller-2
 ```
 
 * You can see the HA status in the controllers` Manage Jenkins section
-* ![Screenshot20240919at084650.png](assets/Screenshot 2024-09-19 at 08.46.50.png)
+* ![Screenshot20240919at084650.png](images/Screenshot 2024-09-19 at 08.46.50.png)
 
 ### Agent
 
