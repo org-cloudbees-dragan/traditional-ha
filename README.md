@@ -170,6 +170,22 @@ docker-compose restart ha-client-controller-2
 
 # SSH Agents
 
+## Create your ssh keys
+
+> ssh-keygen -t rsa -b 2048 -C "your_email@example.com"
+
+## Add your public key the agent container
+
+> docker exec -ti agent -c cat $(cat id_rsa.pub) > /home/jenkins/.ssh(authorized_keys
+
+## On the controller: Create a jenkins ssh credential
+
+## Create a SSH Agent Node
+
+![Screenshot20240919at084705.png](docs/createSSHAgent.png)
+
+
+
 When setting up SSH, it's important to ensure that the permissions for the SSH directory and its files are configured correctly for security. Here’s how the typical directory structure and permissions should look:
 
 Directory Structure
