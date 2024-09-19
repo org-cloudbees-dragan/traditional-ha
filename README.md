@@ -1,6 +1,16 @@
-# traditional-ha
+# CloudBees Ci traditional-ha/hs demo 
 
 Docker compose setup for a traditional Cloudbees CI installation in HA (active/active) mode
+
+# Links
+
+* https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
+* https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
+* https://docs.docker.com/compose/networking/
+* https://www.haproxy.com/blog/haproxy-configuration-basics-load-balance-your-servers
+* https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/
+* https://www.claudiokuenzler.com/blog/900/how-to-use-docker-host-ip-address-inside-application-container
+* https://eventuate.io/docs/usingdocker.html
 
 ## Intro
 
@@ -146,14 +156,9 @@ docker-compose restart ha-client-controller-1
 docker-compose restart ha-client-controller-2
 ```
 
-## TODO
+## TODO and next steps
 
-- Creating agent key pair in up.sh
+- Use {DOCKER_IP} and Controller/Cjoc sub path in ha_proxy, remove the vnc ubuntu image
+- Agents: Creating agent key pair in up.sh
 - Fill the public part automatically in docker compose template (with envsubst in up.sh)
-- CasC
-
-# Links
-
-* https://docs.docker.com/compose/networking/
-* https://www.claudiokuenzler.com/blog/900/how-to-use-docker-host-ip-address-inside-application-container
-* https://eventuate.io/docs/usingdocker.html
+- Casc: Add configuration as code to simplify the setup and plugin installation
