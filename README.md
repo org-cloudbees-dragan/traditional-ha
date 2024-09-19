@@ -168,6 +168,67 @@ docker-compose restart ha-client-controller-1
 docker-compose restart ha-client-controller-2
 ```
 
+# SSH Agents
+
+When setting up SSH, it's important to ensure that the permissions for the SSH directory and its files are configured correctly for security. Here’s how the typical directory structure and permissions should look:
+
+Directory Structure
+SSH Directory:
+
+Path: ~/.ssh/
+Files in the SSH Directory:
+
+id_rsa (private key)
+id_rsa.pub (public key)
+authorized_keys (contains public keys for SSH access)
+config (optional configuration file)
+known_hosts (tracks known host public keys)
+Recommended Permissions
+Here's how to set the permissions correctly:
+
+
+# Set the permissions for the .ssh directory
+> chmod 700 ~/.ssh
+
+# Set the permissions for the private key
+> chmod 600 ~/.ssh/id_rsa
+
+# Set the permissions for the public key
+> chmod 644 ~/.ssh/id_rsa.pub
+
+# Set the permissions for the authorized_keys file
+> chmod 600 ~/.ssh/authorized_keys
+
+# Set the permissions for the config file (if it exists)
+> chmod 644 ~/.ssh/config
+
+# Set the permissions for the known_hosts file (if it exists)
+> chmod 644 ~/.ssh/known_hosts
+
+Explanation of Permissions
+
+* 700 for ~/.ssh/: This allows only the user to read, write, and execute. This is essential to prevent other users from accessing the SSH configuration.
+* 600 for id_rsa and authorized_keys: This restricts the files so only the user can read and write them. The private key must be kept secret.
+* 644 for id_rsa.pub, config, and known_hosts: These files can be read by others, but only the owner can write to them.
+Example Commands
+You can set these permissions using the following commands in your terminal:
+
+```
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+touch ~/.ssh/id_rsa ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys ~/.ssh/config ~/.ssh/known_hosts
+chmod 600 ~/.ssh/id_rsa ~/.ssh/authorized_keys
+chmod 644 ~/.ssh/id_rsa.pub ~/.ssh/config ~/.ssh/known_hosts
+```
+
+This ensures that your SSH setup is secure and functions correctly. Let me know if you have further questions!
+
+
+
+
+
+ChatGPT can make mistakes. Check important info.
+
 ## TODO and next steps
 
 - Use {DOCKER_IP} and Controller/Cjoc sub path in ha_proxy, remove the vnc ubuntu image
