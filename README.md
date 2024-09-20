@@ -2,13 +2,11 @@
 
 Docker compose setup for a traditional Cloudbees CI installation in HA (active/active) mode
 
-![CB HA Diagram](https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/_images/ha-architecture.567e024.png)
-
-
 See these links for the background
 
-* https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
+* https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-fundamentals
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
+* https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
 
 # Links
 
