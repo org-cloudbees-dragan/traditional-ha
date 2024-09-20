@@ -70,7 +70,7 @@ The Operations Center and both controllers are behind HAProxy.
 * If a request comes with $CLIENTS_URL host header, it is load balanced between all client controllers
 * The load balancing for client controllers has sticky sessions enabled
 
-## env.sh
+[env.sh](env.sh)
 
 - `OC_URL` is the URL you want the operations center to respond on.
 - `CLIENTS_URL` is for the controllers. There is only one URL for both controllers.
@@ -79,17 +79,28 @@ The Operations Center and both controllers are behind HAProxy.
 - `PERSISTENCE_PREFIX` is the path for the persistence volumes on the docker host
 - `JENKINS_AGENT_SSH_PUBKEY`=$(cat ~/.ssh/id_rsa.pub)  assumes your ssh pub key is under this path. adjust it for your needs
 
-## docker-compose.yaml.template
+[docker-compose.yaml.template](docker-compose.yaml.template)
 
 This template is used to render the `docker-compose.yaml` file using the environment variables in `env.sh`. Please do not modify docker-compose.yaml directly, since it will be overwritten by `up.sh`. Modify this template instead.
 
-## up.sh
+[up.sh](up.sh)
 
 A helper script to:
 
 - Create the persistence volumes
 - Render the docker-compose.yaml from the template.
 - Run `docker compose up`
+
+[haproxy.cfg](haproxy.cfg)
+
+This is the haproxy configuration used in the haproxy container to balance and forward the incoming traffic t the related cloudbees components
+It includes:
+
+* frontend and backend config
+* client header forwarding
+* enabled websockets
+* enabled sticky sessions
+* balance mode (roundrobin)
 
 ## Stop
 
