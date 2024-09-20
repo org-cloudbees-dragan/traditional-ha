@@ -72,7 +72,17 @@ A helper script to:
 - Render the docker-compose.yaml from the template.
 - Run `docker compose up`
 
-# Deploy
+## Stop
+
+Run `down.sh`. This will issue docker compose down to stop the running containers.
+
+## Clean up
+
+- Stop the running containers using `down.sh`. Then,
+- Run `delete_volumes.sh`. This will delete the persistence directories on the host (docker volumes)
+
+
+## Deploy
 
 - Examine `env.sh` and modify if needed.
 - Examine `docker-compose.yaml.template` and modify if needed.
@@ -121,7 +131,7 @@ Disable HTTPS only:
 Add exceptions:
 ![ff-exceptions](docs/ff-exceptions.png)
 
-## Open the Operations Center 
+# Open the Operations Center 
 
 * Point the Firefox browser to http://$OC_URL  (by default this is http://oc.ha/)
 * Unlock the Operations center, you will find the key in the docker-compose logs on your console
@@ -140,7 +150,7 @@ operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX
   * Enforce Security realm and SSO
   * ![oc-enforce-security.png](docs/oc-enforce-security.png)
 
-## Create a client controller item
+# Create a client controller item
 
 * In the Operations Center, create a client controller item.
 * Ensure you have "websocket" enabled in the connection configuration
@@ -163,31 +173,22 @@ operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX
 * It takes some minutes now, you can see the HA status in the controllers` Manage Jenkins section
 * ![Screenshot20240919at084705.png](docs/image1.png)
 
-## Stop
 
-Run `down.sh`. This will issue docker compose down to stop the running containers.
-
-## Clean up
-
-- Stop the running containers using `down.sh`. Then,
-- Run `delete_volumes.sh`. This will delete the persistence directories on the host (docker volumes)
-
-## On the controller: Create a jenkins ssh credential
-
-
-### Optional, if you don't have an ssh key: Create a key pair with: `ssh-keygen -t rsa -f agent-key`
-
-Adjust the path to the ssh key in the `env.sh` file 
-> export JENKINS_AGENT_SSH_PUBKEY=$(cat ~/.ssh/id_rsa.pub)
-
-Use the private part in the Controller when defining credentials to connect to the agent.
-Choose credentials with username and private key. Username is jenkins.
+# On the controller: Create a jenkins ssh credential
 
 Join the Controller and add an SSH Credentials (private key)
 
 ![controller-ssh-cred.png](docs/controller-ssh-cred.png)
 
-## Create a SSH Agent Node
+## Optional, if you don't have an ssh key: Create a key pair with: `ssh-keygen -t rsa -f agent-key`
+
+Adjust the path to the ssh key in the `env.sh` file
+> export JENKINS_AGENT_SSH_PUBKEY=$(cat ~/.ssh/id_rsa.pub)
+
+Use the private part in the Controller when defining credentials to connect to the agent.
+Choose credentials with username and private key. Username is jenkins.
+
+# Create a SSH Agent Node
 
 ![createSSHAgent.png](docs/createSSHAgent.png)
 
@@ -236,13 +237,13 @@ docker-compose restart ha-client-controller-1
 docker-compose restart ha-client-controller-2
 ```
 
-# Details SSH Agents
+## Details SSH Agents
 
-## Create your ssh keys
+### Create your ssh keys
 
 > ssh-keygen -t rsa -b 2048 -C "your_email@example.com"
 
-## Add your public key the agent container
+### Add your public key the agent container
 
 add the ssh-pub key in your `docker-compose.yaml` file
 
@@ -258,7 +259,7 @@ Restart the agent container if required
 
 Verify if the key has been applied: (Join the docker agent container and check the `/home/jenkins/.ssh` directory)
 
-## SSH key permissions 
+### SSH key permissions 
 
 When setting up SSH, it's important to ensure that the permissions for the SSH directory and its files are configured correctly for security. Here’s how the typical directory structure and permissions should look:
 
@@ -279,22 +280,22 @@ Files in the SSH Directory:
 * Recommended Permissions
 Here's how to set the permissions correctly:
 
-## Set the permissions for the .ssh directory
+### Set the permissions for the .ssh directory
 > chmod 700 ~/.ssh
 
-## Set the permissions for the private key
+### Set the permissions for the private key
 > chmod 600 ~/.ssh/id_rsa
 
-## Set the permissions for the public key
+### Set the permissions for the public key
 > chmod 644 ~/.ssh/id_rsa.pub
 
-## Set the permissions for the authorized_keys file
+### Set the permissions for the authorized_keys file
 > chmod 600 ~/.ssh/authorized_keys
 
-## Set the permissions for the config file (if it exists)
+### Set the permissions for the config file (if it exists)
 > chmod 644 ~/.ssh/config
 
-## Set the permissions for the known_hosts file (if it exists)
+### Set the permissions for the known_hosts file (if it exists)
 > chmod 644 ~/.ssh/known_hosts
 
 Explanation of Permissions
@@ -317,7 +318,7 @@ chmod 644 ~/.ssh/id_rsa.pub ~/.ssh/config ~/.ssh/known_hosts
 This ensures that your SSH setup is secure and functions correctly. Let me know if you have further questions!
 
 
-## TODO and next steps
+# TODO and next steps
 
 - Use {DOCKER_IP} and Controller/Cjoc sub path in ha_proxy, remove the vnc ubuntu image
 - Verify to introduce NFS
