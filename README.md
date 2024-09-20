@@ -126,10 +126,10 @@ Flush the DNS cache (MacOs)
 
 ## Disable HTTPS Only mode and add the CloudBees host names
 
-If you hit SSL cert issues in your browser, do teh following:  (Haven't checked yet how to do this in Chrome)
+If you hit SSL cert issues in your browser, do the following:  (Haven't checked yet how to do this in Chrome)
 
 * As the demo HAProxy doesn't support HTTPS/SSL yet, we use Firefox with disabled `HTTPS only mode`.
-* It doesn't matter which of the following options you choose, you need to disable HTTPS an adjust the following exceptions:
+* Adjust the following exceptions:
 
 Under Firefox settings search "HTTPS Only"
 
