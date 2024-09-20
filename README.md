@@ -102,6 +102,12 @@ It includes:
 * enabled sticky sessions
 * balance mode (roundrobin)
 
+## Start/Deploy
+
+- Examine `env.sh` and modify if needed.
+- Examine `docker-compose.yaml.template` and modify if needed.
+- Run `up.sh`.
+
 ## Stop
 
 Run `down.sh`. This will issue docker compose down to stop the running containers.
@@ -110,14 +116,6 @@ Run `down.sh`. This will issue docker compose down to stop the running container
 
 - Stop the running containers using `down.sh`. Then,
 - Run `delete_volumes.sh`. This will delete the persistence directories on the host (docker volumes)
-
-
-## Deploy
-
-- Examine `env.sh` and modify if needed.
-- Examine `docker-compose.yaml.template` and modify if needed.
-- Run `up.sh`.
-
 
 # Browser Access
 
