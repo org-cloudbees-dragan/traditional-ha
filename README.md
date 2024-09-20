@@ -188,10 +188,15 @@ Join the Controller and add an SSH Credentials (private key)
 
 ![controller-ssh-cred.png](docs/controller-ssh-cred.png)
 
-## Optional, if you don't have an ssh key: Create a key pair with: `ssh-keygen -t rsa -f agent-key`
+## Optional, if you don't have an ssh key: Create a key pair 
+
+`ssh-keygen -t rsa -f agent-key`
 
 Adjust the path to the ssh key in the `env.sh` file
 > export JENKINS_AGENT_SSH_PUBKEY=$(cat ~/.ssh/id_rsa.pub)
+
+or 
+>  export JENKINS_AGENT_SSH_PUBKEY=$(cat <YOUR_PATH_HERT>/agent-key.pub)
 
 Use the private part in the Controller when defining credentials to connect to the agent.
 Choose credentials with username and private key. Username is jenkins.
