@@ -197,41 +197,19 @@ docker-compose restart ha-client-controller-1
 docker-compose restart ha-client-controller-2
 ```
 
-# Details SSH Agents
-
-## Create your ssh keys
-
-> ssh-keygen -t rsa -b 2048 -C "your_email@example.com"
-
-## Add your public key the agent container
-
-add the ssh-pub key in your `docker-compose.yaml` file  
-
-```
-    environment:
-      - JENKINS_AGENT_SSH_PUBKEY="YOUR_PUB_KEY"
-
-```
-
-Restart the agent container if required
-
-> docker-compose restart agent 
-
-Verify if the key has been applied: (Join the docker agent container and check the `/home/jenkins/.ssh` directory)
-
 
 
 ## On the controller: Create a jenkins ssh credential
 
 Join the controller and add an SSH Credentials (private key)
 
-TODO: Screenshot 
+![controller-ssh-cred.png](docs/controller-ssh-cred.png)
 
 ## Create a SSH Agent Node
 
-![Screenshot20240919at084705.png](docs/createSSHAgent.png)
+![createSSHAgent.png](docs/createSSHAgent.png)
 
-# Test Pipeline
+# Create a test Pipeline
 
 Once the SSH Agent has been created you can create a simple Test Pipeline on the HA Controller
 
@@ -245,14 +223,37 @@ Once the Pipeline is started you can  demo one replica to demo the build will ta
 * This show you also the IP address of your session replica 
 * shut your controller replica down (see in `docker.compose.yaml` for the ip address mapped to the docker container name)
 ```
-docker-compose restart ha-client-controller-1
+docker-compose restart ha-client-controller-1 # or ha-client-controller-2 depending on where yu are 
 ```
-* reload the controller job page in Firefox, the 
+* reload the controller job page in Firefox, you should be now on the other replica and job should resume to work
 
 # Extra Notes (Not required during the setup)
 
 ## DNS Flush (MacOs)
 > sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+
+
+# Details SSH Agents
+
+## Create your ssh keys
+
+> ssh-keygen -t rsa -b 2048 -C "your_email@example.com"
+
+## Add your public key the agent container
+
+add the ssh-pub key in your `docker-compose.yaml` file
+
+```
+    environment:
+      - JENKINS_AGENT_SSH_PUBKEY="YOUR_PUB_KEY"
+
+```
+
+Restart the agent container if required
+
+> docker-compose restart agent
+
+Verify if the key has been applied: (Join the docker agent container and check the `/home/jenkins/.ssh` directory)
 
 ## SSH key permissions 
 
