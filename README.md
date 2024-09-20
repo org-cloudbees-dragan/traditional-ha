@@ -10,7 +10,7 @@ See these links for the background
 
 # Links
 
-Documentation we have used for the development: 
+Documentation we have used for this demo environment: 
 
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
