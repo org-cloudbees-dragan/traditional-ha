@@ -166,8 +166,8 @@ operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX
 * ![oc-pushconnectiondetails.png](docs/oc-pushconnectiondetails.png)
 * ![Screenshot20240919at084705.png](docs/image2.png)
 * Push the configuration to http://$CLIENTS_URL  (by default this is http://client.ha/ )
-  * Try to access http://$CLIENTS_URL/ in Firefox
-  * Request a licence and add admin user details
+  * Not required: Try to access http://$CLIENTS_URL/ in Firefox
+  * Not required: Request a licence and add admin user details
 * Install HA plugin (active/active) on http://$CLIENTS_URL/
 * ![controller-installhaplugin.png](docs/controller-installhaplugin.png)
 * Restart the Controller
