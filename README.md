@@ -106,7 +106,8 @@ It includes:
 
 - Examine `env.sh` and modify if needed.
 - Examine `docker-compose.yaml.template` and modify if needed.
-- Run `up.sh`.
+- Run `up.sh`
+- Wait until all components are up and access via one of the browser options
 
 ## Stop
 
