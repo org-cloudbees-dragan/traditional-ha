@@ -93,7 +93,7 @@ A helper script to:
 
 [haproxy.cfg](haproxy.cfg)
 
-This is the haproxy configuration used in the haproxy container to balance and forward the incoming traffic t the related cloudbees components
+This is the haproxy configuration used in the haproxy container to balance and forward the incoming traffic to the related cloudbees components
 It includes:
 
 * frontend and backend config
@@ -101,6 +101,7 @@ It includes:
 * enabled websockets
 * enabled sticky sessions
 * balance mode (roundrobin)
+* health fixchecks
 
 ## Start/Deploy
 
