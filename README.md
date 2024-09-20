@@ -116,6 +116,7 @@ Add exceptions:
 
 * Point the Firefox browser to http://$OC_URL  (by default this is http://oc.ha/)
 * Unlock the Operations center, you will find the key in the docker-compose logs on your console
+![oc-unlock.png](docs/oc-unlock.png)  
 ```
 operations-center         | Jenkins initial setup is required. An admin user has been created and a password generated.
 operations-center         | Please use the following password to proceed to installation:
@@ -124,24 +125,34 @@ operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 * Request a licence and add admin user details
 * Install the suggested Plugins
+* Under Operations Center -> manage Jenkins -> Security 
+  * Disable TCP Port 50000 (we don't need it, all traffic in this demo is HTTP or SSH)
+  * ![oc-disable50000.png](docs/oc-disable50000.png)
+  * Enforce Security realm and SSO
+  * ![oc-enforce-security.png](docs/oc-enforce-security.png)
 
 ### Create a client controller item
 
 * In the Operations Center, create a client controller item.
 * Ensure you have "websocket" enabled in the connection configuration
 * ![Screenshot20240919at084705.png](docs/image3.png)
+* ![oc-pushconnectiondetails.png](docs/oc-pushconnectiondetails.png)
 * ![Screenshot20240919at084705.png](docs/image2.png)
 * Push the configuration to http://$CLIENTS_URL  (by default this is http://client.ha/ )
   * Try to access http://$CLIENTS_URL/ in Firefox
   * Request a licence and add admin user details
 * Install HA plugin (active/active) on http://$CLIENTS_URL/
+* ![controller-installhaplugin.png](docs/controller-installhaplugin.png)
+* Restart the Controller
+* ![controller-restart.png](docs/controller-restart.png)
+  * Alternative:
+  ```
+  docker-compose restart ha-client-controller-1
+  docker-compose restart ha-client-controller-2
+  ```
 * Controller 2 will begin starting when controller 1 is ready
 * Restart the controllers
 
-```
-docker-compose restart ha-client-controller-1
-docker-compose restart ha-client-controller-2
-```
 
 * You can see the HA status in the controllers` Manage Jenkins section
 * ![Screenshot20240919at084705.png](docs/image1.png)
