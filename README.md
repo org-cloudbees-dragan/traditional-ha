@@ -38,25 +38,27 @@ The demo has the following limitations:
 
 The setup consists of the following containers:
 
-- Operations center
-- Controller 1
-- Controller 2
-- SSH-Agent 1
-- HAProxy Load Balancer
-- Optional, but not required: Linux box with Firefox accessible via VNC from an external browser
-  - You will be able to access the demo environment either from your browser (DOCKER_HOST) or optional from a browser in a container box
+* Operations center
+* Controller 1
+* Controller 2
+* SSH-Agent 1
+* HAProxy Load Balancer
+* Optional, but not required: Linux box with Firefox accessible via VNC from an external browser
+  * You will be able to access the demo environment either from your browser (DOCKER_HOST) or optional from a browser in a container box
 
 
-The setup is self-sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment, except for the persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment.
-(If you want to access the demo via a browser from Docker host, you need entries in `(etc/hosts` (see chapters below) ) 
-Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
+The setup is self-sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment, except for the persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment in the demo lab.
+
+Notes:
+* If you want to access the demo via a browser from Docker host, you need entries in `(etc/hosts` (see chapters below) 
+* Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
 
 
 The Operations Center and both controllers are behind HAProxy.
 
-- If a request comes to HAProxy with $OC_URL host header, it is forwarded to the operations center container
-- If a request comes with $CLIENTS_URL host header, it is load balanced between all client controllers
-- The load balancing for client controllers has sticky sessions enabled
+* If a request comes to HAProxy with $OC_URL host header, it is forwarded to the operations center container
+* If a request comes with $CLIENTS_URL host header, it is load balanced between all client controllers
+* The load balancing for client controllers has sticky sessions enabled
 
 ## env.sh
 
