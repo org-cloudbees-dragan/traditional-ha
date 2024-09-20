@@ -2,13 +2,22 @@
 
 Docker compose setup for a traditional Cloudbees CI installation in HA (active/active) mode
 
+See these links for the background
+
+* https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
+* https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
+
 # Links
+
+Documentation we have used for the development: 
 
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
 * https://docs.docker.com/compose/networking/
 * https://www.haproxy.com/blog/haproxy-configuration-basics-load-balance-your-servers
 * https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/
+* https://www.haproxy.com/documentation/haproxy-configuration-tutorials/load-balancing/websocket/#configure-websockets
+* https://www.haproxy.com/documentation/haproxy-configuration-tutorials/core-concepts/backends/
 * https://www.claudiokuenzler.com/blog/900/how-to-use-docker-host-ip-address-inside-application-container
 * https://eventuate.io/docs/usingdocker.html
 * https://docs.linuxserver.io/images/docker-webtop/#lossless-mode
