@@ -2,8 +2,6 @@
 
 Docker compose setup for a traditional Cloudbees CI installation in HA (active/active) mode
 
-
-
 # Links
 
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
@@ -24,6 +22,13 @@ The docker-compose setup follows this design with the following limitations:
 
 * ![Ci-HAProxy.png](docs/Ci-HAProxy.png)
 
+# Pre-requirements
+
+* This demo has been tested on MacOs 14.7
+* Docker-Desktop 4.24.0 (122432)
+* Engine: 24.0.6
+* Compose: v2.22.0-desktop.2
+* Docker-compose v3
 
 ## Setup
 
@@ -65,7 +70,6 @@ A helper script to:
 
 - Create the persistence volumes
 - Render the docker-compose.yaml from the template.
-  - `sudo` is used to create the persistence volumes and assign the permissions.
 - Run `docker compose up`
 
 ## Deploy
