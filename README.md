@@ -181,7 +181,7 @@ operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 * Request a licence and add admin user details
 * Install the suggested Plugins
-* Under Operations Center -> manage Jenkins -> Security 
+* Under Operations Center -> Manage Jenkins -> Security 
   * Disable TCP Port 50000 (we don't need it, all traffic in this demo is HTTP or SSH)
 
 ![oc-disable50000.png](docs/oc-disable50000.png)
@@ -194,16 +194,16 @@ operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 * In the Operations Center, create a client controller item.
 * Ensure you have "websocket" enabled in the connection configuration
-* ![Screenshot20240919at084705.png](docs/image3.png)
-* ![oc-pushconnectiondetails.png](docs/oc-pushconnectiondetails.png)
-* ![Screenshot20240919at084705.png](docs/image2.png)
+![Screenshot20240919at084705.png](docs/image3.png)
+![oc-pushconnectiondetails.png](docs/oc-pushconnectiondetails.png)
+![Screenshot20240919at084705.png](docs/image2.png)
 * Push the configuration to http://$CLIENTS_URL  (by default this is http://client.ha/ )
   * Not required: Try to access http://$CLIENTS_URL/ in Firefox
   * Not required: Request a licence and add admin user details
 * Install HA plugin (active/active) on http://$CLIENTS_URL/
-* ![controller-installhaplugin.png](docs/controller-installhaplugin.png)
+![controller-installhaplugin.png](docs/controller-installhaplugin.png)
 * Restart the Controller
-* ![controller-restart.png](docs/controller-restart.png)
+![controller-restart.png](docs/controller-restart.png)
 * The two replicas must be restarted
   ```
   docker-compose restart ha-client-controller-1
@@ -211,7 +211,7 @@ operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX
   ```
 * Controller 2 will begin starting when controller 1 is ready
 * It takes some minutes now, you can see the HA status in the controllers` Manage Jenkins section
-* ![Screenshot20240919at084705.png](docs/image1.png)
+![Screenshot20240919at084705.png](docs/image1.png)
 
 
 # On the controller: Create a jenkins ssh credential
