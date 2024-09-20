@@ -13,7 +13,7 @@ Docker compose setup for a traditional Cloudbees CI installation in HA (active/a
 * https://eventuate.io/docs/usingdocker.html
 * https://docs.linuxserver.io/images/docker-webtop/#lossless-mode
 
-## Architecture
+# Architecture
 
 The docker-compose setup follows this design with the following limitations:
 
@@ -30,7 +30,7 @@ The docker-compose setup follows this design with the following limitations:
 * Compose: v2.22.0-desktop.2
 * Docker-compose v3
 
-## Setup
+# Setup
 
 The setup consists of the following containers:
 
@@ -51,7 +51,7 @@ The Operations Center and both controllers are behind HAProxy.
 - If a request comes with $CLIENTS_URL host header, it is load balanced between all client controllers
 - The load balancing for client controllers has sticky sessions enabled
 
-### env.sh
+## env.sh
 
 - `OC_URL` is the URL you want the operations center to respond on.
 - `CLIENTS_URL` is for the controllers. There is only one URL for both controllers.
@@ -60,11 +60,11 @@ The Operations Center and both controllers are behind HAProxy.
 - `PERSISTENCE_PREFIX` is the path for the persistence volumes on the docker host
 - `JENKINS_AGENT_SSH_PUBKEY`=$(cat ~/.ssh/id_rsa.pub)  assumes your ssh pub key is under this path. adjust it for your needs
 
-### docker-compose.yaml.template
+## docker-compose.yaml.template
 
 This template is used to render the `docker-compose.yaml` file using the environment variables in `env.sh`. Please do not modify docker-compose.yaml directly, since it will be overwritten by `up.sh`. Modify this template instead.
 
-### up.sh
+## up.sh
 
 A helper script to:
 
@@ -72,23 +72,19 @@ A helper script to:
 - Render the docker-compose.yaml from the template.
 - Run `docker compose up`
 
-## Deploy
+# Deploy
 
 - Examine `env.sh` and modify if needed.
 - Examine `docker-compose.yaml.template` and modify if needed.
 - Run `up.sh`.
 
-## Operate
 
-The `browser` container exposes port 6080 to the docker host.
-To access the Operations Center:
-
-## Browser Access
+# Browser Access
 
 Just Firefox has been tested to access the Lab (Maybe chrome or others are also possible)
 There are two options on how to access the CloudBess CI demo lab:
 
-### Option1: Join the Desktop VM in your Browser
+## Option1: Join the Desktop VM in your Browser
 
 If you don't have Firefox installed or other issues using your host browser:
 
@@ -99,11 +95,20 @@ If you don't have Firefox installed or other issues using your host browser:
 ![ff-box](docs/ff-box.png)
 
 
-### Option2: Use your Firefox on your PC
+## Option2: Use your Firefox on your PC
+
+Add the follwing to your `/etc/hosts` file 
+
+```
+127.0.0.1	localhost oc.ha client.ha
+```
+Flush the DNS cache (MacOs)
+
+> sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
 
 * open Firefox on your PC
 
-### Disable HTTPS Only mode and add the CloudBees host names
+## Disable HTTPS Only mode and add the CloudBees host names
 
 * As the demo HAProxy doesn't support HTTPS/SSL yet, we use Firefox with disabled `HTTPS only mode`.
 * It doesn't matter which of the following options you choose, you need to disable HTTPS an adjust the following exceptions:
@@ -116,7 +121,7 @@ Disable HTTPS only:
 Add exceptions:
 ![ff-exceptions](docs/ff-exceptions.png)
 
-### Open the Operations Center 
+## Open the Operations Center 
 
 * Point the Firefox browser to http://$OC_URL  (by default this is http://oc.ha/)
 * Unlock the Operations center, you will find the key in the docker-compose logs on your console
@@ -135,7 +140,7 @@ operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX
   * Enforce Security realm and SSO
   * ![oc-enforce-security.png](docs/oc-enforce-security.png)
 
-### Create a client controller item
+## Create a client controller item
 
 * In the Operations Center, create a client controller item.
 * Ensure you have "websocket" enabled in the connection configuration
@@ -158,14 +163,6 @@ operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX
 * It takes some minutes now, you can see the HA status in the controllers` Manage Jenkins section
 * ![Screenshot20240919at084705.png](docs/image1.png)
 
-### Agent
-
-Create a key pair with: `ssh-keygen -t rsa -f agent-key`
-
-Put the contents of agent-key.pub in the env var JENKINS_AGENT_SSH_PUBKEY in `docker-compose.yaml.template`.
-Use the private part in the Controller when defining credentials to connect to the agent.
-Choose credentials with username and private key. Username is jenkins.
-
 ## Stop
 
 Run `down.sh`. This will issue docker compose down to stop the running containers.
@@ -175,33 +172,18 @@ Run `down.sh`. This will issue docker compose down to stop the running container
 - Stop the running containers using `down.sh`. Then,
 - Run `delete_volumes.sh`. This will delete the persistence directories on the host (docker volumes)
 
-## Useful Docker commands
-
-### Inspect network
-
-```
-docker network ls
-docker network inspect traditional-ha_demo-network
-```
-
-### Restart container
-
-```
-docker-compose restart <container>
-```
-
-Example:
-
-```
-docker-compose restart ha-client-controller-1
-docker-compose restart ha-client-controller-2
-```
-
-
-
 ## On the controller: Create a jenkins ssh credential
 
-Join the controller and add an SSH Credentials (private key)
+
+### Optional, if you don't have an ssh key: Create a key pair with: `ssh-keygen -t rsa -f agent-key`
+
+Adjust the path to the ssh key in the `env.sh` file 
+> export JENKINS_AGENT_SSH_PUBKEY=$(cat ~/.ssh/id_rsa.pub)
+
+Use the private part in the Controller when defining credentials to connect to the agent.
+Choose credentials with username and private key. Username is jenkins.
+
+Join the Controller and add an SSH Credentials (private key)
 
 ![controller-ssh-cred.png](docs/controller-ssh-cred.png)
 
@@ -227,11 +209,32 @@ docker-compose restart ha-client-controller-1 # or ha-client-controller-2 depend
 ```
 * reload the controller job page in Firefox, you should be now on the other replica and job should resume to work
 
-# Extra Notes (Not required during the setup)
+# Extra Notes used during development of the demo (Not required during the setup)
 
 ## DNS Flush (MacOs)
 > sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
 
+## Useful Docker commands
+
+### Inspect network
+
+```
+docker network ls
+docker network inspect traditional-ha_demo-network
+```
+
+### Restart container
+
+```
+docker-compose restart <container>
+```
+
+Example:
+
+```
+docker-compose restart ha-client-controller-1
+docker-compose restart ha-client-controller-2
+```
 
 # Details SSH Agents
 
@@ -275,7 +278,6 @@ Files in the SSH Directory:
 
 * Recommended Permissions
 Here's how to set the permissions correctly:
-
 
 ## Set the permissions for the .ssh directory
 > chmod 700 ~/.ssh
