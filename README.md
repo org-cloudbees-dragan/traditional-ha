@@ -217,7 +217,7 @@ Once the Pipeline is started you can  demo one replica to demo the build will ta
 * Check what replica you are running on
 * Enable HA developer mode to show the info icon to the bottom of the Controller
 * This show you also the IP address of your session replica 
-* shut your controller replica down (see in `docker.compose.yaml` for the ip address mapped to the docker container name)
+* shut your controller replica down (see in `docker-compose.yaml` for the ip address mapped to the docker container name)
 ```
 docker-compose restart ha-client-controller-1 # or ha-client-controller-2 depending on where yu are 
 ```
