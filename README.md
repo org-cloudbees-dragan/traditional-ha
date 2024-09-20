@@ -184,9 +184,12 @@ operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX
 * Install the suggested Plugins
 * Under Operations Center -> manage Jenkins -> Security 
   * Disable TCP Port 50000 (we don't need it, all traffic in this demo is HTTP or SSH)
-  * ![oc-disable50000.png](docs/oc-disable50000.png)
+
+![oc-disable50000.png](docs/oc-disable50000.png)
+
   * Enforce Security realm and SSO
-  * ![oc-enforce-security.png](docs/oc-enforce-security.png)
+  
+![oc-enforce-security.png](docs/oc-enforce-security.png)
 
 # Create a client controller item
 
