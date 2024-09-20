@@ -39,7 +39,7 @@ The setup consists of the following containers:
 - Controller 2
 - SSH-Agent 1
 - HAProxy Load Balancer
-- Linux box with Firefox accessible via VNC from an external browser
+- Optional: Linux box with Firefox accessible via VNC from an external browser
 
 The setup is self sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment, except for the persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment.
 Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
