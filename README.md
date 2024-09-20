@@ -29,6 +29,7 @@ The docker-compose setup follows this design with the following limitations:
 * Engine: 24.0.6
 * Compose: v2.22.0-desktop.2
 * Docker-compose v3
+* Web browser, Firefox has been tested, Chrome should work also 
 
 # Setup
 
@@ -110,7 +111,9 @@ If you don't have Firefox installed or other issues using your host browser:
 
 ## Option2: Use your Firefox on your PC
 
-Add the follwing to your `/etc/hosts` file 
+Chrome should work as well
+
+Add the following to your `/etc/hosts` file 
 
 ```
 127.0.0.1	localhost oc.ha client.ha
@@ -122,6 +125,8 @@ Flush the DNS cache (MacOs)
 * open Firefox on your PC
 
 ## Disable HTTPS Only mode and add the CloudBees host names
+
+If you hit SSL cert issues in your browser, do teh following:  (Haven't checked yet how to do this in Chrome)
 
 * As the demo HAProxy doesn't support HTTPS/SSL yet, we use Firefox with disabled `HTTPS only mode`.
 * It doesn't matter which of the following options you choose, you need to disable HTTPS an adjust the following exceptions:
