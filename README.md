@@ -115,6 +115,13 @@ Add exceptions:
 ### Open the Operations Center 
 
 * Point the Firefox browser to http://$OC_URL  (by default this is http://oc.ha/)
+* Unlock the Operations center, you will find the key in the docker-compose logs on your console
+```
+operations-center         | Jenkins initial setup is required. An admin user has been created and a password generated.
+operations-center         | Please use the following password to proceed to installation:
+operations-center         |
+operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX 
+```
 * Request a licence and add admin user details
 * Install the suggested Plugins
 
