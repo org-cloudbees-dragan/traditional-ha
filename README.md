@@ -13,6 +13,7 @@ Docker compose setup for a traditional Cloudbees CI installation in HA (active/a
 * https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/
 * https://www.claudiokuenzler.com/blog/900/how-to-use-docker-host-ip-address-inside-application-container
 * https://eventuate.io/docs/usingdocker.html
+* https://docs.linuxserver.io/images/docker-webtop/#lossless-mode
 
 ## Architecture
 
@@ -35,8 +36,8 @@ The setup consists of the following containers:
 - HAProxy Load Balancer
 - Linux box with Firefox accessible via VNC from an external browser
 
-The setup is self sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment, except for the persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment.
-Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
+* The setup is self sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment, except for the persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment.
+* Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
 
 The Operations Center and both controllers are behind HAProxy.
 
@@ -76,50 +77,57 @@ A helper script to:
 The `browser` container exposes port 6080 to the docker host.
 To access the Operations Center:
 
-### Join the Desktop VM in your Browser
+## Browser Access
 
-* open a browser and point it to http://docker-host-ip:6080. This will open a VNC session to the Linux container.
-* From the start menu open Firefox browser.
-* Point the Firefox browser to http://$OC_URL  (by default this is http://oc.ha/ )
+Just Firefox has been tested to access the Lab (Maybe chrome or others are also possible)
+There are two options on how to access the CloudBess CI demo lab:
+
+### Option1: Join the Desktop VM in your Browser
+
+If you don't have Firefox installed or other issues using your host browser:
+
+* open a browser and point it to [http://localhost:3000](http://localhost:3000). 
+* This will open a VNC session to the Linux container with a Firefox browser in it.
+* From the start menu (Top to the left) open Firefox browser.
+
+![ff-box](docs/ff-box.png)
+
+
+### Option2: Use your Firefox on your PC
+
+* open Firefox on your PC
+
+### Disable HTTPS Only mode and add the CloudBees host names
+
+* As the demo HAProxy doesn't support HTTPS/SSL yet, we use Firefox with disabled `HTTPS only mode`.
+* It doesn't matter which of the following options you choose, you need to disable HTTPS an adjust the following exceptions:
+
+Under Firefox settings search "HTTPS Only"
+
+Disable HTTPS only:
+![ff-https-only](docs/ff-httpsonly.png)
+
+Add exceptions:
+![ff-exceptions](docs/ff-exceptions.png)
+
+### Open the Operations Center 
+
+* Point the Firefox browser to http://$OC_URL  (by default this is http://oc.ha/)
+* Request a licence and add admin user details
+* Install the suggested Plugins
 
 ### Create a client controller item
 
 * In the Operations Center, create a client controller item.
 * Ensure you have "websocket" enabled in the connection configuration
-
-```
-kind: clientController
-name: controllerha
-description: ''
-displayName: controllerha
-properties:
-- configurationAsCode: {
-    }
-- sharedHeaderLabelOptIn:
-    optIn: true
-- healthReporting:
-    enabled: true
-- owner:
-    delay: 5
-    owners: ''
-- envelopeExtension:
-    allowExceptions: false
-- sharedConfigurationOptOut:
-    optOut: false
-- webSocket:
-    enabled: true
-```
-
-
 * ![Screenshot20240919at084705.png](docs/image3.png)
 * ![Screenshot20240919at084705.png](docs/image2.png)
 * Push the configuration to http://$CLIENTS_URL  (by default this is http://client.ha/ )
-  * Try to access http://$CLIENTS_URL/ in Firefox (VNC)
-  * alternative: try to access http://ha-client-controller-1:8080
+  * Try to access http://$CLIENTS_URL/ in Firefox
   * Request a licence and add admin user details
 * Install HA plugin (active/active) on http://$CLIENTS_URL/
 * Controller 2 will begin starting when controller 1 is ready
-  * Restart the controllers
+* Restart the controllers
 
 ```
 docker-compose restart ha-client-controller-1
@@ -146,7 +154,7 @@ Run `down.sh`. This will issue docker compose down to stop the running container
 - Stop the running containers using `down.sh`. Then,
 - Run `delete_volumes.sh`. This will delete the persistence directories on the host (docker volumes)
 
-## Docker commands
+## Useful Docker commands
 
 ### Inspect network
 
@@ -202,7 +210,30 @@ TODO: Screenshot
 
 ![Screenshot20240919at084705.png](docs/createSSHAgent.png)
 
+# Test Pipeline
 
+Once the SSH Agent has been created you can create a simple Test Pipeline on the HA Controller
+
+[test/Jenkinsfile-ssh-agent.groovy](test/Jenkinsfile-ssh-agent.groovy)
+
+Once the Pipeline is started you can  demo one replica to demo the build will take over to the other replica and continues to run if the controller replica is shut down
+
+* Start the Pipeline
+* Check what replica you are running on
+* Enable HA developer mode to show the info icon to the bottom of the Controller
+* This show you also the IP address of your session replica 
+* shut your controller replica down (see in `docker.compose.yaml` for the ip address mapped to the docker container name)
+```
+docker-compose restart ha-client-controller-1
+```
+* reload the controller job page in Firefox, the 
+
+# Extra Notes (Not required during the setup)
+
+## DNS Flush (MacOs)
+> sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+
+## SSH key permissions 
 
 When setting up SSH, it's important to ensure that the permissions for the SSH directory and its files are configured correctly for security. Here’s how the typical directory structure and permissions should look:
 
@@ -224,22 +255,22 @@ Files in the SSH Directory:
 Here's how to set the permissions correctly:
 
 
-# Set the permissions for the .ssh directory
+## Set the permissions for the .ssh directory
 > chmod 700 ~/.ssh
 
-# Set the permissions for the private key
+## Set the permissions for the private key
 > chmod 600 ~/.ssh/id_rsa
 
-# Set the permissions for the public key
+## Set the permissions for the public key
 > chmod 644 ~/.ssh/id_rsa.pub
 
-# Set the permissions for the authorized_keys file
+## Set the permissions for the authorized_keys file
 > chmod 600 ~/.ssh/authorized_keys
 
-# Set the permissions for the config file (if it exists)
+## Set the permissions for the config file (if it exists)
 > chmod 644 ~/.ssh/config
 
-# Set the permissions for the known_hosts file (if it exists)
+## Set the permissions for the known_hosts file (if it exists)
 > chmod 644 ~/.ssh/known_hosts
 
 Explanation of Permissions
@@ -250,8 +281,6 @@ Explanation of Permissions
 
 * Example Commands
 You can set these permissions using the following commands in your agent:
-
-TODO: update 
 
 ```
 mkdir -p ~/.ssh

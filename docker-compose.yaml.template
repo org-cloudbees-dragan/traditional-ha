@@ -122,8 +122,7 @@ services:
       demo-network:
         ipv4_address: ${AGENT_IP}
     environment:
-      - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDCsjZisGoSB/00geKfQRRkFvSmOJZnsp5D4x0qSrcUzfcklgQQf5ARADg9FhOVV6C4LkzPIZ1dVy8HKUKLT4KhkTsjPtzj1lJHMulNhc1Kco2VwQi4mVDwQmGqKz7hKjFkfp3hGE76AAhMeHZWqT86VNmAsgTKBd/llNVJ97RIp+bE/9vVF2XtWjjXhx2v3UIh9m2j7y+PNvWiW96bnFkQqvuk/Ig2zVxI2xt/pkelQAgUgOkre7ICJTtJUdKXPQ3pIhPIPhAinRrfl+H3mrHTQgozg91nroT83n2r2lMGCIBV1moVItJH6NMFEwkvW7aDmGLnz0rznGqsGLhOyxSfCaq6rKfFNoSxT03ChAelEpFs3DO2W6jfG8gC/AaYO6spabYEM296ioCH91g9jWsH22o2RUHW5yui9fJP9Gu9zTS8pOuXerGdf2zeFV2ZJHrg2w0f7WP8h62Zet+Zdbm8gxf710n8fvbjqdzsxnYIn+2Cu9zF6R4uuIyuxDd2q60=
-
+      - JENKINS_AGENT_SSH_PUBKEY=${JENKINS_AGENT_SSH_PUBKEY}
 
   haproxy:
     image: haproxy:alpine
@@ -141,16 +140,33 @@ services:
       - "${OC_URL}:${OC_IP}"
 
   browser:
-    image: dorowu/ubuntu-desktop-lxde-vnc
-    container_name: vnc-browser
+    image: lscr.io/linuxserver/webtop:latest
+    container_name: webtop
+    security_opt:
+      - seccomp:unconfined #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - SUBFOLDER=/ #optional
+      - TITLE=Webtop #optional
+    volumes:
+      - ${BROWSER_PERSISTENCE}:/config
+      #- /var/run/docker.sock:/var/run/docker.sock #optional
     ports:
-      - "6080:80"
+      - 3000:3000
+      - 3001:3001
+    #devices:
+    #  - /dev/dri:/dev/dri #optional
+    shm_size: "2gb" #optional
+    restart: unless-stopped
     extra_hosts:
       - "${OC_URL}:${HAPROXY_IP}"
       - "${CLIENTS_URL}:${HAPROXY_IP}"
     networks:
       demo-network:
         ipv4_address: ${BROWSER_IP}
+
 
 networks:
   demo-network:

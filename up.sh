@@ -8,7 +8,7 @@ rm -Rf ${PERSISTENCE_PREFIX}
 # If this is the first run, the persistent dirs should be created
 #if [ ! -d "${OC_PERSISTENCE}" ]; then
   echo "Creating volumes..."
-  mkdir -p ${PERSISTENCE_PREFIX}
+  mkdir -p ${BROWSER_PERSISTENCE}
   mkdir -p ${CONTROLLER2_CACHES}
   mkdir -p ${CONTROLLER1_CACHES}
   mkdir -p ${CONTROLLER_PERSISTENCE}
