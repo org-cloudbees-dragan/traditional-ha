@@ -260,10 +260,11 @@ Once the Pipeline is started you can  demo one replica to demo the build will ta
 * Enable HA developer mode to show the info icon to the bottom of the Controller
 * This show you also the IP address of your session replica 
 * shut your controller replica down (see in `docker-compose.yaml` for the ip address mapped to the docker container name)
+
 ```
-docker-compose restart ha-client-controller-1 # or ha-client-controller-2 depending on where yu are 
+docker-compose stop ha-client-controller-1 # or ha-client-controller-2 depending on where yu are 
 ```
-* reload the controller job page in Firefox, you should be now on the other replica and job should resume to work
+* Reload the Controller page in your browser, you should be now on the other replica and job should resume to work
 
 # Extra Notes used during development of the demo (Not required for the setup)
 
