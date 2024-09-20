@@ -36,8 +36,9 @@ The setup consists of the following containers:
 - HAProxy Load Balancer
 - Linux box with Firefox accessible via VNC from an external browser
 
-* The setup is self sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment, except for the persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment.
-* Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
+The setup is self sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment, except for the persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment.
+Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
+
 
 The Operations Center and both controllers are behind HAProxy.
 
@@ -52,6 +53,7 @@ The Operations Center and both controllers are behind HAProxy.
 - `DOCKER_IMAGE_OC` and `DOCKER_IMAGE_CLIENT` are the CB CI versions on operations center and controllers
 - `IP_PREFIX` is a prefix for the internal docker compose network
 - `PERSISTENCE_PREFIX` is the path for the persistence volumes on the docker host
+- `JENKINS_AGENT_SSH_PUBKEY`=$(cat ~/.ssh/id_rsa.pub)  assumes your ssh pub key is under this path. adjust it for your needs
 
 ### docker-compose.yaml.template
 
