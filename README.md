@@ -101,7 +101,7 @@ It includes:
 * enabled websockets
 * enabled sticky sessions
 * balance mode (roundrobin)
-* health fixchecks
+* health checks
 
 ## Start/Deploy
 
