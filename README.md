@@ -134,9 +134,9 @@ If you don't have Firefox installed or other issues using your host browser:
 ![ff-box](docs/ff-box.png)
 
 
-## Option2: Use your Firefox on your PC
+## Option2: Use your Firefox/Chrome on your PC
 
-Chrome should work as well
+Firefox was tested, Chrome should work as well
 
 Add the following to your `/etc/hosts` file 
 
@@ -147,7 +147,7 @@ Flush the DNS cache (MacOs)
 
 > sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
 
-* open Firefox on your PC
+* open Firefox/Chrome on your PC
 
 ## Optional: Disable "HTTPS Only" mode 
 
