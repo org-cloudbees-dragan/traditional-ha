@@ -124,19 +124,21 @@ Flush the DNS cache (MacOs)
 
 * open Firefox on your PC
 
-## Disable HTTPS Only mode and add the CloudBees host names
+## Optional:Disable "HTTPS Only" mode and add the CloudBees host names
 
 If you hit SSL cert issues in your browser, do the following:  (Haven't checked yet how to do this in Chrome)
 
-* As the demo HAProxy doesn't support HTTPS/SSL yet, we use Firefox with disabled `HTTPS only mode`.
+* As the demo HAProxy doesn't support HTTPS/SSL yet, we use Firefox with disabled `HTTPS only mode` see https://support.mozilla.org/en-US/kb/https-only-prefs
 * Adjust the following exceptions:
 
 Under Firefox settings search "HTTPS Only"
 
 Disable HTTPS only:
+
 ![ff-https-only](docs/ff-httpsonly.png)
 
 Add exceptions:
+
 ![ff-exceptions](docs/ff-exceptions.png)
 
 # Open the Operations Center 
@@ -223,7 +225,7 @@ docker-compose restart ha-client-controller-1 # or ha-client-controller-2 depend
 ```
 * reload the controller job page in Firefox, you should be now on the other replica and job should resume to work
 
-# Extra Notes used during development of the demo (Not required during the setup)
+# Extra Notes used during development of the demo (Not required for the setup)
 
 ## DNS Flush (MacOs)
 > sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
