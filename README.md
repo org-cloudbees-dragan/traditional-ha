@@ -15,12 +15,15 @@ Docker compose setup for a traditional Cloudbees CI installation in HA (active/a
 
 # Architecture
 
-The docker-compose setup follows this design with the following limitations:
+The docker-compose setup for the HA/HS demo follows the design below. 
+Each CloudBees component as well as the HAProxy is running in a dedicated docker container orchestrated by docker-compose. 
+
+The demo has the following limitations:
 
 * SSL 443 is not enabled yet. All traffic for local demo is going through port 80/8080
 * NFS server is not part of the demo. We will use a local directory on the host system 
 
-* ![Ci-HAProxy.png](docs/Ci-HAProxy.png)
+![Ci-HAProxy.png](docs/Ci-HAProxy.png)
 
 # Pre-requirements
 
@@ -41,11 +44,11 @@ The setup consists of the following containers:
 - SSH-Agent 1
 - HAProxy Load Balancer
 - Optional, but not required: Linux box with Firefox accessible via VNC from an external browser
-  - You will be able to access the demo environment either from your browser or optional from a browser container box
+  - You will be able to access the demo environment either from your browser (DOCKER_HOST) or optional from a browser in a container box
 
 
-
-The setup is self sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment, except for the persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment.
+The setup is self-sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment, except for the persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment.
+(If you want to access the demo via a browser from Docker host, you need entries in `(etc/hosts` (see chapters below) ) 
 Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
 
 
