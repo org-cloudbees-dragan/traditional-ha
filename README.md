@@ -145,16 +145,13 @@ operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX
 * ![controller-installhaplugin.png](docs/controller-installhaplugin.png)
 * Restart the Controller
 * ![controller-restart.png](docs/controller-restart.png)
-  * Alternative:
+* The two replicas must be restarted
   ```
   docker-compose restart ha-client-controller-1
   docker-compose restart ha-client-controller-2
   ```
 * Controller 2 will begin starting when controller 1 is ready
-* Restart the controllers
-
-
-* You can see the HA status in the controllers` Manage Jenkins section
+* It takes some minutes now, you can see the HA status in the controllers` Manage Jenkins section
 * ![Screenshot20240919at084705.png](docs/image1.png)
 
 ### Agent
