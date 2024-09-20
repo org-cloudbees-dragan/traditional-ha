@@ -32,7 +32,7 @@ The demo has the following limitations:
 * Engine: 24.0.6
 * Compose: v2.22.0-desktop.2
 * Docker-compose v3
-* Web browser, Firefox has been tested, Chrome should work also 
+* Web browser, Firefox and Chrome has been tested
 
 # Setup
 
