@@ -173,16 +173,13 @@ Add exceptions:
 
 * Point the Firefox browser to http://$OC_URL  (by default this is http://oc.ha/)
 * Unlock the Operations center, you will find the key in the docker-compose logs on your console
+* Yu can use this command to get the password
+
+```
+docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdminPassword
+```
 
 ![oc-unlock.png](docs/oc-unlock.png)  
-
-docker compose log example:
-```
-operations-center         | Jenkins initial setup is required. An admin user has been created and a password generated.
-operations-center         | Please use the following password to proceed to installation:
-operations-center         |
-operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX 
-```
 
 * Request a licence and add admin user details
 * Install the suggested Plugins
@@ -207,6 +204,8 @@ operations-center         | XXXXXXXXXXXXXXXXXXXXXXXXXXX
 * Push the configuration to http://$CLIENTS_URL  (by default this is http://client.ha/ )
   * Not required: Try to access http://$CLIENTS_URL/ in Firefox
   * Not required: Request a licence and add admin user details
+* Get the Controller1 initial password
+* > docker-compose exec ha-client-controller-1    cat /var/jenkins_home/secrets/initialAdminPassword
 * Install HA plugin (active/active) on http://$CLIENTS_URL/
 
 ![controller-installhaplugin.png](docs/controller-installhaplugin.png)
@@ -292,6 +291,12 @@ Example:
 ```
 docker-compose restart ha-client-controller-1
 docker-compose restart ha-client-controller-2
+```
+
+### List docker processes 
+
+```
+docker-compose top
 ```
 
 ## Details SSH Agents
