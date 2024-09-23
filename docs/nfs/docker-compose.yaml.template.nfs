@@ -1,0 +1,192 @@
+# Cloudbees CI high availability for traditional platforms demo
+# For more details:
+# https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha-install-guide/specific-ha-installation-traditional
+# https://www.youtube.com/watch?v=Qkf9HaA2wio
+
+# ! Do not modify docker-compose.yaml directly, it wil be overwritten by up.sh. Instead, modify this template and env.sh
+
+version: '3'
+
+services:
+
+  operations-center:
+    image: ${DOCKER_IMAGE_OC}
+    extra_hosts:
+      - "${OC_URL}:${HAPROXY_IP}"
+      - "${CLIENTS_URL}:${HAPROXY_IP}"
+    #privileged: true
+    #user: root
+    healthcheck:
+      test: curl --fail http://localhost:8080/whoAmI/api/json?tree=authenticated || exit 1
+      interval: 3s
+      timeout: 3s
+      retries: 50
+    environment:
+      - JAVA_OPTS=${CJOC_JAVA_OPTS}
+#    ports:
+#    - 8080:8080
+#    - 50000:50000
+    container_name: operations-center
+    volumes:
+    - ${OC_PERSISTENCE}:/var/jenkins_home
+    networks:
+      demo-network:
+        ipv4_address: ${OC_IP}
+
+  ha-client-controller-1:
+    image: ${DOCKER_IMAGE_CLIENT}
+    extra_hosts:
+      - "${OC_URL}:${HAPROXY_IP}"
+   #privileged: true
+   # user: root
+    healthcheck:
+      test: curl --fail http://localhost:8080/whoAmI/api/json?tree=authenticated || exit 1
+      interval: 3s
+      timeout: 3s
+      retries: 50
+
+    # Required JAVA and JENKINS Options for HA (active/active)
+    # https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha-install-guide/specific-ha-installation-traditional#_java_options
+    # https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_jenkins_args
+    environment:
+      - JAVA_OPTS=${CONTROLLER_JAVA_OPTS}
+      - JENKINS_ARGS=${CONTROLLER_JENKINS_ARGS}
+    depends_on:
+      operations-center:
+        condition: service_healthy
+#    ports:
+#    - 8081:8080
+#    - 50001:50000
+    container_name: ha-client-controller-1
+
+    # Controller 1 is mapping the same underlying dir as controller 2. They share the same jenkins_home
+    # Cache dir is different for each
+    volumes:
+    #- /Users/acaternberg/tmp/traditional-ha/jenkins_ha/controllers:/var/jenkins_home
+    - nfsmount:/var/jenkins_home
+    - /Users/acaternberg/tmp/traditional-ha/jenkins_ha/controller1_caches:/var/cache/cloudbees-core-cm
+
+    networks:
+      demo-network:
+        ipv4_address: ${CLIENT1_IP}
+
+  ha-client-controller-2:
+    image: ${DOCKER_IMAGE_CLIENT}
+    extra_hosts:
+      - "${OC_URL}:${HAPROXY_IP}"
+   #privileged: true
+   # user: root
+    healthcheck:
+      test: curl --fail http://localhost:8080/whoAmI/api/json?tree=authenticated || exit 1
+      interval: 3s
+      timeout: 3s
+      retries: 50
+
+    # Required JAVA and JENKINS Options for HA (active/active)
+    # https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha-install-guide/specific-ha-installation-traditional#_java_options
+    # https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_jenkins_args
+    environment:
+      #- JAVA_OPTS="-Dcore.casc.config.bundle=/var/jenkins_home/casc-bundle-link.yml"
+      - JAVA_OPTS=${CONTROLLER_JAVA_OPTS}
+      - JENKINS_ARGS=${CONTROLLER_JENKINS_ARGS}
+    depends_on:
+      operations-center:
+        condition: service_healthy
+      ha-client-controller-1:
+        condition: service_healthy
+#    ports:
+#    - 8082:8080
+#    - 50002:50000
+    container_name: ha-client-controller-2
+
+    # Controller 2 is mapping the same underlying dir as controller 1. They share the same jenkins_home
+    # Cache dir is different for each
+    volumes:
+    #- /Users/acaternberg/tmp/traditional-ha/jenkins_ha/controllers:/var/jenkins_home
+    - nfsmount:/var/jenkins_home
+    - /Users/acaternberg/tmp/traditional-ha/jenkins_ha/controller2_caches:/var/cache/cloudbees-core-cm
+
+    networks:
+      demo-network:
+        ipv4_address: ${CLIENT2_IP}
+
+
+  agent:
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile.agent
+    image: jenkins/ssh-agent:jdk17
+    privileged: true
+    user: root
+    container_name: ssh-agent
+#    expose:
+#      - 22
+    volumes:
+    - ${AGENT_PERSISTENCE}:/home/jenkins/agent
+    networks:
+      demo-network:
+        ipv4_address: ${AGENT_IP}
+    environment:
+      - JENKINS_AGENT_SSH_PUBKEY=${JENKINS_AGENT_SSH_PUBKEY}
+
+  haproxy:
+    image: haproxy:alpine
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - "80:80"
+    networks:
+      demo-network:
+        ipv4_address: ${HAPROXY_IP}
+    depends_on:
+      ha-client-controller-1:
+        condition: service_healthy
+    extra_hosts:
+      - "${OC_URL}:${OC_IP}"
+
+  browser:
+    image: lscr.io/linuxserver/webtop:latest
+    container_name: webtop
+    security_opt:
+      - seccomp:unconfined #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - SUBFOLDER=/ #optional
+      - TITLE=Webtop #optional
+    volumes:
+      - ${BROWSER_PERSISTENCE}:/config
+      #- /var/run/docker.sock:/var/run/docker.sock #optional
+    ports:
+      - 3000:3000
+      - 3001:3001
+    #devices:
+    #  - /dev/dri:/dev/dri #optional
+    shm_size: "2gb" #optional
+    restart: unless-stopped
+    extra_hosts:
+      - "${OC_URL}:${HAPROXY_IP}"
+      - "${CLIENTS_URL}:${HAPROXY_IP}"
+    networks:
+      demo-network:
+        ipv4_address: ${BROWSER_IP}
+
+
+networks:
+  demo-network:
+    driver: bridge
+    #driver_opts:
+    #  com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
+    ipam:
+      config:
+        - subnet: ${IP_PREFIX}.0.0/16
+volumes:
+  nfsmount:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,noacl,hard,nointr,nfsvers=3
+      device: ":$PWD/jenkins_home"
+
+
