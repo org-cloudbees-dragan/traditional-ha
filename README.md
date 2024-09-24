@@ -14,6 +14,7 @@ Documentation we have used for this demo environment:
 
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
+* https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/client-and-managed-controllers/how-to-set-up-a-f5-load-balancer-for-ha
 * https://docs.docker.com/compose/networking/
 * https://www.haproxy.com/blog/haproxy-configuration-basics-load-balance-your-servers
 * https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/
