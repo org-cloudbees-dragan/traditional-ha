@@ -15,6 +15,12 @@ pipeline {
     stages {
         stage('Stage1') {
             steps {
+                script {
+                    //Print Controller hostname to console, requires script approval!
+                    def hostname = InetAddress.getLocalHost().getHostName()
+                    echo "Jenkins Controller Hostname: ${hostname}"
+                }
+                //Print agent hostname to console and pause the build for X seconds
                 sh '''
                     set +x
                     	printf '%s %s\n' "$(date) Running on Agent-Pod: $(hostname)"
