@@ -23,9 +23,9 @@ pipeline {
                 //Print agent hostname to console and pause the build for X seconds
                 sh '''
                     set +x
-                    	printf '%s %s\n' "$(date) Running on Agent-Pod: $(hostname)"
-                    	#sleep for 60 sec, kill the active replica now and check if SSH agent gets reconnected to the other replica
-                    	sleep 60
+                    printf '%s %s\n' "$(date) Running on Agent-Pod: $(hostname)"
+                    #sleep for 60 sec, kill the active replica now and check if SSH agent gets reconnected to the other replica
+                    sleep 60
                 '''
             }
         }
