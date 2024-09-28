@@ -64,7 +64,7 @@ The demo has the following limitations:
 * Add `http://client.ha`and click `push configuration` and `join operations center`
 * Now you are on an Controller running in HA/HS mode. A test Pipeline job using an SSH agent is already running
 
-# Setup
+# Detailed Setup
 
 The setup consists of the following containers:
 
