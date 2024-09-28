@@ -4,15 +4,17 @@ jenkins:
   - "JNLP4-connect"
   - "OperationsCenter2"
   - "Ping"
-  authorizationStrategy:
-    loggedInUsersCanDoAnything:
-      allowAnonymousRead: false
+  authorizationStrategy: "cloudBeesRoleBasedAccessControl"
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: false
   disableRememberMe: false
   labelAtoms:
   - name: "built-in"
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  noUsageStatistics: true
   nodeMonitors:
   - "architecture"
   - "clock"
@@ -25,14 +27,33 @@ jenkins:
       freeSpaceWarningThreshold: "2GiB"
   - "responseTime"
   numExecutors: 2
+  primaryView:
+    masters:
+      columns:
+      - "status"
+      - "weather"
+      - "jobName"
+      - "manageMaster"
+      - "totalJobsViewColumn"
+      - "queueSizeViewColumn"
+      - "jenkinsVersionViewColumn"
+      - "listSelectionColumn"
+      jobFilters:
+      - "connectedMasterViewFilter"
+      name: "Controllers"
+      recurse: true
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
   remotingSecurity:
     enabled: true
+  scmCheckoutRetryCount: 0
   securityRealm:
     local:
       allowsSignup: false
       enableCaptcha: false
       users:
       - id: "admin"
+        password: ${CJOC_LOGIN_PW}
         name: "admin"
         properties:
         - "consoleUrlProvider"
@@ -42,6 +63,7 @@ jenkins:
             providerId: "default"
         - "timezone"
         - "experimentalFlags"
+        - "apiToken"
         - mailer:
             emailAddress: "acaternberg@cloudbees.com"
         - "apiToken"
@@ -52,6 +74,24 @@ jenkins:
       url: "file:/var/jenkins_home/war/WEB-INF/plugins/update-center.json"
     - id: "cap-core-oc-traditional"
       url: "https://jenkins-updates.cloudbees.com/update-center/envelope-core-oc-traditional/update-center.json"
+  views:
+  - masters:
+      columns:
+      - "status"
+      - "weather"
+      - "jobName"
+      - "manageMaster"
+      - "totalJobsViewColumn"
+      - "queueSizeViewColumn"
+      - "jenkinsVersionViewColumn"
+      - "listSelectionColumn"
+      jobFilters:
+      - "connectedMasterViewFilter"
+      name: "Controllers"
+      recurse: true
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
 beekeeper:
   enabled: true
   securityWarnings:
@@ -79,7 +119,7 @@ security:
     usageStatisticsEnabled: true
   securitySettingsEnforcement:
     global:
-      realmAndAuthorization:
+      realmOnly:
         canCustomMapping: false
         canOverride: false
         defaultMappingFactory: "restrictedEquivalentRAMF"
@@ -102,7 +142,10 @@ unclassified:
     variableInterpolationEnabledForAdmin: false
     variableInterpolationEnabledForNonAdmin: false
   experimentalPlugins:
-    enabled: true
+    enabled: false
+  fingerprints:
+    fingerprintCleanupDisabled: false
+    storage: "file"
   hAGlobalConfiguration:
     bindPort: 0
     diagnosticPort: 0
@@ -111,8 +154,19 @@ unclassified:
   location:
     adminAddress: "Set me up <nobody@nowhere>"
     url: "http://oc.ha/"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
   operationsCenterSharedConfiguration:
-    enabled: true
+    enabled: false
+  pollSCM:
+    pollingThreadCount: 10
+  usageStatisticsCloudBees:
+    disabledJenkinsUsageStatistics: true
+    usageStatisticsCollected: true
+  validationVisualization:
+    quiet: false
 tool:
   cloudbeesPluginUsageAnalyzer:
     enabled: true
