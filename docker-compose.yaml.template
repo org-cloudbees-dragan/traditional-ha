@@ -6,9 +6,7 @@
 # ! Do not modify docker-compose.yaml directly, it wil be overwritten by up.sh. Instead, modify this template and env.sh
 
 version: '3'
-
 services:
-
   operations-center:
     image: ${DOCKER_IMAGE_OC}
     extra_hosts:
@@ -23,9 +21,6 @@ services:
       retries: 50
     environment:
       - JAVA_OPTS=${CJOC_JAVA_OPTS}
-#    ports:
-#    - 8080:8080
-#    - 50000:50000
     container_name: operations-center
     volumes:
     - ${OC_PERSISTENCE}:/var/jenkins_home
@@ -44,7 +39,6 @@ services:
       interval: 3s
       timeout: 3s
       retries: 50
-
     # Required JAVA and JENKINS Options for HA (active/active)
     # https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha-install-guide/specific-ha-installation-traditional#_java_options
     # https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_jenkins_args
@@ -54,21 +48,15 @@ services:
     depends_on:
       operations-center:
         condition: service_healthy
-#    ports:
-#    - 8081:8080
-#    - 50001:50000
     container_name: ha-client-controller-1
-
     # Controller 1 is mapping the same underlying dir as controller 2. They share the same jenkins_home
     # Cache dir is different for each
     volumes:
     - ${CONTROLLER_PERSISTENCE}:/var/jenkins_home
     - ${CONTROLLER1_CACHES}:/var/cache/cloudbees-core-cm
-
     networks:
       demo-network:
         ipv4_address: ${CLIENT1_IP}
-
   ha-client-controller-2:
     image: ${DOCKER_IMAGE_CLIENT}
     extra_hosts:
@@ -80,12 +68,10 @@ services:
       interval: 3s
       timeout: 3s
       retries: 50
-
     # Required JAVA and JENKINS Options for HA (active/active)
     # https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha-install-guide/specific-ha-installation-traditional#_java_options
     # https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_jenkins_args
     environment:
-      #- JAVA_OPTS="-Dcore.casc.config.bundle=/var/jenkins_home/casc-bundle-link.yml"
       - JAVA_OPTS=${CONTROLLER_JAVA_OPTS}
       - JENKINS_OPTS=${CONTROLLER_JENKINS_OPTS}
     depends_on:
@@ -93,22 +79,15 @@ services:
         condition: service_healthy
       ha-client-controller-1:
         condition: service_healthy
-#    ports:
-#    - 8082:8080
-#    - 50002:50000
     container_name: ha-client-controller-2
-
     # Controller 2 is mapping the same underlying dir as controller 1. They share the same jenkins_home
     # Cache dir is different for each
     volumes:
     - ${CONTROLLER_PERSISTENCE}:/var/jenkins_home
     - ${CONTROLLER2_CACHES}:/var/cache/cloudbees-core-cm
-
     networks:
       demo-network:
         ipv4_address: ${CLIENT2_IP}
-
-
   agent:
     #build:
     #  context: .
@@ -126,7 +105,6 @@ services:
         ipv4_address: ${AGENT_IP}
     environment:
       - JENKINS_AGENT_SSH_PUBKEY=${JENKINS_AGENT_SSH_PUBKEY}
-
   haproxy:
     image: ${DOCKER_IMAGE_HAPROXY}
     volumes:
@@ -141,7 +119,6 @@ services:
         condition: service_healthy
     extra_hosts:
       - "${OC_URL}:${OC_IP}"
-
   browser:
     image: ${DOCKER_IMAGE_BROWSER_BOX}
     container_name: webtop
@@ -155,7 +132,6 @@ services:
       - TITLE=Webtop #optional
     volumes:
       - ${BROWSER_PERSISTENCE}:/config
-      #- /var/run/docker.sock:/var/run/docker.sock #optional
     ports:
       - 3000:3000
       - 3001:3001
@@ -169,8 +145,6 @@ services:
     networks:
       demo-network:
         ipv4_address: ${BROWSER_IP}
-
-
 networks:
   demo-network:
     driver: bridge

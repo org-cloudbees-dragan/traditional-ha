@@ -2,7 +2,7 @@
 
 set -x
 
-#### Docker image settings
+echo "#### Docker image settings"
 
 # CB CI version for Operations Center and Controllers
 export DOCKER_IMAGE_OC=cloudbees/cloudbees-core-oc:latest
@@ -15,7 +15,7 @@ export DOCKER_IMAGE_BROWSER_BOX=lscr.io/linuxserver/webtop:latest
 
 ########################################################################################################################
 
-#### Docker network settings
+echo "#### Docker network settings"
 
 #### We put static IP addresses for docker containers
 export IP_PREFIX=172.47
@@ -28,7 +28,7 @@ export BROWSER_IP=$IP_PREFIX.0.10
 
 ########################################################################################################################
 
-#### DNS/URL settings
+echo "#### DNS/URL settings"
 
 # Hostnames for Operations Center and Controllers
 # The controllers are in HA mode, listening on a single CLIENTS_URL
@@ -38,7 +38,7 @@ export CLIENTS_URL=client.ha
 
 ########################################################################################################################
 
-#### Docker host volume settings
+echo "#### Docker host volume settings"
 
 #### Paths on Docker host for mapped volumes
 export PERSISTENCE_PREFIX=$(pwd)/cloudbees_ci_ha_volumes
@@ -51,7 +51,7 @@ export AGENT_PERSISTENCE=$PERSISTENCE_PREFIX/ssh-agent1
 
 ########################################################################################################################
 
-#### Controller settings
+echo "#### Controller settings"
 
 #https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_jenkins_args
 #For Docker we must set JENKINS_OPTS instead of JENKINS_ARGS
@@ -64,7 +64,7 @@ export CONTROLLER_JAVA_OPTS="$CONTROLLER_JAVA_OPTS -Dcore.casc.config.bundle=/va
 
 ########################################################################################################################
 
-#### Operations center setting
+echo "#### Operations center setting"
 export CJOC_JAVA_OPTS="-XX:+AlwaysPreTouch -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:+DisableExplicitGC"
 # https://docs.cloudbees.com/docs/cloudbees-ci/latest/casc-oc/configure-oc-traditional#_adding_the_java_system_property
 # We assign the cjoc casc bundle, comment out if you don't want to use casc
@@ -75,14 +75,18 @@ export CJOC_LOGIN_PW="admin"
 
 ########################################################################################################################
 
-#### Agent settings
+echo "#### Agent settings"
 #see https://hub.docker.com/r/jenkins/ssh-agent
+
+# THE FOLLOWING IS NOT VERY SECURED, AS LONG AS WE DO SO JUST ON LOCALHOST FOR DEMO PURPOSE IT SHOULD BE OK
+
 # To use this image with Docker Plugin⁠, you need to pass the public SSH key using environment variable JENKINS_AGENT_SSH_PUBKEY and not as a startup argument.
 # In Environment field of the Docker Template (advanced section), just add:
 #export JENKINS_AGENT_SSH_PUBKEY="ssh-rsa AD_YOUR_JENKINS_AGENT_SSH_PUBKEY"
 export JENKINS_AGENT_SSH_PUBKEY=$(cat ~/.ssh/id_rsa.pub)
 # used in casc controller bundle to initialize the ssh-agent credential
-export JENKINS_AGENT_SSH_PRIVKEY=$(cat ~/.ssh/id_rsa)
+cat ~/.ssh/id_rsa > $CONTROLLER_PERSISTENCE/id_rsa
+chmod 755 $CONTROLLER_PERSISTENCE/id_rsa
 
 
 
