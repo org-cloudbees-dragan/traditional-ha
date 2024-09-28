@@ -55,9 +55,11 @@ The demo has the following limitations:
   ```
   127.0.0.1	localhost oc.ha client.ha
   ```
-* Run `up.sh`and wait some minutes until the browser redirects you to the Operations Center
+* Run `up.sh`
+  * The related containers will start now. The essential configuration are already setup using Configuration as Code
+  * You will get redirected to you browser to the Operations center when all container are up and running
 * Add an admin user
-* Request a trial licence
+* Request a trial licence (first option)
 * Click on the pre provisioned  controller "ha" in the Operations center UI
 * Add `http://client.ha`and click `push configuration` and `join operations center`
 * Now you are on an Controller running in HA/HS mode. A test Pipeline job using an SSH agent is already running
