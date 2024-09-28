@@ -85,7 +85,7 @@ echo "#### Agent settings"
 #export JENKINS_AGENT_SSH_PUBKEY="ssh-rsa AD_YOUR_JENKINS_AGENT_SSH_PUBKEY"
 export JENKINS_AGENT_SSH_PUBKEY=$(cat ~/.ssh/id_rsa.pub)
 # used in casc controller bundle to initialize the ssh-agent credential
-cat ~/.ssh/id_rsa > $CONTROLLER_PERSISTENCE/id_rsa
+cp -v ~/.ssh/id_rsa  $CONTROLLER_PERSISTENCE/id_rsa
 chmod 755 $CONTROLLER_PERSISTENCE/id_rsa
 
 
