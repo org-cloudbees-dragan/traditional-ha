@@ -65,7 +65,7 @@ jenkins:
         - "experimentalFlags"
         - "apiToken"
         - mailer:
-            emailAddress: "acaternberg@cloudbees.com"
+            emailAddress: "user@example.com"
         - "apiToken"
   slaveAgentPort: -1
   updateCenter:
