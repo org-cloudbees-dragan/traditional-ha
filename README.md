@@ -48,7 +48,7 @@ The demo has the following limitations:
 # Quick Start
 
 * Clone this repository
-* Ensure you have an SSH Key private and pubkey under the path `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
+* Ensure you have an SSH Key private and public key under the path `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
   * If you don't have an SSH key, run `ssh-keygen -t rsa -f ~/.ssh/id_rsa` to create one
   * The key is required for the agent we want to connect to the HA/HS Controller in this demo
 * Add these entries in `/etc/hosts` for local DNS 
@@ -57,7 +57,7 @@ The demo has the following limitations:
   ```
 * Run `up.sh`
   * The related containers will start now. The essential configuration are already setup using Configuration as Code
-  * You will get redirected to you browser to the Operations center when all container are up and running
+  * You will get redirected to you browser to the Operations center when all container are up and running. This might take some minutes
 * Add an admin user
 * Request a trial licence (first option)
 * Click on the pre provisioned  controller "ha" in the Operations center UI
