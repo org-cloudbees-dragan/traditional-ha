@@ -113,7 +113,7 @@ services:
     #build:
     #  context: .
     #  dockerfile: Dockerfile.agent
-    image: jenkins/ssh-agent:jdk17
+    image: ${DOCKER_IMAGE_JENKINS_SSH_AGENT}
     privileged: true
     user: root
     container_name: ssh-agent
@@ -128,7 +128,7 @@ services:
       - JENKINS_AGENT_SSH_PUBKEY=${JENKINS_AGENT_SSH_PUBKEY}
 
   haproxy:
-    image: haproxy:alpine
+    image: ${DOCKER_IMAGE_HAPROXY}
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
     ports:
@@ -143,7 +143,7 @@ services:
       - "${OC_URL}:${OC_IP}"
 
   browser:
-    image: lscr.io/linuxserver/webtop:latest
+    image: ${DOCKER_IMAGE_BROWSER_BOX}
     container_name: webtop
     security_opt:
       - seccomp:unconfined #optional
