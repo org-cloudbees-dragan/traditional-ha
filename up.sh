@@ -1,10 +1,28 @@
 #!/bin/bash
-set -x
+set +x
 source env.sh
 
-#echo ${HAPROXY_IP}
-#rm -Rf ${PERSISTENCE_PREFIX}
+# Define the file paths to SSH Key
+private_key="$HOME/.ssh/id_rsa"
+public_key="$HOME/.ssh/id_rsa.pub"
 
+echo  "verify SSH Key exist"
+checkSSHKeyExist () {
+  if [[ -f "$2" ]]; then
+      echo "$1 key exists: $2"
+  else
+      echo "$1 key not found: $2"
+      echo "Create a ssh key first: run 'ssh-keygen -t rsa -f $private_key'"
+      exit 1
+  fi
+}
+
+checkSSHKeyExist "Private SSH Key" $private_key
+checkSSHKeyExist "Public SSH Key" $public_key
+
+echo "Creating volumes..."
+
+# Create cache dirs for HA Controller
 # see https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_java_options
 # see https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_jenkins_args
 createCaches () {
@@ -14,13 +32,12 @@ createCaches () {
   mkdir -p ${1}/war
 }
 
-echo "Creating volumes..."
-# create dor for browser persistence
-mkdir -p ${BROWSER_PERSISTENCE}
-
 #create cache dirs for controllers
 createCaches ${CONTROLLER1_CACHES}
 createCaches ${CONTROLLER2_CACHES}
+
+# create dor for browser persistence
+mkdir -p ${BROWSER_PERSISTENCE}
 
 #create shared JENKINS_HOME
 mkdir -p ${CONTROLLER_PERSISTENCE}
