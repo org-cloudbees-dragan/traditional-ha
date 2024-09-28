@@ -45,6 +45,23 @@ The demo has the following limitations:
 * Docker-compose v3
 * Web browser, Firefox and Chrome has been tested
 
+# Quick Start
+
+* Clone this repository
+* Ensure you have an SSH Key private and pubkey under the path `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
+  * If you don't have an SSH key, run `ssh-keygen -t rsa -f ~/.ssh/id_rsa` to create one
+  * The key is required for the agent we want to connect to the HA/HS Controller in this demo
+* Add these entries in `/etc/hosts` for local DNS 
+  ```
+  127.0.0.1	localhost oc.ha client.ha
+  ```
+* Run `up.sh`and wait some minutes until the browser redirects you to the Operations Center
+* Add an admin user
+* Request a trial licence
+* Click on the pre provisioned  controller "ha" in the Operations center UI
+* Add `http://client.ha`and click `push configuration` and `join operations center`
+* Now you are on an Controller running in HA/HS mode. A test Pipeline job using an SSH agent is already running
+
 # Setup
 
 The setup consists of the following containers:
@@ -233,7 +250,7 @@ Join the Controller and add an SSH Credentials (private key)
 
 ## Optional, if you don't have an ssh key: Create a key pair 
 
-`ssh-keygen -t rsa -f agent-key`
+`ssh-keygen -t rsa -f ~/.ssh/id_rsa`
 
 Adjust the path to the ssh key in the `env.sh` file
 > export JENKINS_AGENT_SSH_PUBKEY=$(cat ~/.ssh/id_rsa.pub)
