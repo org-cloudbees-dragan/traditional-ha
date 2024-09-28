@@ -50,7 +50,7 @@ services:
     # https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_jenkins_args
     environment:
       - JAVA_OPTS=${CONTROLLER_JAVA_OPTS}
-      - JENKINS_ARGS=${CONTROLLER_JENKINS_ARGS}
+      - JENKINS_OPTS=${CONTROLLER_JENKINS_OPTS}
     depends_on:
       operations-center:
         condition: service_healthy
@@ -87,7 +87,7 @@ services:
     environment:
       #- JAVA_OPTS="-Dcore.casc.config.bundle=/var/jenkins_home/casc-bundle-link.yml"
       - JAVA_OPTS=${CONTROLLER_JAVA_OPTS}
-      - JENKINS_ARGS=${CONTROLLER_JENKINS_ARGS}
+      - JENKINS_OPTS=${CONTROLLER_JENKINS_OPTS}
     depends_on:
       operations-center:
         condition: service_healthy
