@@ -7,7 +7,7 @@ credentials:
               id: "ssh-cred"
               privateKeySource:
                 directEntry:
-                  privateKey: ${JENKINS_AGENT_SSH_PRIVKEY}
+                  privateKey: ${readFile:${JENKINS_HOME}/id_rsa}
               scope: GLOBAL
               username: "jenkins"
 jenkins:
@@ -32,13 +32,29 @@ jenkins:
 security:
   gitHostKeyVerificationConfiguration:
     sshHostKeyVerificationStrategy: "noHostKeyVerificationStrategy"
+  # We allow script approval to print out the Controlelr hostname in our test pipeline
   scriptApproval:
     approvedSignatures:
       - "method java.net.InetAddress getHostName"
       - "staticMethod java.net.InetAddress getLocalHost"
+highAvailability:
+  highAvailabilityConfiguration:
+    developerMode: true
+  highAvailabilityQueueThrottler:
+    maximumLoad: 0
 unclassified:
+  buildDiscarders:
+    configuredBuildDiscarders:
+      - "jobBuildDiscarder"
+      - simpleBuildDiscarder:
+          discarder:
+            logRotator:
+              artifactNumToKeepStr: "4"
+              numToKeepStr: "4"
+  headerLabel:
+    text: "Managed by CasC"
   gitHubPluginConfig:
     hookUrl: "http://client.ha/github-webhook/"
   location:
-    adminAddress: "Adresse nicht konfiguriert <nobody@nowhere>"
+    adminAddress: "not configured <nobody@nowhere>"
     url: "http://client.ha/"

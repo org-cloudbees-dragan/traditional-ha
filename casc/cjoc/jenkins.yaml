@@ -141,6 +141,8 @@ unclassified:
   cascItemsConfiguration:
     variableInterpolationEnabledForAdmin: false
     variableInterpolationEnabledForNonAdmin: false
+  headerLabel:
+    text: "Managed by CasC"
   experimentalPlugins:
     enabled: false
   fingerprints:
