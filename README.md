@@ -1,6 +1,6 @@
 # CloudBees Ci Traditional HA/HS (active/active) Demo Lab Environment
 
-Docker compose setup for a traditional Cloudbees CI installation in HA (active/active) mode
+Docker compose setup for a [Cloudbees CI traditional installation](https://docs.cloudbees.com/docs/cloudbees-ci/latest/traditional-install-guide/) in [HA (active/active) mode](https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-fundamentals)
 
 See these links for the background
 
