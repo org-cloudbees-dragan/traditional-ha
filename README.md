@@ -87,8 +87,7 @@ Required tools:
     * [secter/cb-wildcard-license.cert](secter/cb-wildcard-license.cert)
     * [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
 * Run `up.sh`
-  * The related containers will start now. The essential configuration are already setup using Configuration as Code
-  * Configuration as Code is used to provision the containers (Operations center and Controllers) with the required configurations, see [casc](casc) directory for details
+  * The related containers will start now. The essential configuration are already setup using Configuration as Code, see [casc](casc) directory for details
   * You will get redirected to you browser to the Operations Center when all container are up and running. This might take some minutes
 * Browser access to the Operations Center
   * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
