@@ -146,8 +146,6 @@ Run `down.sh`. This will issue docker compose down to stop the running container
 Just Firefox and Chrome has been tested to access the environment.
 There are two options on how to access the CloudBess CI demo lab:
 
-
-
 ### Option1_Join_the_containerized_browser_in_a_Box
 
 * open a browser on your host machine and point it to [http://localhost:3000](http://localhost:3000).
@@ -172,8 +170,8 @@ There are two options on how to access the CloudBess CI demo lab:
 ## Open the Operations Center
 
 * Point the browser to http://$OC_URL  (by default this is http://oc.ha/)
-* Unlock the Operations center, you will find the key in the docker-compose logs on your console
-* Yu can use this command to get the password
+* (Not required when using CasC) Unlock the Operations center, you will find the key in the docker-compose logs on your console
+* (Not required when using CasC) You can use this command to get the password
 
 ```
 docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdminPassword
@@ -182,13 +180,13 @@ docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdm
 ![oc-unlock.png](docs/oc-unlock.png)
 
 * Request a licence and add admin user details
-* Install the suggested Plugins
-* Under Operations Center -> Manage Jenkins -> Security
+* (Not required when using CasC)  Install the suggested Plugins
+* (Not required when using CasC)  Under Operations Center -> Manage Jenkins -> Security
   * Disable TCP Port 50000 (we don't need it, all traffic in this demo is HTTP or SSH)
 
 ![oc-disable50000.png](docs/oc-disable50000.png)
 
-* Enforce Security realm and SSO
+* (Not required when using CasC) Enforce Security realm and SSO
 
 ![oc-enforce-security.png](docs/oc-enforce-security.png)
 
