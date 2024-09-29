@@ -10,7 +10,7 @@ See these links for the background
 
 # Links
 
-Documentation we have used for this demo environment: 
+Documentation we have used for this demo environment:
 
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
@@ -25,13 +25,13 @@ Documentation we have used for this demo environment:
 
 # Architecture
 
-The docker-compose setup for the HA/HS demo follows the design below. 
-Each CloudBees component as well as the HAProxy is running in a dedicated docker container orchestrated by docker-compose. 
+The docker-compose setup for the HA/HS demo follows the design below.
+Each CloudBees component as well as the HAProxy is running in a dedicated docker container orchestrated by docker-compose.
 
 The demo has the following limitations:
 
 * SSL 443 is not enabled yet. All traffic for local demo is going through port 80/8080
-* NFS server is not part of the demo. We will use a local directory on the host system 
+* NFS server is not part of the demo. We will use a local directory on the host system
 
 ![Ci-HAProxy.png](docs/Ci-HAProxy.png)
 
@@ -56,10 +56,9 @@ The Operations Center and both controllers are behind HAProxy.
 * If a request comes with $CLIENTS_URL host header, it is load balanced between all client controllers
 * The load balancing for client controllers has sticky sessions enabled
 
-
 # Pre-requirements
 
-* This demo has been tested 
+* This demo has been tested
   * on MacOs 14.7
   * Docker-Desktop 4.24.0 (122432)
   * Engine: 24.0.6
@@ -78,7 +77,7 @@ The Operations Center and both controllers are behind HAProxy.
   * The related containers will start now. The essential configuration are already setup using Configuration as Code
   * You will get redirected to you browser to the Operations center when all container are up and running. This might take some minutes
 * Browser access to the Operations center
-  * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](# Option1: Join the containerized browser in a Box)
+  * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
   * Option2: Use your Browser on your Machine: Follow these instructions [Use your Firefox/Chrome on your host](## Option2: Use your Firefox/Chrome on your host)
 * Open the Operations Center
   * use `admin/admin` for login
@@ -145,9 +144,11 @@ Run `down.sh`. This will issue docker compose down to stop the running container
 Just Firefox and Chrome has been tested to access the environment.
 There are two options on how to access the CloudBess CI demo lab:
 
-### Option1: Join the containerized browser in a Box
 
-* open a browser on your host machine and point it to [http://localhost:3000](http://localhost:3000). 
+
+### Option1_Join_the_containerized_browser_in_a_Box
+
+* open a browser on your host machine and point it to [http://localhost:3000](http://localhost:3000).
 * This will open a VNC session to the Linux container with a Firefox browser in it.
 * From the start menu (Top to the left) open Firefox browser.
 
@@ -157,7 +158,7 @@ There are two options on how to access the CloudBess CI demo lab:
 
 ### Option2: Use your Firefox/Chrome on your host
 
-* Add the following to your `/etc/hosts` file 
+* Add the following to your `/etc/hosts` file
 
 > 127.0.0.1	localhost oc.ha client.ha
 
@@ -166,7 +167,7 @@ There are two options on how to access the CloudBess CI demo lab:
 
 > sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
 
-## Open the Operations Center 
+## Open the Operations Center
 
 * Point the browser to http://$OC_URL  (by default this is http://oc.ha/)
 * Unlock the Operations center, you will find the key in the docker-compose logs on your console
@@ -176,23 +177,23 @@ There are two options on how to access the CloudBess CI demo lab:
 docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
-![oc-unlock.png](docs/oc-unlock.png)  
+![oc-unlock.png](docs/oc-unlock.png)
 
 * Request a licence and add admin user details
 * Install the suggested Plugins
-* Under Operations Center -> Manage Jenkins -> Security 
+* Under Operations Center -> Manage Jenkins -> Security
   * Disable TCP Port 50000 (we don't need it, all traffic in this demo is HTTP or SSH)
 
 ![oc-disable50000.png](docs/oc-disable50000.png)
 
-  * Enforce Security realm and SSO
-  
+* Enforce Security realm and SSO
+
 ![oc-enforce-security.png](docs/oc-enforce-security.png)
 
 ## Create a client controller item
 
 * (Not required when using CasC) In the Operations Center, create a client controller item.
-* (Not required when using CasC) Ensure you have "websocket" enabled in the connection configuration 
+* (Not required when using CasC) Ensure you have "websocket" enabled in the connection configuration
 
 ![Screenshot20240919at084705.png](docs/image3.png)
 ![oc-pushconnectiondetails.png](docs/oc-pushconnectiondetails.png)
@@ -201,8 +202,10 @@ docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdm
 * Required: Push the configuration to http://$CLIENTS_URL  (by default this is http://client.ha/ )
   * Not required: Try to access http://$CLIENTS_URL/ in Firefox
   * Not required: Request a licence and add admin user details
-* (Not required when using CasC) Get the Controller1 initial password 
+* (Not required when using CasC) Get the Controller1 initial password
+
 > docker-compose exec ha-client-controller-1    cat /var/jenkins_home/secrets/initialAdminPassword
+
 * (Not required when using CasC) Install HA plugin (active/active) on http://$CLIENTS_URL/
 
 ![controller-installhaplugin.png](docs/controller-installhaplugin.png)
@@ -217,7 +220,6 @@ docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdm
 
 ![Screenshot20240919at084705.png](docs/image1.png)
 
-
 ## On the controller: Create a jenkins ssh credential
 
 Note: Not required when using CasC
@@ -226,15 +228,17 @@ Join the Controller and add an SSH Credentials (private key)
 
 ![controller-ssh-cred.png](docs/controller-ssh-cred.png)
 
-### Optional, if you don't have an ssh key: Create a key pair 
+### Optional, if you don't have an ssh key: Create a key pair
 
 `ssh-keygen -t rsa -f ~/.ssh/id_rsa`
 
 Adjust the path to the ssh key in the `env.sh` file
+
 > export JENKINS_AGENT_SSH_PUBKEY=$(cat ~/.ssh/id_rsa.pub)
 
-or 
->  export JENKINS_AGENT_SSH_PUBKEY=$(cat <YOUR_PATH_HERT>/agent-key.pub)
+or
+
+> export JENKINS_AGENT_SSH_PUBKEY=$(cat <YOUR_PATH_HERT>/agent-key.pub)
 
 Use the private part in the Controller when defining credentials to connect to the agent.
 Choose credentials with username and private key. Username is jenkins.
@@ -258,16 +262,16 @@ Once the Pipeline is started you can  demo one replica to demo the build will ta
 * Start the Pipeline
 * Check what replica you are running on
 * Enable HA developer mode to show the info icon to the bottom of the Controller
-* This show you also the IP address of your session replica 
+* This show you also the IP address of your session replica
 * shut your controller replica down (see in `docker-compose.yaml` for the ip address mapped to the docker container name)
 
 ```
 docker-compose stop ha-client-controller-1 # or ha-client-controller-2 depending on where yu are 
 ```
+
 * Reload the Controller page in your browser, you should be now on the other replica and job should resume to work
 
 # Troubleshooting
-
 
 ## Browser shows Side is nt secured/Missing SSL Certificate
 
@@ -293,10 +297,10 @@ Add exceptions:
 
 ![ff-exceptions](docs/ff-exceptions.png)
 
-
 # Extra Notes used during development of the demo (Not required for the setup)
 
 ## DNS Flush (MacOs)
+
 > sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
 
 ## Useful Docker commands
@@ -321,7 +325,7 @@ docker-compose restart ha-client-controller-1
 docker-compose restart ha-client-controller-2
 ```
 
-### List docker processes 
+### List docker processes
 
 ```
 docker-compose top
@@ -353,7 +357,7 @@ Verify if the key has been applied: (Join the docker agent container and check t
 
 - Use {DOCKER_IP} and Controller/Cjoc sub path in ha_proxy, remove the vnc ubuntu image
 - Verify to introduce NFS
-- Enable SSL on HAPRoxy (Lets-encrypt or self-signed certs?) 
+- Enable SSL on HAPRoxy (Lets-encrypt or self-signed certs?)
 - Agents: Creating agent key pair in up.sh
 - Fill the public part automatically in docker compose template (with envsubst in up.sh)
 - Casc: Add configuration as code to simplify the setup and plugin installation
