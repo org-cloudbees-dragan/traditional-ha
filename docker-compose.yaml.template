@@ -21,6 +21,8 @@ services:
       retries: 50
     environment:
       - JAVA_OPTS=${CJOC_JAVA_OPTS}
+      - CJOC_LOGIN_PW=${CJOC_LOGIN_PW}
+      - CJOC_LOGIN_USER=${CJOC_LOGIN_USER}
     container_name: operations-center
     volumes:
     - ${OC_PERSISTENCE}:/var/jenkins_home

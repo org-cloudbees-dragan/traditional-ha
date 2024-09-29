@@ -14,7 +14,6 @@ Documentation we have used for this demo environment:
 
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
-* https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/client-and-managed-controllers/how-to-set-up-a-f5-load-balancer-for-ha
 * https://docs.docker.com/compose/networking/
 * https://www.haproxy.com/blog/haproxy-configuration-basics-load-balance-your-servers
 * https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/
@@ -36,36 +35,6 @@ The demo has the following limitations:
 
 ![Ci-HAProxy.png](docs/Ci-HAProxy.png)
 
-# Pre-requirements
-
-* This demo has been tested on MacOs 14.7
-* Docker-Desktop 4.24.0 (122432)
-* Engine: 24.0.6
-* Compose: v2.22.0-desktop.2
-* Docker-compose v3
-* Web browser, Firefox and Chrome has been tested
-
-# Quick Start
-
-* Clone this repository
-* Ensure you have an SSH Key private and public key under the path `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
-  * If you don't have an SSH key, run `ssh-keygen -t rsa -f ~/.ssh/id_rsa` to create one
-  * The key is required for the agent we want to connect to the HA/HS Controller in this demo
-* Add these entries in `/etc/hosts` for local DNS 
-  ```
-  127.0.0.1	localhost oc.ha client.ha
-  ```
-* Run `up.sh`
-  * The related containers will start now. The essential configuration are already setup using Configuration as Code
-  * You will get redirected to you browser to the Operations center when all container are up and running. This might take some minutes
-* Add an admin user
-* Request a trial licence (first option)
-* Click on the pre provisioned  controller "ha" in the Operations center UI
-* Add `http://client.ha`and click `push configuration` and `join operations center`
-* Now you are on an Controller running in HA/HS mode. A test Pipeline job using an SSH agent is already running
-
-# Detailed Setup
-
 The setup consists of the following containers:
 
 * Operations center
@@ -74,21 +43,50 @@ The setup consists of the following containers:
 * SSH-Agent 1
 * HAProxy Load Balancer
 * Optional, but not required: Linux box with Firefox accessible via VNC from an external browser
-  * You will be able to access the demo environment either from your browser (DOCKER_HOST) or optional from a browser in a container box
 
+The setup is self-sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment.
+There are two exceptions to highlight:
 
-The setup is self-sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment, except for the persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment in the demo lab.
-
-Notes:
-* If you want to access the demo via a browser from Docker host, you need entries in `/etc/hosts` (see chapters below) 
-* Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
-
+* Persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment in the demo lab. Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
+* If you want to access the demo via a browser from Docker host, you need entries in `/etc/hosts` (see chapters below)
 
 The Operations Center and both controllers are behind HAProxy.
 
 * If a request comes to HAProxy with $OC_URL host header, it is forwarded to the operations center container
 * If a request comes with $CLIENTS_URL host header, it is load balanced between all client controllers
 * The load balancing for client controllers has sticky sessions enabled
+
+
+# Pre-requirements
+
+* This demo has been tested 
+  * on MacOs 14.7
+  * Docker-Desktop 4.24.0 (122432)
+  * Engine: 24.0.6
+  * Compose: v2.22.0-desktop.2
+  * Docker-compose v3
+  * Web browser, Firefox and Chrome has been tested
+
+# Quick Start
+
+* Clone this repository
+* Ensure you have an SSH private and public key under the path `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
+  * If you don't have an SSH key, run `ssh-keygen -t rsa -f ~/.ssh/id_rsa` to create one
+  * The key is required for the agent we want to connect to the HA/HS Controller in this demo
+  * If you have your key already under another path or name, adjust it in the `env.sh` configuration file
+* Run `up.sh`
+  * The related containers will start now. The essential configuration are already setup using Configuration as Code
+  * You will get redirected to you browser to the Operations center when all container are up and running. This might take some minutes
+* Browser access to the Operations center
+  * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](# Option1: Join the containerized browser in a Box)
+  * Option2: Use your Browser on your Machine: Follow these instructions [Use your Firefox/Chrome on your host](## Option2: Use your Firefox/Chrome on your host)
+* Open the Operations Center and add an admin user
+* Request a trial licence (first option)
+* Click on the pre provisioned controller "ha" in the Operations center UI
+* Add `http://client.ha`and click `push configuration` and `join operations center`
+* Now you are on an Controller running in HA/HS mode. A test Pipeline job using an SSH agent is already running
+
+# Files
 
 [env.sh](env.sh)
 
@@ -139,59 +137,37 @@ Run `down.sh`. This will issue docker compose down to stop the running container
 - Stop the running containers using `down.sh`. Then,
 - Run `deleteVolumes.sh`. This will delete the persistence directories on the host (docker volumes)
 
-# Browser Access
+# Steps
 
-Just Firefox has been tested to access the Lab (Maybe chrome or others are also possible)
+## Browser Access
+
+Just Firefox and Chrome has been tested to access the environment.
 There are two options on how to access the CloudBess CI demo lab:
 
-## Option1: Join the Desktop VM in your Browser
+### Option1: Join the containerized browser in a Box
 
-If you don't have Firefox installed or other issues using your host browser:
-
-* open a browser and point it to [http://localhost:3000](http://localhost:3000). 
+* open a browser on your host machine and point it to [http://localhost:3000](http://localhost:3000). 
 * This will open a VNC session to the Linux container with a Firefox browser in it.
 * From the start menu (Top to the left) open Firefox browser.
 
 ![ff-box](docs/ff-box.png)
 
+* open `http://oc.ha`
 
-## Option2: Use your Firefox/Chrome on your PC
+### Option2: Use your Firefox/Chrome on your host
 
-Firefox was tested, Chrome should work as well
+* Add the following to your `/etc/hosts` file 
 
-Add the following to your `/etc/hosts` file 
+> 127.0.0.1	localhost oc.ha client.ha
 
-```
-127.0.0.1	localhost oc.ha client.ha
-```
-Flush the DNS cache (MacOs)
+* Then open Firefox/Chrome on your PC: [http://oc.ha](http://oc.ha)
+* Optional (if you can not resolve the hostnames): Flush the DNS cache (MacOs)
 
 > sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
 
-* open Firefox/Chrome on your PC
+## Open the Operations Center 
 
-## Optional: Disable "HTTPS Only" mode 
-
-If you hit SSL cert issues in your browser, do the following: 
-
-(Haven't checked yet how to do this in Chrome, if required)
-
-* As the demo HAProxy doesn't support HTTPS/SSL yet, we use Firefox with disabled `HTTPS only mode` see https://support.mozilla.org/en-US/kb/https-only-prefs
-* Adjust the following exceptions:
-
-Under Firefox settings search "HTTPS Only"
-
-Disable HTTPS only:
-
-![ff-https-only](docs/ff-httpsonly.png)
-
-Add exceptions:
-
-![ff-exceptions](docs/ff-exceptions.png)
-
-# Open the Operations Center 
-
-* Point the Firefox browser to http://$OC_URL  (by default this is http://oc.ha/)
+* Point the browser to http://$OC_URL  (by default this is http://oc.ha/)
 * Unlock the Operations center, you will find the key in the docker-compose logs on your console
 * Yu can use this command to get the password
 
@@ -212,28 +188,25 @@ docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdm
   
 ![oc-enforce-security.png](docs/oc-enforce-security.png)
 
-# Create a client controller item
+## Create a client controller item
 
-* In the Operations Center, create a client controller item.
-* Ensure you have "websocket" enabled in the connection configuration
+* (Not required when using CasC) In the Operations Center, create a client controller item.
+* (Not required when using CasC) Ensure you have "websocket" enabled in the connection configuration 
 
 ![Screenshot20240919at084705.png](docs/image3.png)
 ![oc-pushconnectiondetails.png](docs/oc-pushconnectiondetails.png)
 ![Screenshot20240919at084705.png](docs/image2.png)
 
-* Push the configuration to http://$CLIENTS_URL  (by default this is http://client.ha/ )
+* Required: Push the configuration to http://$CLIENTS_URL  (by default this is http://client.ha/ )
   * Not required: Try to access http://$CLIENTS_URL/ in Firefox
   * Not required: Request a licence and add admin user details
-* Get the Controller1 initial password
-* > docker-compose exec ha-client-controller-1    cat /var/jenkins_home/secrets/initialAdminPassword
-* Install HA plugin (active/active) on http://$CLIENTS_URL/
+* (Not required when using CasC) Get the Controller1 initial password 
+> docker-compose exec ha-client-controller-1    cat /var/jenkins_home/secrets/initialAdminPassword
+* (Not required when using CasC) Install HA plugin (active/active) on http://$CLIENTS_URL/
 
 ![controller-installhaplugin.png](docs/controller-installhaplugin.png)
-* Restart the Controller
 
-![controller-restart.png](docs/controller-restart.png)
-
-* The two replicas must be restarted
+* (Not required when using CasC)The two replicas must be restarted.
   ```
   docker-compose restart ha-client-controller-1
   docker-compose restart ha-client-controller-2
@@ -244,13 +217,15 @@ docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdm
 ![Screenshot20240919at084705.png](docs/image1.png)
 
 
-# On the controller: Create a jenkins ssh credential
+## On the controller: Create a jenkins ssh credential
+
+Note: Not required when using CasC
 
 Join the Controller and add an SSH Credentials (private key)
 
 ![controller-ssh-cred.png](docs/controller-ssh-cred.png)
 
-## Optional, if you don't have an ssh key: Create a key pair 
+### Optional, if you don't have an ssh key: Create a key pair 
 
 `ssh-keygen -t rsa -f ~/.ssh/id_rsa`
 
@@ -263,11 +238,15 @@ or
 Use the private part in the Controller when defining credentials to connect to the agent.
 Choose credentials with username and private key. Username is jenkins.
 
-# Create a SSH Agent Node
+## Create a SSH Agent Node
+
+Note: Not required when using CasC
 
 ![createSSHAgent.png](docs/createSSHAgent.png)
 
-# Create a test Pipeline
+## Create a test Pipeline
+
+Note: Not required when using CasC
 
 Once the SSH Agent has been created you can create a simple Test Pipeline on the HA Controller
 
@@ -285,6 +264,34 @@ Once the Pipeline is started you can  demo one replica to demo the build will ta
 docker-compose stop ha-client-controller-1 # or ha-client-controller-2 depending on where yu are 
 ```
 * Reload the Controller page in your browser, you should be now on the other replica and job should resume to work
+
+# Troubleshooting
+
+
+## Browser shows Side is nt secured/Missing SSL Certificate
+
+We run on localhost, an SSL certificate is not part of the demo now.
+If you hit SSL issues in your browser when you access the Operations center, do the following:
+
+### Disable "HTTPS Only" mode
+
+If you hit SSL cert issues in your browser, do the following:
+
+(Haven't checked yet how to do this in Chrome, if required)
+
+* As the demo HAProxy doesn't support HTTPS/SSL yet, we use Firefox with disabled `HTTPS only mode` see https://support.mozilla.org/en-US/kb/https-only-prefs
+* Adjust the following exceptions:
+
+Under Firefox settings search "HTTPS Only"
+
+Disable HTTPS only:
+
+![ff-https-only](docs/ff-httpsonly.png)
+
+Add exceptions:
+
+![ff-exceptions](docs/ff-exceptions.png)
+
 
 # Extra Notes used during development of the demo (Not required for the setup)
 
@@ -340,65 +347,6 @@ Restart the agent container if required
 > docker-compose restart agent
 
 Verify if the key has been applied: (Join the docker agent container and check the `/home/jenkins/.ssh` directory)
-
-### SSH key permissions 
-
-When setting up SSH, it's important to ensure that the permissions for the SSH directory and its files are configured correctly for security. Here’s how the typical directory structure and permissions should look:
-
-Directory Structure
-
-SSH Directory:
-
-Agent: Path: /home/jenkins/.ssh/
-
-Files in the SSH Directory:
-
-* id_rsa (private key)
-* id_rsa.pub (public key)
-* authorized_keys (contains public keys for SSH access)
-* config (optional configuration file)
-* known_hosts (tracks known host public keys)
-
-* Recommended Permissions
-Here's how to set the permissions correctly:
-
-### Set the permissions for the .ssh directory
-> chmod 700 ~/.ssh
-
-### Set the permissions for the private key
-> chmod 600 ~/.ssh/id_rsa
-
-### Set the permissions for the public key
-> chmod 644 ~/.ssh/id_rsa.pub
-
-### Set the permissions for the authorized_keys file
-> chmod 600 ~/.ssh/authorized_keys
-
-### Set the permissions for the config file (if it exists)
-> chmod 644 ~/.ssh/config
-
-### Set the permissions for the known_hosts file (if it exists)
-> chmod 644 ~/.ssh/known_hosts
-
-Explanation of Permissions
-
-* 700 for ~/.ssh/: This allows only the user to read, write, and execute. This is essential to prevent other users from accessing the SSH configuration.
-* 600 for id_rsa and authorized_keys: This restricts the files so only the user can read and write them. The private key must be kept secret.
-* 644 for id_rsa.pub, config, and known_hosts: These files can be read by others, but only the owner can write to them.
-
-* Example Commands
-You can set these permissions using the following commands in your agent:
-
-```
-mkdir -p ~/.ssh
-chmod 700 ~/.ssh
-touch ~/.ssh/id_rsa ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys ~/.ssh/config ~/.ssh/known_hosts
-chmod 600 ~/.ssh/id_rsa ~/.ssh/authorized_keys
-chmod 644 ~/.ssh/id_rsa.pub ~/.ssh/config ~/.ssh/known_hosts
-```
-
-This ensures that your SSH setup is secure and functions correctly. Let me know if you have further questions!
-
 
 # TODO and next steps
 

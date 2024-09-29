@@ -54,7 +54,7 @@ jenkins:
       users:
       - id: "admin"
         password: ${CJOC_LOGIN_PW}
-        name: "admin"
+        name: ${CJOC_LOGIN_USER}
         properties:
         - "consoleUrlProvider"
         - "blueSteelRedirectOptOutProperty"
