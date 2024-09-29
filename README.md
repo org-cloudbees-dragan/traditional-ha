@@ -115,7 +115,7 @@ Usually you don`t need to change something here, potentially the SSH key variabl
 * `CJOC_LICENSE_CERTIFICATE` optional: You can add your CloudBees wildcard license certificate to this file: [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
 * `OC_URL` is the URL you want the Operations Center to respond on.
 * `CLIENTS_URL` is for the controllers. There is only one URL for both controllers.
-* `DOCKER_IMAGE_OC` and `DOCKER_IMAGE_CLIENT_CONTROLLER` are the CB CI versions on oOerations Center and controllers
+* `DOCKER_IMAGE_OC` and `DOCKER_IMAGE_CLIENT_CONTROLLER` are the CB CI versions on Operations Center and controllers
 * `IP_PREFIX` is a prefix for the internal docker compose network
 * `PERSISTENCE_PREFIX` is the path for the persistence volumes on the docker host
 
