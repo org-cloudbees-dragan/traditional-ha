@@ -97,12 +97,18 @@ The Operations Center and both controllers are behind HAProxy.
 
 [env.sh](env.sh)
 
-- `OC_URL` is the URL you want the operations center to respond on.
-- `CLIENTS_URL` is for the controllers. There is only one URL for both controllers.
-- `DOCKER_IMAGE_OC` and `DOCKER_IMAGE_CLIENT` are the CB CI versions on operations center and controllers
-- `IP_PREFIX` is a prefix for the internal docker compose network
-- `PERSISTENCE_PREFIX` is the path for the persistence volumes on the docker host
-- `JENKINS_AGENT_SSH_PUBKEY`=$(cat ~/.ssh/id_rsa.pub)  assumes your ssh pub key is under this path. adjust it for your needs
+The essential variables are explained here, take a look in to the `env.sh` file for more detailed settings.
+Usually you don`t need to change something here, potentially the SSH key variables need to be adjusted to your needs
+
+* `SSH_PRIVATE_KEY_PATH` mandatory: path to your SSH private key  
+* `SSH_PUBLIC_KEY_PATH`  mandatory: path to your SSH public key
+* `CJOC_LICENSE_PRIVATE_KEY` optional: You can add your CloudBees wildcard license key to this file: [secrets/cb-wildcard-license.key]()
+* `CJOC_LICENSE_CERTIFICATE` optional: You can add your CloudBees wildcard license certificate to this file: [secrets/cb-wildcard-license.cert]()
+* `OC_URL` is the URL you want the operations center to respond on.
+* `CLIENTS_URL` is for the controllers. There is only one URL for both controllers.
+* `DOCKER_IMAGE_OC` and `DOCKER_IMAGE_CLIENT_CONTROLLER` are the CB CI versions on operations center and controllers
+* `IP_PREFIX` is a prefix for the internal docker compose network
+* `PERSISTENCE_PREFIX` is the path for the persistence volumes on the docker host
 
 [docker-compose.yaml.template](docker-compose.yaml.template)
 
