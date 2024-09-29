@@ -32,7 +32,7 @@ Each CloudBees component as well as the HAProxy is running in a dedicated docker
 The demo has the following limitations:
 
 * SSL 443 is not enabled yet. All traffic for local demo is going through port 80/8080
-* NFS server is not part of the demo. We will use a local directory on the host system
+* The NFS server is not part of the demo. We will use a local directory on the host system
 
 ![Ci-HAProxy.png](docs/Ci-HAProxy.png)
 
@@ -49,7 +49,7 @@ The setup is self-sufficient and does not require any modifications on the Docke
 There are two exceptions to highlight:
 
 * Persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment in the demo lab. Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
-* If you want to access the demo via a browser from Docker host, you need entries in `/etc/hosts` (see chapters below)
+* If you want to access the demo via a browser from a Docker host, you need entries in `/etc/hosts` (see chapters below)
 
 The Operations Center and both controllers are behind HAProxy.
 
@@ -65,13 +65,13 @@ The Operations Center and both controllers are behind HAProxy.
   * Engine: 24.0.6
   * Compose: v2.22.0-desktop.2
   * Docker-compose v3
-  * Web browser, Firefox and Chrome has been tested
+  * Web browsers, Firefox, and Chrome has been tested
 
 Required tools:
 
-* [Docker desktop](https://docs.docker.com/desktop/install/mac-install/)
+* [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/)
 * ping (not mandatory, but used in the `up.sh` script to test name resolution)
-* ssh-keygen (If you don`t have an SSH key available)
+* ssh-keygen (If you don't have an SSH key available)
 * A Web browser
 
 # Quick Start
@@ -81,42 +81,42 @@ Required tools:
   * If you don't have an SSH key, run `ssh-keygen -t rsa -f ~/.ssh/id_rsa` to create one
   * The key is required for the agent we want to connect to the HA/HS Controller in this demo
   * If you have your key already under another path or name, adjust it in the [env.sh](env.sh) configuration file
-* Optional: Add a CloudBees Wildcard License to avoid license screen. If you dont add a license now, you can request a trial license later in the Operations Center welcome screen
-  * Add a CloudBees Wildcard licence key to this files. CasC will read this files and apply the license during startup
-  * see 
-    * [secter/cb-wildcard-license.cert](secter/cb-wildcard-license.cert)
+* Optional: Add a CloudBees Wildcard Licence to avoid the license screen. If you don't add a license now, you can request a trial license later in the Operations Center welcome screen
+  * Add a CloudBees Wildcard license key to these files. CasC will read these files and apply for the license during the startup
+  * see
+    * [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
     * [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
 * Run `up.sh`
-  * The related containers will start now. This might take some minutes because the required containers get puled the first time to your docker host
-  * The essential configuration are already setup using Configuration as Code, see [casc](casc) directory for details
-  * When docker compose is fully up, you will get redirected to you browser to the Operations Center when all container are up and running. 
+  * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
+  * The essential configuration is already set up using Configuration as Code, see [casc](casc) directory for details
+  * When Docker Compose is fully up, you will be redirected to the Operations Center in your browser when all containers are up and running.
 * Browser access to the Operations Center
   * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
     * This option doesn't require changes on your host in `/etc/hosts`
   * Option2: Use your Browser on your Machine: Follow these instructions [Use your Firefox/Chrome on your docker host](#Option2_Use_your_browser_on_your_docker_host)
-    * This option require changes on your host in `/etc/hosts`
+    * This option requires changes on your host in `/etc/hosts`
 * Open the Operations Center [http://oc.ha](http://oc.ha)
   * use `admin/admin` for login
 * Request a license (first option in the screen "Request trial license")
-* Click on the pre provisioned controller "ha" in the Operations Center UI
-* Add `http://client.ha`and click `push configuration` and `join operations center`
-* Now you are on an Controller running in HA/HS mode. A test Pipeline job using an SSH agent is already running
+* Click on the pre-provisioned controller "ha" in the Operations Center UI
+* Add `http://client.ha` and click `push configuration` and `join operations center`
+* Now you are on a Controller running in HA/HS mode. A test Pipeline job using an SSH agent is already running
 
 # Files
 
 [env.sh](env.sh)
 
-The essential variables are explained here, take a look in to the `env.sh` file for more detailed settings.
-Usually you don`t need to change something here, potentially the SSH key variables need to be adjusted to your needs
+The essential variables are explained here, take a look at the `env.sh` file for more detailed settings.
+Usually, you don`t need to change something here, potentially the SSH key variables need to be adjusted to your needs
 
-* `SSH_PRIVATE_KEY_PATH` mandatory: path to your SSH private key  
+* `SSH_PRIVATE_KEY_PATH` mandatory: path to your SSH private key
 * `SSH_PUBLIC_KEY_PATH`  mandatory: path to your SSH public key
 * `CJOC_LICENSE_PRIVATE_KEY` optional: You can add your CloudBees wildcard license key to this file: [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
 * `CJOC_LICENSE_CERTIFICATE` optional: You can add your CloudBees wildcard license certificate to this file: [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
 * `OC_URL` is the URL you want the Operations Center to respond on.
 * `CLIENTS_URL` is for the controllers. There is only one URL for both controllers.
 * `DOCKER_IMAGE_OC` and `DOCKER_IMAGE_CLIENT_CONTROLLER` are the CB CI versions on Operations Center and controllers
-* `IP_PREFIX` is a prefix for the internal docker compose network
+* `IP_PREFIX` is a prefix for the internal docker-compose network
 * `PERSISTENCE_PREFIX` is the path for the persistence volumes on the docker host
 
 [docker-compose.yaml.template](docker-compose.yaml.template)
@@ -133,7 +133,7 @@ A helper script to:
 
 [haproxy.cfg](haproxy.cfg)
 
-This is the haproxy configuration used in the haproxy container to balance and forward the incoming traffic to the related cloudbees components
+This is the haproxy configuration used in the haproxy container to balance and forward the incoming traffic to the related CloudBees components
 It includes:
 
 * frontend and backend config
@@ -153,7 +153,7 @@ It includes:
 
 [deleteVolumes.sh](deleteVolumes.sh)
 
-* delete the persistance dir including all mounted volumes 
+* delete the persistence dir including all mounted volumes
 
 [casc/cjoc](casc/cjoc)
 
@@ -166,7 +166,7 @@ It includes:
 [secrets](secrets)
 
 Placeholder files where to add your CloudBees Wildcard license cert and key.
-This is optional. If a wildcard license is supplied you will pass the license welcome screen on the Operations Center 
+This is optional. If a wildcard license is supplied you will pass the license welcome screen on the Operations Center
 * [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
 * [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
 
@@ -190,7 +190,7 @@ Run `down.sh`. This will issue docker compose down to stop the running container
 
 ## Browser Access
 
-Just Firefox and Chrome has been tested to access the environment.
+Just Firefox and Chrome have been tested to access the environment.
 There are two options on how to access the CloudBess CI demo lab:
 
 ### Option1_Join_the_containerized_browser_in_a_Box
@@ -226,7 +226,7 @@ docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdm
 
 ![oc-unlock.png](docs/oc-unlock.png)
 
-* Request a licence and add admin user details
+* Request a license and add admin user details
 * (Not required when using CasC)  Install the suggested Plugins
 * (Not required when using CasC)  Under Operations Center -> Manage Jenkins -> Security
   * Disable TCP Port 50000 (we don't need it, all traffic in this demo is HTTP or SSH)
@@ -239,8 +239,8 @@ docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdm
 
 ## Create a client controller item
 
-* (Not required when using CasC) In the Operations Center, create a client controller item.
-* (Not required when using CasC) Ensure you have "websocket" enabled in the connection configuration
+* (Not required when using CasC) Create a client controller item in the Operations Center.
+* (Not required when using CasC) Ensure you have "WebSocket" enabled in the connection configuration
 
 ![Screenshot20240919at084705.png](docs/image3.png)
 ![oc-pushconnectiondetails.png](docs/oc-pushconnectiondetails.png)
@@ -248,7 +248,7 @@ docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdm
 
 * Required: Push the configuration to http://$CLIENTS_URL  (by default this is http://client.ha/ )
   * Not required: Try to access http://$CLIENTS_URL/ in Firefox
-  * Not required: Request a licence and add admin user details
+  * Not required: Request a license and add admin user details
 * (Not required when using CasC) Get the Controller1 initial password
 
 > docker-compose exec ha-client-controller-1    cat /var/jenkins_home/secrets/initialAdminPassword
@@ -262,12 +262,12 @@ docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdm
   docker-compose restart ha-client-controller-1
   docker-compose restart ha-client-controller-2
   ```
-* Controller 2 will begin starting when controller 1 is ready
+* Controller 2 will begin starting when Controller 1 is ready
 * It takes some minutes now, you can see the HA status in the controllers` Manage Jenkins section
 
 ![Screenshot20240919at084705.png](docs/image1.png)
 
-## On the controller: Create a jenkins ssh credential
+## On the controller: Create a Jenkins SSH credential
 
 Note: Not required when using CasC
 
@@ -275,7 +275,7 @@ Join the Controller and add an SSH Credentials (private key)
 
 ![controller-ssh-cred.png](docs/controller-ssh-cred.png)
 
-### Optional, if you don't have an ssh key: Create a key pair
+### Optional, if you don't have an SSH key: Create a key pair
 
 `ssh-keygen -t rsa -f ~/.ssh/id_rsa`
 
@@ -288,7 +288,7 @@ or
 > export JENKINS_AGENT_SSH_PUBKEY=$(cat <YOUR_PATH_HERT>/agent-key.pub)
 
 Use the private part in the Controller when defining credentials to connect to the agent.
-Choose credentials with username and private key. Username is jenkins.
+Choose credentials with username and private key. The username is `jenkins`.
 
 ## Create a SSH Agent Node
 
@@ -304,19 +304,19 @@ Once the SSH Agent has been created you can create a simple Test Pipeline on the
 
 [test/Jenkinsfile-ssh-agent.groovy](test/Jenkinsfile-ssh-agent.groovy)
 
-Once the Pipeline is started you can  demo one replica to demo the build will take over to the other replica and continues to run if the controller replica is shut down
+Once the Pipeline is started you can  demo one replica to demo the build will take over to the other replica and continue to run if the controller replica is shut down
 
 * Start the Pipeline
 * Check what replica you are running on
-* Enable HA developer mode to show the info icon to the bottom of the Controller
-* This show you also the IP address of your session replica
-* shut your controller replica down (see in `docker-compose.yaml` for the ip address mapped to the docker container name)
+* Enable HA developer mode to show the info icon at the bottom of the Controller
+* This shows you also the IP address of your session replica
+* shut your controller replica down (see in `docker-compose.yaml` for the IP address mapped to the docker container name)
 
 ```
 docker-compose stop ha-client-controller-1 # or ha-client-controller-2 depending on where yu are 
 ```
 
-* Reload the Controller page in your browser, you should be now on the other replica and job should resume to work
+* Reload the Controller page in your browser, you should now be on the other replica and the job should resume work
 
 # Troubleshooting
 
@@ -380,11 +380,11 @@ docker-compose top
 
 ## Details SSH Agents
 
-### Create your ssh keys
+### Create your SSH keys
 
 > ssh-keygen -t rsa -b 2048 -C "your_email@example.com"
 
-### Add your public key the agent container
+### Add your public key to the agent container
 
 add the ssh-pub key in your `docker-compose.yaml` file
 
@@ -402,9 +402,10 @@ Verify if the key has been applied: (Join the docker agent container and check t
 
 # TODO and next steps
 
-- Use {DOCKER_IP} and Controller/Cjoc sub path in ha_proxy, remove the vnc ubuntu image
 - Verify to introduce NFS
 - Enable SSL on HAPRoxy (Lets-encrypt or self-signed certs?)
 - Agents: Creating agent key pair in up.sh
 - Fill the public part automatically in docker compose template (with envsubst in up.sh)
 - Casc: Add configuration as code to simplify the setup and plugin installation
+
+
