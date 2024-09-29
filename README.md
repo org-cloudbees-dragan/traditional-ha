@@ -14,7 +14,7 @@ References we have used for the development of this demo environment:
 
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
-* [docs/HAProxy/1_Using_SSL_Certificates_with_HAProxy.pdf](docs/HAProxy/1_Using_SSL_Certificates_with_HAProxy.pdf])
+* [docs/HAProxy/1_Using_SSL_Certificates_with_HAProxy.pdf](docs/HAProxy/1_Using_SSL_Certificates_with_HAProxy.pdf)
 * https://www.haproxy.com/blog/haproxy-configuration-basics-load-balance-your-servers
 * https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/
 * https://www.haproxy.com/documentation/haproxy-configuration-tutorials/load-balancing/websocket/#configure-websockets
