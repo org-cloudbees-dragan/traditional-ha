@@ -78,7 +78,9 @@ The Operations Center and both controllers are behind HAProxy.
   * You will get redirected to you browser to the Operations center when all container are up and running. This might take some minutes
 * Browser access to the Operations center
   * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
+    * This option doesn't require changes on your host in `/etc/hosts`
   * Option2: Use your Browser on your Machine: Follow these instructions [Use your Firefox/Chrome on your docker host](#Option2_Use_your_browser_on_your_docker_host)
+    * This option require changes on your host in `/etc/hosts`
 * Open the Operations Center
   * use `admin/admin` for login
 * Request a trial licence (first option)
