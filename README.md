@@ -123,6 +123,23 @@ It includes:
 * balance mode (roundrobin)
 * health checks
 
+[down.sh](down.sh)
+
+* run `docker compose down` and scale down all containers
+
+[deleteVolumes.sh](deleteVolumes.sh)
+
+* delete the persistance dir including all mounted volumes 
+
+[casc/cjoc](casc/cjoc)
+
+* contains the casc bundle files to provision the operations center during startup (up.sh)
+
+[casc/controller](casc/controller)
+
+* contains the casc bundle files to provision the controllers during startup (up.sh)
+
+
 ## Start/Deploy
 
 - Examine `env.sh` and modify if needed.
