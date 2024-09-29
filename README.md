@@ -123,6 +123,10 @@ It includes:
 * balance mode (roundrobin)
 * health checks
 
+[restartControllers.sh](restartControllers.sh)
+
+* restarts the controllers
+
 [down.sh](down.sh)
 
 * run `docker compose down` and scale down all containers
