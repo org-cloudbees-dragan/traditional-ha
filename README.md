@@ -38,7 +38,7 @@ The demo has the following limitations:
 
 The setup consists of the following containers:
 
-* Operations center
+* Operations Center
 * Controller 1
 * Controller 2
 * SSH-Agent 1
@@ -53,7 +53,7 @@ There are two exceptions to highlight:
 
 The Operations Center and both controllers are behind HAProxy.
 
-* If a request comes to HAProxy with $OC_URL host header, it is forwarded to the operations center container
+* If a request comes to HAProxy with $OC_URL host header, it is forwarded to the Operations Center container
 * If a request comes with $CLIENTS_URL host header, it is load balanced between all client controllers
 * The load balancing for client controllers has sticky sessions enabled
 
@@ -74,15 +74,15 @@ The Operations Center and both controllers are behind HAProxy.
   * If you don't have an SSH key, run `ssh-keygen -t rsa -f ~/.ssh/id_rsa` to create one
   * The key is required for the agent we want to connect to the HA/HS Controller in this demo
   * If you have your key already under another path or name, adjust it in the [env.sh](env.sh) configuration file
-* Optional: Add a CloudBees Wildcard License to avoid license screen. If you dont add a license now, you can request a trial license later in the Operations center welcome screen
+* Optional: Add a CloudBees Wildcard License to avoid license screen. If you dont add a license now, you can request a trial license later in the Operations Center welcome screen
   * Add a CloudBees Wildcard licence key to this files. CasC will read this files and apply the license during startup
   * see 
     * [secter/cb-wildcard-license.cert](secter/cb-wildcard-license.cert)
     * [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
 * Run `up.sh`
   * The related containers will start now. The essential configuration are already setup using Configuration as Code
-  * You will get redirected to you browser to the Operations center when all container are up and running. This might take some minutes
-* Browser access to the Operations center
+  * You will get redirected to you browser to the Operations Center when all container are up and running. This might take some minutes
+* Browser access to the Operations Center
   * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
     * This option doesn't require changes on your host in `/etc/hosts`
   * Option2: Use your Browser on your Machine: Follow these instructions [Use your Firefox/Chrome on your docker host](#Option2_Use_your_browser_on_your_docker_host)
@@ -90,7 +90,7 @@ The Operations Center and both controllers are behind HAProxy.
 * Open the Operations Center
   * use `admin/admin` for login
 * Request a license (first option in the screen "Request trial license")
-* Click on the pre provisioned controller "ha" in the Operations center UI
+* Click on the pre provisioned controller "ha" in the Operations Center UI
 * Add `http://client.ha`and click `push configuration` and `join operations center`
 * Now you are on an Controller running in HA/HS mode. A test Pipeline job using an SSH agent is already running
 
@@ -103,11 +103,11 @@ Usually you don`t need to change something here, potentially the SSH key variabl
 
 * `SSH_PRIVATE_KEY_PATH` mandatory: path to your SSH private key  
 * `SSH_PUBLIC_KEY_PATH`  mandatory: path to your SSH public key
-* `CJOC_LICENSE_PRIVATE_KEY` optional: You can add your CloudBees wildcard license key to this file: [secrets/cb-wildcard-license.key]()
-* `CJOC_LICENSE_CERTIFICATE` optional: You can add your CloudBees wildcard license certificate to this file: [secrets/cb-wildcard-license.cert]()
-* `OC_URL` is the URL you want the operations center to respond on.
+* `CJOC_LICENSE_PRIVATE_KEY` optional: You can add your CloudBees wildcard license key to this file: [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
+* `CJOC_LICENSE_CERTIFICATE` optional: You can add your CloudBees wildcard license certificate to this file: [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
+* `OC_URL` is the URL you want the Operations Center to respond on.
 * `CLIENTS_URL` is for the controllers. There is only one URL for both controllers.
-* `DOCKER_IMAGE_OC` and `DOCKER_IMAGE_CLIENT_CONTROLLER` are the CB CI versions on operations center and controllers
+* `DOCKER_IMAGE_OC` and `DOCKER_IMAGE_CLIENT_CONTROLLER` are the CB CI versions on oOerations Center and controllers
 * `IP_PREFIX` is a prefix for the internal docker compose network
 * `PERSISTENCE_PREFIX` is the path for the persistence volumes on the docker host
 
@@ -149,11 +149,18 @@ It includes:
 
 [casc/cjoc](casc/cjoc)
 
-* contains the casc bundle files to provision the operations center during startup (up.sh)
+* contains the casc bundle files to provision the Operations Center during startup (up.sh)
 
 [casc/controller](casc/controller)
 
 * contains the casc bundle files to provision the controllers during startup (up.sh)
+
+[secrets](secrets)
+
+Placeholder files where to add your CloudBees Wildcard license cert and key.
+This is optional. If a wildcard license is supplied you will pass the license welcome screen on the Operations Center 
+* [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
+* [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
 
 # Steps
 
@@ -202,7 +209,7 @@ There are two options on how to access the CloudBess CI demo lab:
 ## Open the Operations Center
 
 * Point the browser to http://$OC_URL  (by default this is http://oc.ha/)
-* (Not required when using CasC) Unlock the Operations center, you will find the key in the docker-compose logs on your console
+* (Not required when using CasC) Unlock the Operations Center, you will find the key in the docker-compose logs on your console
 * (Not required when using CasC) You can use this command to get the password
 
 ```
@@ -308,7 +315,7 @@ docker-compose stop ha-client-controller-1 # or ha-client-controller-2 depending
 ## Browser shows Side is nt secured/Missing SSL Certificate
 
 We run on localhost, an SSL certificate is not part of the demo now.
-If you hit SSL issues in your browser when you access the Operations center, do the following:
+If you hit SSL issues in your browser when you access the Operations Center, do the following:
 
 ### Disable "HTTPS Only" mode
 
