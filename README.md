@@ -72,7 +72,12 @@ The Operations Center and both controllers are behind HAProxy.
 * Ensure you have an SSH private and public key under the path `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
   * If you don't have an SSH key, run `ssh-keygen -t rsa -f ~/.ssh/id_rsa` to create one
   * The key is required for the agent we want to connect to the HA/HS Controller in this demo
-  * If you have your key already under another path or name, adjust it in the `env.sh` configuration file
+  * If you have your key already under another path or name, adjust it in the [env.sh](env.sh) configuration file
+* Optional: Add a CloudBees Wildcard License to avoid license screen. If you dont add a license now, you can request a trial license later in the Operations center welcome screen
+  * Add a CloudBees Wildcard licence key to this files. CasC will read this files and apply the license during startup
+  * see 
+    * [secter/cb-wildcard-license.cert](secter/cb-wildcard-license.cert)
+    * [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
 * Run `up.sh`
   * The related containers will start now. The essential configuration are already setup using Configuration as Code
   * You will get redirected to you browser to the Operations center when all container are up and running. This might take some minutes
@@ -83,7 +88,7 @@ The Operations Center and both controllers are behind HAProxy.
     * This option require changes on your host in `/etc/hosts`
 * Open the Operations Center
   * use `admin/admin` for login
-* Request a trial licence (first option)
+* Request a license (first option in the screen "Request trial license")
 * Click on the pre provisioned controller "ha" in the Operations center UI
 * Add `http://client.ha`and click `push configuration` and `join operations center`
 * Now you are on an Controller running in HA/HS mode. A test Pipeline job using an SSH agent is already running

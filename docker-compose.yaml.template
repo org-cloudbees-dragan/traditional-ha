@@ -12,8 +12,6 @@ services:
     extra_hosts:
       - "${OC_URL}:${HAPROXY_IP}"
       - "${CLIENTS_URL}:${HAPROXY_IP}"
-    #privileged: true
-    #user: root
     healthcheck:
       test: curl --fail http://localhost:8080/whoAmI/api/json?tree=authenticated || exit 1
       interval: 3s
@@ -34,8 +32,6 @@ services:
     image: ${DOCKER_IMAGE_CLIENT_CONTROLLER}
     extra_hosts:
       - "${OC_URL}:${HAPROXY_IP}"
-   #privileged: true
-   # user: root
     healthcheck:
       test: curl --fail http://localhost:8080/whoAmI/api/json?tree=authenticated || exit 1
       interval: 3s
@@ -59,12 +55,11 @@ services:
     networks:
       demo-network:
         ipv4_address: ${CLIENT1_IP}
+
   ha-client-controller-2:
     image: ${DOCKER_IMAGE_CLIENT_CONTROLLER}
     extra_hosts:
       - "${OC_URL}:${HAPROXY_IP}"
-   #privileged: true
-   # user: root
     healthcheck:
       test: curl --fail http://localhost:8080/whoAmI/api/json?tree=authenticated || exit 1
       interval: 3s
@@ -90,16 +85,12 @@ services:
     networks:
       demo-network:
         ipv4_address: ${CLIENT2_IP}
+
   agent:
-    #build:
-    #  context: .
-    #  dockerfile: Dockerfile.agent
     image: ${DOCKER_IMAGE_JENKINS_SSH_AGENT}
     privileged: true
     user: root
     container_name: ssh-agent
-#    expose:
-#      - 22
     volumes:
     - ${AGENT_PERSISTENCE}:/home/jenkins/agent
     networks:
@@ -107,6 +98,7 @@ services:
         ipv4_address: ${AGENT_IP}
     environment:
       - JENKINS_AGENT_SSH_PUBKEY=${JENKINS_AGENT_SSH_PUBKEY}
+
   haproxy:
     image: ${DOCKER_IMAGE_HAPROXY}
     volumes:
@@ -121,6 +113,7 @@ services:
         condition: service_healthy
     extra_hosts:
       - "${OC_URL}:${OC_IP}"
+
   browser:
     image: ${DOCKER_IMAGE_BROWSER_BOX}
     container_name: webtop
@@ -147,6 +140,7 @@ services:
     networks:
       demo-network:
         ipv4_address: ${BROWSER_IP}
+
 networks:
   demo-network:
     driver: bridge

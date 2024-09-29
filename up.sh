@@ -18,26 +18,32 @@ checkSSHKeyExist "Public SSH Key" $SSH_PUBLIC_KEY_PATH
 
 echo  "############################### Verify DNS"
 
-echo "Verify if you have updated your /etc/hosts file with the local DNS names for oc.ha and client.ha."
-for domain in ${OC_URL} ${CLIENT_URL}; do
+echo "Verify if you have updated your /etc/hosts file with the local DNS names for ${OC_URL} and  ${CLIENT_URL}"
+DOMAINS=(${OC_URL} ${CLIENT_URL})
+for domain in "${DOMAINS[@]}"; do
     if ping -c 1 "$domain" > /dev/null 2>&1; then
         echo "DNS resolution successful for $domain."
     else
         echo "DNS resolution failed for $domain."
         echo """
-          open you /etc/hosts file and add
-          '127.0.0.1	localhost ${OC_URL} ${CLIENT_URL}'
-          optional: flush your DNS cache
+          If you access the Operations Center from the browser in a box (http://localhost:3000) you can ignore this message.
+          However, if you want to access the Operations Center for your browser (on Docker Host):
+          # Open you /etc/hosts file and add/update the following line:
+
+          127.0.0.1	localhost ${OC_URL} ${CLIENT_URL}
+
+          # Then, optional (MacOs): flush your DNS cache running this command:
+
+          sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
         """
-        exit 1
     fi
 done
 
-echo "############################### Create volumes..."
+echo "############################### Create volumes"
 
 echo "############################### Create browser volume"
 
-# create dor for browser persistence
+# create dir for browser persistence
 mkdir -p ${BROWSER_PERSISTENCE}
 
 echo "############################### Create Controller related volumes like JENKINS_HOME and cache dirs"
@@ -64,17 +70,22 @@ mkdir -p ${CONTROLLER_PERSISTENCE}/cascbundle
 # copy controller casc bundle to JENKINS_HOME/cascbundle
 cp -Rf casc/controller/*.yaml ${CONTROLLER_PERSISTENCE}/cascbundle/
 # We copy the $SSH_PRIVATE_KEY_PATH to the JENKINS_HOME dir so we can used it in casc controller bundle to initialize the ssh-agent credential
-cp -v $SSH_PRIVATE_KEY_PATH $CONTROLLER_PERSISTENCE/$(basename "$SSH_PRIVATE_KEY_PATH")
+cp  $SSH_PRIVATE_KEY_PATH $CONTROLLER_PERSISTENCE/$(basename "$SSH_PRIVATE_KEY_PATH")
 chmod 755 $CONTROLLER_PERSISTENCE/$(basename "$SSH_PRIVATE_KEY_PATH")
 
-echo  "############################### Create Operations Center related volumes like JENKINS_HOME"
+echo  "############################### Create Operations Center related volumes JENKINS_HOME"
 
 # create JENKINS_HOME dir for cjoc
 mkdir -p ${OC_PERSISTENCE}
-# create dir for controller casc bundle
+# create dir for cjoc casc bundle
 mkdir -p ${OC_PERSISTENCE}/cascbundle
-# copy controller casc bundle to JENKINS_HOME/cascbundle
+# copy cjoc casc bundle to JENKINS_HOME/cascbundle
 cp -Rf casc/cjoc/*.yaml ${OC_PERSISTENCE}/cascbundle/
+
+# copy cloudbees wildcard license to cjoc JENKINS_HOME
+# We will apply the license during casc startup to the operations center
+cp -f $CJOC_LICENSE_PRIVATE_KEY ${OC_PERSISTENCE}/cb-wildcard-license.key
+cp -f $CJOC_LICENSE_CERTIFICATE ${OC_PERSISTENCE}/cb-wildcard-license.cert
 
 echo  "############################### Create Agent  volume"
 
