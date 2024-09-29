@@ -88,13 +88,14 @@ Required tools:
     * [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
 * Run `up.sh`
   * The related containers will start now. The essential configuration are already setup using Configuration as Code
+  * Configuration as Code is used to provision the containers (Operations center and Controllers) with the required configurations, see [casc](casc) directory for details
   * You will get redirected to you browser to the Operations Center when all container are up and running. This might take some minutes
 * Browser access to the Operations Center
   * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
     * This option doesn't require changes on your host in `/etc/hosts`
   * Option2: Use your Browser on your Machine: Follow these instructions [Use your Firefox/Chrome on your docker host](#Option2_Use_your_browser_on_your_docker_host)
     * This option require changes on your host in `/etc/hosts`
-* Open the Operations Center
+* Open the Operations Center [http://oc.ha](http://oc.ha)
   * use `admin/admin` for login
 * Request a license (first option in the screen "Request trial license")
 * Click on the pre provisioned controller "ha" in the Operations Center UI
