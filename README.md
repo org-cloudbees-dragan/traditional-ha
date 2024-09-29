@@ -319,7 +319,7 @@ docker-compose stop ha-client-controller-1 # or ha-client-controller-2 depending
 
 # Troubleshooting
 
-## Browser shows Side is nt secured/Missing SSL Certificate
+## Browser shows SSL issues or side is not secured/Missing SSL Certificate
 
 We run on localhost, an SSL certificate is not part of the demo now.
 If you hit SSL issues in your browser when you access the Operations Center, do the following:
