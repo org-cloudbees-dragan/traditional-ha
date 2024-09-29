@@ -15,7 +15,7 @@ echo "#### Docker image settings"
 
 # CB CI version for Operations Center and Controllers
 export DOCKER_IMAGE_OC=cloudbees/cloudbees-core-oc:latest
-export DOCKER_IMAGE_CLIENT=cloudbees/cloudbees-core-cm:latest
+export DOCKER_IMAGE_CLIENT_CONTROLLER=cloudbees/cloudbees-core-cm:latest
 # SSH AGENT see https://hub.docker.com/r/jenkins/ssh-agent
 export DOCKER_IMAGE_JENKINS_SSH_AGENT=jenkins/ssh-agent:jdk17
 export DOCKER_IMAGE_HAPROXY=haproxy:alpine

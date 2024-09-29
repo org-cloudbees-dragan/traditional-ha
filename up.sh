@@ -107,8 +107,4 @@ docker compose up -d
 # open browser in a box
 #open http://localhost:3000
 
-open "http://${OC_URL}"
-
-
-
-
+open http://${OC_URL}

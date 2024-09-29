@@ -31,7 +31,7 @@ services:
         ipv4_address: ${OC_IP}
 
   ha-client-controller-1:
-    image: ${DOCKER_IMAGE_CLIENT}
+    image: ${DOCKER_IMAGE_CLIENT_CONTROLLER}
     extra_hosts:
       - "${OC_URL}:${HAPROXY_IP}"
    #privileged: true
@@ -60,7 +60,7 @@ services:
       demo-network:
         ipv4_address: ${CLIENT1_IP}
   ha-client-controller-2:
-    image: ${DOCKER_IMAGE_CLIENT}
+    image: ${DOCKER_IMAGE_CLIENT_CONTROLLER}
     extra_hosts:
       - "${OC_URL}:${HAPROXY_IP}"
    #privileged: true

@@ -80,7 +80,8 @@ The Operations Center and both controllers are behind HAProxy.
 * Browser access to the Operations center
   * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](# Option1: Join the containerized browser in a Box)
   * Option2: Use your Browser on your Machine: Follow these instructions [Use your Firefox/Chrome on your host](## Option2: Use your Firefox/Chrome on your host)
-* Open the Operations Center and add an admin user
+* Open the Operations Center
+  * use `admin/admin` for login
 * Request a trial licence (first option)
 * Click on the pre provisioned controller "ha" in the Operations center UI
 * Add `http://client.ha`and click `push configuration` and `join operations center`
