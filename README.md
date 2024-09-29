@@ -32,7 +32,7 @@ Each CloudBees component as well as the HAProxy is running in a dedicated docker
 The demo has the following limitations:
 
 * SSL 443 is not enabled yet. All traffic for local demo is going through port 80/8080
-* The NFS server is not part of the demo. We will use a local directory on the host system
+* The NFS server is not part of the demo. Instead of we will use a single shared local directory on the host system for the JENKINS_HOME directory referenced by the Controller replicas.
 
 ![Ci-HAProxy.png](docs/Ci-HAProxy.png)
 
