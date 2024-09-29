@@ -139,6 +139,7 @@ It includes:
 
 * contains the casc bundle files to provision the controllers during startup (up.sh)
 
+# Steps
 
 ## Start/Deploy
 
@@ -155,8 +156,6 @@ Run `down.sh`. This will issue docker compose down to stop the running container
 
 - Stop the running containers using `down.sh`. Then,
 - Run `deleteVolumes.sh`. This will delete the persistence directories on the host (docker volumes)
-
-# Steps
 
 ## Browser Access
 
