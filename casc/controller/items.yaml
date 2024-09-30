@@ -19,11 +19,11 @@ items:
                  */
                 label "ssh-agent"
             }
-            /* trigger every minute 
+            /** trigger every minute  */
             triggers {
                 cron '* * * * *'
             }
-            */
+          
 
             stages {
                 stage('Stage1') {
