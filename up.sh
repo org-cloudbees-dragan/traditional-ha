@@ -120,7 +120,18 @@ envsubst < docker-compose.yaml.template > docker-compose.yaml
 # start the containers
 docker compose up -d
 
+echo "All containers are started now. Data is persisted in ${PERSISTENCE_PREFIX}"
+
+# open browser on docker host
+open http://${OC_URL}
+
 # open browser in a box
+echo """
+A browser in a box will be opened now.
+In this, open Firefox from the top left 'Applications' menu and type http://${OC_URL} in the browser bar
+
+If you prefer to use your own browser on Docker host, type http://${OC_URL} in your own browser
+"""
 open http://localhost:3000
 
-#open http://${OC_URL}
+
