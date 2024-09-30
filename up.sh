@@ -27,7 +27,7 @@ checkNameResolution () {
       echo """
         If you access the Operations Center from the browser in a box (http://localhost:3000) you can ignore this message.
         However, if you want to access the Operations Center for your browser (on Docker Host):
-        # Open you /etc/hosts file and add/update the following line:
+        Open you /etc/hosts file and add/update the following line:
 
         127.0.0.1	localhost ${OC_URL} ${CLIENTS_URL}
 
