@@ -92,12 +92,15 @@ Required tools:
 * Run `up.sh`
   * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
   * The essential configuration is already set up using Configuration as Code, see [casc](casc) directory for details
-  * When Docker Compose is fully up, you will be redirected to the Operations Center in your browser when all containers are up and running.
 * Browser access to the Operations Center
-  * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
-    * This option doesn't require changes on your host in `/etc/hosts`
-  * Option2: Use your Browser on your machine (Docker host): Follow these instructions [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
-    * This option requires changes on your host in `/etc/hosts`
+  * When Docker Compose is fully up, you will be redirected to your browser. Two tabs in your personal browser will be opened:
+    * One tab with http://localhost:3000 (browser ina box)
+    * One tab with direct access to http://oc.ha
+    * You can decide in which one you want to continue
+    * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
+      * This option doesn't require changes on your host in `/etc/hosts`
+    * Option2: Use your Browser on your machine (Docker host): Follow these instructions [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
+      * This option requires changes on your host in `/etc/hosts`
 * Open the Operations Center [http://oc.ha](http://oc.ha)
   * use `admin/admin` for login
 * If not done earlier, request a license (first option in the screen "Request trial license")
