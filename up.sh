@@ -3,8 +3,13 @@ set +x
 source env.sh
 
 echo "############################### generate SSH key to secrets/${SSH_KEY_ID}"
+if [[ -e "$SSH_PRIVATE_KEY_PATH" && -e "$SSH_PUBLIC_KEY_PATH" ]]; then
+    echo "$SSH_PUBLIC_KEY_PATH and $SSH_PUBLIC_KEY_PATH exist already. Delete them manually if you want to re-generate the SSH keys"
+else
+    echo "$SSH_PUBLIC_KEY_PATH or $SSH_PUBLIC_KEY_PATH file do not exist. They will be generated now"
+    ssh-keygen -t rsa -b 2048 -f secrets/${SSH_KEY_ID} -N ""
+fi
 
-ssh-keygen -t rsa -b 2048 -f secrets/${SSH_KEY_ID} -N ""
 
 echo  "############################### Verify SSH Key exist"
 checkSSHKeyExist () {
@@ -134,11 +139,12 @@ echo "All containers are started now. Data is persisted in ${PERSISTENCE_PREFIX}
 
 echo """
 Two browser tabs will be opened now in your Web browser:
-One tab with a browser in a box http://localhost:3000:
+
+One tab with a browser in a box http://localhost:3000
 In this, open Firefox from the top left 'Applications' menu and type http://${OC_URL} in the browser bar
 
-Another tab tah point directly to open http://${OC_URL}
-You can decide in which one to continue
+Another tab tah point directly to http://${OC_URL}
+You can decide in which one to continue. This option requires you have names entries in /etc/hosts done
 """
 # open browser on docker host
 open http://${OC_URL}
