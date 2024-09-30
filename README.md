@@ -82,10 +82,6 @@ Required tools:
 # Quick Start
 
 * Clone this repository
-* Ensure you have an SSH private and public key under the path `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
-  * If you don't have an SSH key, run `ssh-keygen -t rsa -f ~/.ssh/id_rsa` to create one
-  * The key is required for the agent we want to connect to the HA/HS Controller in this demo
-  * If you have your key already under another path or name, adjust it in the [env.sh](env.sh) configuration file
 * Optional: Add a CloudBees Wildcard License to avoid the license screen. 
   * If you don't add a license now, you can request a trial license later in the Operations Center welcome screen
   * Add the license key and cert to these files  [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert) and  [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key). CasC will read these files and apply for the license during the startup
@@ -115,8 +111,6 @@ Required tools:
 The essential variables are explained here; for detailed settings, take a look at the `env.sh` file.
 Usually, you don't need to change something here, potentially the SSH key variables need to be adjusted to your needs
 
-* `SSH_PRIVATE_KEY_PATH` mandatory: path to your SSH private key
-* `SSH_PUBLIC_KEY_PATH`  mandatory: path to your SSH public key
 * `CJOC_LICENSE_PRIVATE_KEY` optional: You can add your CloudBees wildcard license key to this file: [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
 * `CJOC_LICENSE_CERTIFICATE` optional: You can add your CloudBees wildcard license certificate to this file: [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
 * `OC_URL` is the URL you want the Operations Center to respond on.
@@ -301,6 +295,8 @@ Join the Controller and add an SSH Credentials (private key)
 ![controller-ssh-cred.png](docs/controller-ssh-cred.png)
 
 ### Optional, if you don't have an SSH key: Create a key pair
+
+Note: An SSH key will be generated already for you in `up.sh`
 
 `ssh-keygen -t rsa -f ~/.ssh/id_rsa`
 

@@ -6,8 +6,9 @@ echo "#### SSH Key settings"
 # Define the file paths to SSH Key
 # We need this key to setup a Jenkins SSH Credentials. This credentials will be used to establish a connection from Controller to the the SSH agent
 # If your keys have different names or locations, update them here
-export SSH_PRIVATE_KEY_PATH="$HOME/.ssh/id_rsa"
-export SSH_PUBLIC_KEY_PATH="$HOME/.ssh/id_rsa.pub"
+export SSH_KEY_ID="id_rsa"
+export SSH_PRIVATE_KEY_PATH="secrets/$SSH_KEY_ID"
+export SSH_PUBLIC_KEY_PATH="secrets/$SSH_KEY_ID.pub"
 
 ########################################################################################################################
 

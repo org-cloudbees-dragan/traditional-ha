@@ -2,6 +2,11 @@
 set +x
 source env.sh
 
+echo "############################### generate SSH key"
+#yes |ssh-keygen -t rsa -f secrets/${SSH_KEY_ID} -N ""
+ssh-keygen -t rsa -f secrets/${SSH_KEY_ID} -N ""
+
+
 echo  "############################### Verify SSH Key exist"
 checkSSHKeyExist () {
   if [[ -f "$2" ]]; then
@@ -89,8 +94,10 @@ cp -Rf casc/cjoc/*.yaml ${OC_PERSISTENCE}/cascbundle/
 
 # copy cloudbees wildcard license to cjoc JENKINS_HOME
 # We will apply the license during casc startup to the operations center
-cp -f $CJOC_LICENSE_PRIVATE_KEY ${OC_PERSISTENCE}/cb-wildcard-license.key
-cp -f $CJOC_LICENSE_CERTIFICATE ${OC_PERSISTENCE}/cb-wildcard-license.cert
+#cp -f $CJOC_LICENSE_PRIVATE_KEY ${OC_PERSISTENCE}/cb-wildcard-license.key
+cp -f $CJOC_LICENSE_PRIVATE_KEY ${OC_PERSISTENCE}/$(basename "$CJOC_LICENSE_PRIVATE_KEY")
+#cp -f $CJOC_LICENSE_CERTIFICATE ${OC_PERSISTENCE}/cb-wildcard-license.cert
+cp -f $CJOC_LICENSE_CERTIFICATE ${OC_PERSISTENCE}/$(basename "$CJOC_LICENSE_CERTIFICATE")
 
 echo  "############################### Create Agent  volume"
 
