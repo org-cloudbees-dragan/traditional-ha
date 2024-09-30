@@ -83,8 +83,9 @@ Required tools:
   * If you don't have an SSH key, run `ssh-keygen -t rsa -f ~/.ssh/id_rsa` to create one
   * The key is required for the agent we want to connect to the HA/HS Controller in this demo
   * If you have your key already under another path or name, adjust it in the [env.sh](env.sh) configuration file
-* Optional: Add a CloudBees Wildcard License to avoid the license screen. If you don't add a license now, you can request a trial license later in the Operations Center welcome screen
-  * Add a CloudBees Wildcard license key and cert to these files  [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert) and  [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key). CasC will read these files and apply for the license during the startup
+* Optional: Add a CloudBees Wildcard License to avoid the license screen. 
+  * If you don't add a license now, you can request a trial license later in the Operations Center welcome screen
+  * Add the license key and cert to these files  [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert) and  [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key). CasC will read these files and apply for the license during the startup
 * Run `up.sh`
   * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
   * The essential configuration is already set up using Configuration as Code, see [casc](casc) directory for details
