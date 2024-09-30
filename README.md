@@ -32,7 +32,7 @@ Each CloudBees component as well as the HAProxy is running in a dedicated docker
 The demo has the following limitations:
 
 * SSL 443 is not enabled yet. All traffic for local demo is going through port 80/8080
-* The NFS server is not part of the demo. Instead of we will use a single shared local directory on the host system for the JENKINS_HOME directory referenced by the Controller replicas.
+* The NFS server is not part of the demo. Instead, we will use a single shared local directory on the host system for the JENKINS_HOME directory referenced by the Controller replicas.
 
 ![Ci-HAProxy.png](docs/Ci-HAProxy.png)
 
@@ -81,7 +81,7 @@ Required tools:
   * If you don't have an SSH key, run `ssh-keygen -t rsa -f ~/.ssh/id_rsa` to create one
   * The key is required for the agent we want to connect to the HA/HS Controller in this demo
   * If you have your key already under another path or name, adjust it in the [env.sh](env.sh) configuration file
-* Optional: Add a CloudBees Wildcard Licence to avoid the license screen. If you don't add a license now, you can request a trial license later in the Operations Center welcome screen
+* Optional: Add a CloudBees Wildcard License to avoid the license screen. If you don't add a license now, you can request a trial license later in the Operations Center welcome screen
   * Add a CloudBees Wildcard license key to these files. CasC will read these files and apply for the license during the startup
   * see
     * [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
@@ -106,8 +106,8 @@ Required tools:
 
 [env.sh](env.sh)
 
-The essential variables are explained here, take a look at the `env.sh` file for more detailed settings.
-Usually, you don`t need to change something here, potentially the SSH key variables need to be adjusted to your needs
+The essential variables are explained here; for detailed settings, take a look at the `env.sh` file.
+Usually, you don't need to change something here, potentially the SSH key variables need to be adjusted to your needs
 
 * `SSH_PRIVATE_KEY_PATH` mandatory: path to your SSH private key
 * `SSH_PUBLIC_KEY_PATH`  mandatory: path to your SSH public key
@@ -121,7 +121,7 @@ Usually, you don`t need to change something here, potentially the SSH key variab
 
 [docker-compose.yaml.template](docker-compose.yaml.template)
 
-This template is used to render the `docker-compose.yaml` file using the environment variables in `env.sh`. Please do not modify docker-compose.yaml directly, since it will be overwritten by `up.sh`. Modify this template instead.
+This template is used to renders the `docker-compose.yaml` file using the environment variables in `env.sh`. Please do not modify docker-compose.yaml directly since it will be overwritten by `up.sh`. Instead, modify this template.
 
 [up.sh](up.sh)
 
@@ -140,7 +140,7 @@ It includes:
 * client header forwarding
 * enabled websockets
 * enabled sticky sessions
-* balance mode (roundrobin)
+* balance mode (round robin)
 * health checks
 
 [restartControllers.sh](restartControllers.sh)
@@ -196,7 +196,7 @@ There are two options on how to access the CloudBess CI demo lab:
 ### Option1_Join_the_containerized_browser_in_a_Box
 
 * open a browser on your host machine and point it to [http://localhost:3000](http://localhost:3000).
-* This will open a VNC session to the Linux container with a Firefox browser in it.
+* This will open a VNC session to the Linux container with a Firefox browser.
 * From the start menu (Top to the left) open Firefox browser.
 
 ![ff-box](docs/ff-box.png)
@@ -329,7 +329,7 @@ If you hit SSL issues in your browser when you access the Operations Center, do 
 
 If you hit SSL cert issues in your browser, do the following:
 
-(Haven't checked yet how to do this in Chrome, if required)
+(I haven't checked yet how to do this in Chrome)
 
 * As the demo HAProxy doesn't support HTTPS/SSL yet, we use Firefox with disabled `HTTPS only mode` see https://support.mozilla.org/en-US/kb/https-only-prefs
 * Adjust the following exceptions:
@@ -407,5 +407,3 @@ Verify if the key has been applied: (Join the docker agent container and check t
 - Agents: Creating agent key pair in up.sh
 - Fill the public part automatically in docker compose template (with envsubst in up.sh)
 - Casc: Add configuration as code to simplify the setup and plugin installation
-
-
