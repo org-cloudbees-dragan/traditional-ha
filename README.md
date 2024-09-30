@@ -91,11 +91,7 @@ Required tools:
   * Add the license key and cert to these files  [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert) and  [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key). CasC will read these files and apply for the license during the startup
 * Run `up.sh`
   * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
-  * The essential configuration is already set up 
-    * by Configuration as Code, see [casc](casc) directory for details
-    * JAVA_OPTS and JENKINS_OPTS are configured related to the HA/HS requirements
-    * Shared volumes for the Controller `JENKINS_HOME`directory are configured
-    * Dedicated directories for `--plugin` root are configured 
+  * All the configurations required by HA/HS are already set up
 * Browser access to the Operations Center
   * When Docker Compose is fully up, you will be redirected to your browser. Two tabs in your personal browser will be opened:
     * One tab with http://localhost:3000 (browser ina box)
