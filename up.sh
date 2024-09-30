@@ -18,7 +18,7 @@ checkSSHKeyExist "Public SSH Key" $SSH_PUBLIC_KEY_PATH
 
 echo  "############################### Verify DNS"
 
-echo "Verify if you have updated your /etc/hosts file with the local DNS names for ${OC_URL} and  ${CLIENT_URL}"
+echo "Verify if you have updated your /etc/hosts file with the local DNS names for ${OC_URL} and  ${CLIENTS_URL}"
 
 checkNameResolution () {
   HOSTNAME=$1
