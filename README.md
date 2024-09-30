@@ -171,7 +171,7 @@ It includes:
 
 * contains the casc bundle files to provision the controllers during startup
 * The casc bundle contains 
-  * the HA/HS plugin as well as the basic settings for HA/HS (plugins.yaml)
+  * The HA/HS `cloudbees-replication` plugin as well as the basic settings for HA/HS (plugins.yaml, jenkins.yaml)
   * SSH Credential setup  (jenkins.yaml)
   * SSH Agent node config regarding HA/HS requirements  (jenkins.yaml)
   * A test Pipeline Job (items.yaml)
