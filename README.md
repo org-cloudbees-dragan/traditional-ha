@@ -49,7 +49,10 @@ The setup is self-sufficient and does not require any modifications on the Docke
 There are two exceptions to highlight:
 
 * Persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment in the demo lab. Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
-* If you want to access the demo via a browser from a Docker host, you need entries in `/etc/hosts` (see chapters below)
+* Browser access
+  * If you want to access the demo via a browser from a Docker host, you need entries in `/etc/hosts` (see chapters below)
+  * If you don't want to add entries in `/etc/hosts`, you can access a browser in a container under htpp://localhost:3000. No changes on your Docker host system are required in this case
+
 
 The Operations Center and both controllers are behind HAProxy.
 
@@ -82,10 +85,7 @@ Required tools:
   * The key is required for the agent we want to connect to the HA/HS Controller in this demo
   * If you have your key already under another path or name, adjust it in the [env.sh](env.sh) configuration file
 * Optional: Add a CloudBees Wildcard License to avoid the license screen. If you don't add a license now, you can request a trial license later in the Operations Center welcome screen
-  * Add a CloudBees Wildcard license key to these files. CasC will read these files and apply for the license during the startup
-  * see
-    * [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
-    * [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
+  * Add a CloudBees Wildcard license key and cert to these files  [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert) and  [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key). CasC will read these files and apply for the license during the startup
 * Run `up.sh`
   * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
   * The essential configuration is already set up using Configuration as Code, see [casc](casc) directory for details
@@ -93,11 +93,11 @@ Required tools:
 * Browser access to the Operations Center
   * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
     * This option doesn't require changes on your host in `/etc/hosts`
-  * Option2: Use your Browser on your Machine: Follow these instructions [Use your Firefox/Chrome on your docker host](#Option2_Use_your_browser_on_your_docker_host)
+  * Option2: Use your Browser on your Machine: Follow these instructions [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
     * This option requires changes on your host in `/etc/hosts`
 * Open the Operations Center [http://oc.ha](http://oc.ha)
   * use `admin/admin` for login
-* Request a license (first option in the screen "Request trial license")
+* If not done earlier, request a license (first option in the screen "Request trial license")
 * Click on the pre-provisioned controller "ha" in the Operations Center UI
 * Add `http://client.ha` and click `push configuration` and `join operations center`
 * Now you are on a Controller running in HA/HS mode. A test Pipeline job using an SSH agent is already running
@@ -118,10 +118,12 @@ Usually, you don't need to change something here, potentially the SSH key variab
 * `DOCKER_IMAGE_OC` and `DOCKER_IMAGE_CLIENT_CONTROLLER` are the CB CI versions on Operations Center and controllers
 * `IP_PREFIX` is a prefix for the internal docker-compose network
 * `PERSISTENCE_PREFIX` is the path for the persistence volumes on the docker host
+* `CONTROLLER_JENKINS_OPTS` required JENKINS settings for HA/HS  see https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_jenkins_args
+* `CONTROLLER_JAVA_OPTS` required JAVA settings for HA/HS see https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_java_options
 
 [docker-compose.yaml.template](docker-compose.yaml.template)
 
-This template is used to renders the `docker-compose.yaml` file using the environment variables in `env.sh`. Please do not modify docker-compose.yaml directly since it will be overwritten by `up.sh`. Instead, modify this template.
+This template is used to render the `docker-compose.yaml` file using the environment variables in `env.sh`. Please do not modify docker-compose.yaml directly since it will be overwritten by `up.sh`. Instead, modify this template.
 
 [up.sh](up.sh)
 
@@ -157,11 +159,21 @@ It includes:
 
 [casc/cjoc](casc/cjoc)
 
-* contains the casc bundle files to provision the Operations Center during startup (up.sh)
+* contains the casc bundle files to provision the Operations Center during startup
+* The casc bundle contains
+  * Controller configuration for Cjoc (items.yaml)
+  * Login user (jenkins.yaml)
+  * Option to inject Wildcard license   (jenkins.yaml)
 
 [casc/controller](casc/controller)
 
-* contains the casc bundle files to provision the controllers during startup (up.sh)
+* contains the casc bundle files to provision the controllers during startup
+* The casc bundle contains 
+  * the HA/HS plugin as well as the basic settings for HA/HS (plugins.yaml)
+  * SSH Credential setup  (jenkins.yaml)
+  * SSH Agent node config regarding HA/HS requirements  (jenkins.yaml)
+  * A test Pipeline Job (items.yaml)
+
 
 [secrets](secrets)
 
@@ -258,10 +270,17 @@ docker-compose exec operations-center   cat /var/jenkins_home/secrets/initialAdm
 ![controller-installhaplugin.png](docs/controller-installhaplugin.png)
 
 * (Not required when using CasC)The two replicas must be restarted.
+
+  ```
+  ./restartControllers.sh
+  ```
+or 
+
   ```
   docker-compose restart ha-client-controller-1
   docker-compose restart ha-client-controller-2
   ```
+
 * Controller 2 will begin starting when Controller 1 is ready
 * It takes some minutes now, you can see the HA status in the controllers` Manage Jenkins section
 
