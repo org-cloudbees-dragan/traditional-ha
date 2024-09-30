@@ -48,7 +48,10 @@ The setup consists of the following containers:
 The setup is self-sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment.
 There are two exceptions to highlight:
 
-* Persistence - local paths on the docker host are used as persistence volumes. NFS volumes are not used at the moment in the demo lab. Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
+* Persistence
+  * Local paths on the docker host are used as persistence volumes.  
+  * Controller 1 and Controller 2 share the same $JENKINS_HOME dir.
+  * NFS volumes are not used at the moment in the demo lab.
 * Browser access
   * If you want to access the demo via a browser from a Docker host, you need entries in `/etc/hosts` (see chapters below)
   * If you don't want to add entries in `/etc/hosts`, you can access a browser in a container under htpp://localhost:3000. No changes on your Docker host system are required in this case
