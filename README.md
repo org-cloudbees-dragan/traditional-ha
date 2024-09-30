@@ -96,7 +96,7 @@ Required tools:
 * Browser access to the Operations Center
   * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
     * This option doesn't require changes on your host in `/etc/hosts`
-  * Option2: Use your Browser on your Machine: Follow these instructions [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
+  * Option2: Use your Browser on your machine (Docker host): Follow these instructions [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
     * This option requires changes on your host in `/etc/hosts`
 * Open the Operations Center [http://oc.ha](http://oc.ha)
   * use `admin/admin` for login
