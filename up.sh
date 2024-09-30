@@ -19,25 +19,30 @@ checkSSHKeyExist "Public SSH Key" $SSH_PUBLIC_KEY_PATH
 echo  "############################### Verify DNS"
 
 echo "Verify if you have updated your /etc/hosts file with the local DNS names for ${OC_URL} and  ${CLIENT_URL}"
-DOMAINS=(${OC_URL} ${CLIENT_URL})
-for domain in "${DOMAINS[@]}"; do
-    if ping -c 1 "$domain" > /dev/null 2>&1; then
-        echo "DNS resolution successful for $domain."
-    else
-        echo "DNS resolution failed for $domain."
-        echo """
-          If you access the Operations Center from the browser in a box (http://localhost:3000) you can ignore this message.
-          However, if you want to access the Operations Center for your browser (on Docker Host):
-          # Open you /etc/hosts file and add/update the following line:
 
-          127.0.0.1	localhost ${OC_URL} ${CLIENT_URL}
+checkNameResolution () {
+  HOSTNAME=$1
+  if ping -c 1 "$HOSTNAME" > /dev/null 2>&1
+  then
+        echo "Host name resolution successful for $HOSTNAME."
+  else
+      echo "Host name resolution failed for $HOSTNAME."
+      echo """
+        If you access the Operations Center from the browser in a box (http://localhost:3000) you can ignore this message.
+        However, if you want to access the Operations Center for your browser (on Docker Host):
+        # Open you /etc/hosts file and add/update the following line:
 
-          # Then, optional (MacOs): flush your DNS cache running this command:
+        127.0.0.1	localhost ${OC_URL} ${CLIENTS_URL}
 
-          sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
-        """
-    fi
-done
+        # Then, optional (MacOs): flush your DNS cache running this command:
+
+        sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+      """
+  fi
+}
+
+checkNameResolution ${OC_URL}
+checkNameResolution ${CLIENTS_URL}
 
 echo "############################### Create volumes"
 
@@ -116,6 +121,6 @@ envsubst < docker-compose.yaml.template > docker-compose.yaml
 docker compose up -d
 
 # open browser in a box
-#open http://localhost:3000
+open http://localhost:3000
 
-open http://${OC_URL}
+#open http://${OC_URL}
