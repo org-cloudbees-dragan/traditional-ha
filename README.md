@@ -93,10 +93,12 @@ Required tools:
     * One tab with http://localhost:3000 (browser ina box)
     * One tab with direct access to http://oc.ha
     * You can decide in which one you want to continue
-    * Option1: Use a Browser in a box: Follow these instructions [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
+    * Option1: Use a Browser in a box
       * This option doesn't require changes on your host in `/etc/hosts`
-    * Option2: Use your Browser on your machine (Docker host): Follow these instructions [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
+      * See for details: [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
+    * Option2: Use your Browser on your machine (Docker host)
       * This option requires changes on your host in `/etc/hosts`
+      * See for details: [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
 * Open the Operations Center [http://oc.ha](http://oc.ha)
   * use `admin/admin` for login
 * If not done earlier, request a license (first option in the screen "Request trial license")
