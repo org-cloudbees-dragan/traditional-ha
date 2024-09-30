@@ -132,16 +132,17 @@ docker compose up -d
 
 echo "All containers are started now. Data is persisted in ${PERSISTENCE_PREFIX}"
 
-# open browser on docker host
-open http://${OC_URL}
-
-# open browser in a box
 echo """
-A browser in a box will be opened now.
+Two browser tabs will be opened now in your Web browser:
+One tab with a browser in a box http://localhost:3000:
 In this, open Firefox from the top left 'Applications' menu and type http://${OC_URL} in the browser bar
 
-If you prefer to use your own browser on Docker host, type http://${OC_URL} in your own browser
+Another tab tah point directly to open http://${OC_URL}
+You can decide in which one to continue
 """
+# open browser on docker host
+open http://${OC_URL}
+# open browser in a box
 open http://localhost:3000
 
 
