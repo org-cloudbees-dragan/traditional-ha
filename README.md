@@ -82,6 +82,10 @@ Required tools:
 # Quick Start
 
 * Clone this repository
+* Ensure you have an SSH private and public key under the path `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
+  * If you don't have an SSH key, run `ssh-keygen -t rsa -f ~/.ssh/id_rsa` to create one
+  * The key is required for the agent we want to connect to the HA/HS Controller in this demo
+  * If you have your key already under another path or name, adjust it in the [env.sh](env.sh) configuration file
 * Optional: Add a CloudBees Wildcard License to avoid the license screen. 
   * If you don't add a license now, you can request a trial license later in the Operations Center welcome screen
   * Add the license key and cert to these files  [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert) and  [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key). CasC will read these files and apply for the license during the startup

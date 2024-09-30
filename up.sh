@@ -2,9 +2,9 @@
 set +x
 source env.sh
 
-echo "############################### generate SSH key"
+#echo "############################### generate SSH key"
 #yes |ssh-keygen -t rsa -f secrets/${SSH_KEY_ID} -N ""
-ssh-keygen -t rsa -f secrets/${SSH_KEY_ID} -N ""
+#ssh-keygen -t rsa -f secrets/${SSH_KEY_ID} -N ""
 
 
 echo  "############################### Verify SSH Key exist"
