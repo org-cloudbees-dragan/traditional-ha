@@ -62,16 +62,15 @@ The Operations Center and both controllers are behind HAProxy.
 
 # Pre-requirements
 
-* This demo has been tested
-  * on MacOs 14.7
-  * Docker-Desktop 4.24.0 (122432)
-  * Engine: 24.0.6
-  * Compose: v2.22.0-desktop.2
-  * Docker-compose v3
-  * Web browsers, Firefox, and Chrome has been tested
+This demo has been tested
+* on MacOs 14.7
+* Docker-Desktop 4.24.0 (122432)
+* Engine: 24.0.6
+* Compose: v2.22.0-desktop.2
+* Docker-compose v3
+* Web browsers, Firefox, and Chrome has been tested
 
 Required tools:
-
 * [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/)
 * ping (not mandatory, but used in the `up.sh` script to test name resolution)
 * ssh-keygen (If you don't have an SSH key available)
