@@ -92,7 +92,7 @@ services:
     user: root
     container_name: ssh-agent
     volumes:
-    - ${AGENT_PERSISTENCE}:/home/jenkins/agent
+    - ${AGENT_PERSISTENCE}:/home/jenkins/
     networks:
       demo-network:
         ipv4_address: ${AGENT_IP}
