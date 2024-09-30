@@ -24,7 +24,7 @@ checkNameResolution () {
   HOSTNAME=$1
   if ping -c 1 "$HOSTNAME" > /dev/null 2>&1
   then
-        echo "Host name resolution successful for $HOSTNAME."
+      echo "Host name resolution successful for $HOSTNAME."
   else
       echo "Host name resolution failed for $HOSTNAME."
       echo """
