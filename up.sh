@@ -12,7 +12,7 @@ checkSSHKeyExist () {
       echo "$1  exists: $2"
   else
       echo "$1  not found: $2"
-      echo "Create a SSH key first: run 'ssh-keygen -t rsa -f $SSH_PRIVATE_KEY_PATH'"
+      echo "Create a SSH key first: run 'ssh-keygen -t rsa -b 2048 -f $SSH_PRIVATE_KEY_PATH'"
       exit 1
   fi
 }
@@ -20,10 +20,13 @@ checkSSHKeyExist () {
 checkSSHKeyExist "Private SSH Key" $SSH_PRIVATE_KEY_PATH
 checkSSHKeyExist "Public SSH Key" $SSH_PUBLIC_KEY_PATH
 
+echo "############################### Assign $SSH_PUBLIC_KEY_PATH to JENKINS_AGENT_SSH_PUBKEY"
+# THE FOLLOWING IS NOT VERY SECURED, AS LONG AS WE DO SO JUST ON LOCALHOST FOR DEMO PURPOSE IT SHOULD BE OK
+# Expose SSH PUP_KEY  to Agent authorized_key , see https://hub.docker.com/r/jenkins/ssh-agent for details
+export JENKINS_AGENT_SSH_PUBKEY=$(cat $SSH_PUBLIC_KEY_PATH)
+
 echo  "############################### Verify DNS"
-
 echo "Verify if you have updated your /etc/hosts file with the local DNS names for ${OC_URL} and  ${CLIENTS_URL}"
-
 checkNameResolution () {
   HOSTNAME=$1
   if ping -c 1 "$HOSTNAME" > /dev/null 2>&1
@@ -48,7 +51,7 @@ checkNameResolution () {
 checkNameResolution ${OC_URL}
 checkNameResolution ${CLIENTS_URL}
 
-echo "############################### Create volumes"
+echo "############################### Create all volumes under $PERSISTENCE_PREFIX"
 
 echo "############################### Create browser volume in ${BROWSER_PERSISTENCE}"
 
@@ -119,11 +122,6 @@ chmod 700 ${CONTROLLER_PERSISTENCE}
 chmod 700 ${OC_PERSISTENCE}
 chmod 700 ${AGENT_PERSISTENCE}
 
-echo "###############################"
-echo "Assign $SSH_PUBLIC_KEY_PATH to JENKINS_AGENT_SSH_PUBKEY"
-# THE FOLLOWING IS NOT VERY SECURED, AS LONG AS WE DO SO JUST ON LOCALHOST FOR DEMO PURPOSE IT SHOULD BE OK
-# Expose SSH PUP_KEY  to Agent authorized_key , see https://hub.docker.com/r/jenkins/ssh-agent for details
-export JENKINS_AGENT_SSH_PUBKEY=$(cat $SSH_PUBLIC_KEY_PATH)
 
 echo "###############################"
 # render the compose template
