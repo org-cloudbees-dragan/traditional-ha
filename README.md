@@ -184,7 +184,7 @@ This is optional. If a wildcard license is supplied you will pass the license we
 * [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
 * [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
 
-An SSH key will also be generated into the `secret` for you when you run the  `up.sh`script
+An SSH key will also be generated into the `secrets` directory for you when you run the  `up.sh`script
 * This key will be injected automatic by casc into the Controllers SSH Credential 
 * The public key will be propagated to the Agents `authorized_keys` file
 
