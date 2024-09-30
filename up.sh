@@ -2,10 +2,10 @@
 set +x
 source env.sh
 
-#echo "############################### generate SSH key"
+# echo "############################### generate SSH key"
+#TODO : Generate SSH key
 #yes |ssh-keygen -t rsa -f secrets/${SSH_KEY_ID} -N ""
-#ssh-keygen -t rsa -f secrets/${SSH_KEY_ID} -N ""
-
+ssh-keygen -t rsa -b 2048 -f secrets/${SSH_KEY_ID} -N ""
 
 echo  "############################### Verify SSH Key exist"
 checkSSHKeyExist () {
@@ -80,8 +80,10 @@ mkdir -p ${CONTROLLER_PERSISTENCE}/cascbundle
 # copy controller casc bundle to JENKINS_HOME/cascbundle
 cp -Rf casc/controller/*.yaml ${CONTROLLER_PERSISTENCE}/cascbundle/
 # We copy the $SSH_PRIVATE_KEY_PATH to the JENKINS_HOME dir so we can used it in casc controller bundle to initialize the ssh-agent credential
-cp  $SSH_PRIVATE_KEY_PATH $CONTROLLER_PERSISTENCE/$(basename "$SSH_PRIVATE_KEY_PATH")
-chmod 755 $CONTROLLER_PERSISTENCE/$(basename "$SSH_PRIVATE_KEY_PATH")
+cp -vf $SSH_PRIVATE_KEY_PATH $CONTROLLER_PERSISTENCE/$(basename "$SSH_PRIVATE_KEY_PATH")
+chmod 600 $CONTROLLER_PERSISTENCE/$(basename "$SSH_PRIVATE_KEY_PATH")
+cp -vf $SSH_PRIVATE_KEY_PATH $CONTROLLER_PERSISTENCE/id_rsa
+chmod 600 $CONTROLLER_PERSISTENCE/id_rsa
 
 echo  "############################### Create Operations Center related volumes JENKINS_HOME"
 
@@ -119,6 +121,15 @@ chmod -R 700 ${CONTROLLER1_CACHES}
 chmod 700 ${CONTROLLER_PERSISTENCE}
 chmod 700 ${OC_PERSISTENCE}
 chmod 700 ${AGENT_PERSISTENCE}
+
+echo "###############################"
+echo "Assign SSH_PUB_KEY to JENKINS_AGENT_SSH_PUBKEY"
+#see https://hub.docker.com/r/jenkins/ssh-agent
+# THE FOLLOWING IS NOT VERY SECURED, AS LONG AS WE DO SO JUST ON LOCALHOST FOR DEMO PURPOSE IT SHOULD BE OK
+# To use this image with Docker Plugin⁠, you need to pass the public SSH key using environment variable JENKINS_AGENT_SSH_PUBKEY and not as a startup argument.
+# In Environment field of the Docker Template (advanced section), just add:
+#export JENKINS_AGENT_SSH_PUBKEY="ssh-rsa AD_YOUR_JENKINS_AGENT_SSH_PUBKEY"
+export JENKINS_AGENT_SSH_PUBKEY=$(cat $SSH_PUBLIC_KEY_PATH)
 
 echo "###############################"
 # render the compose template

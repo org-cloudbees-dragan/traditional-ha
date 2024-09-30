@@ -3,15 +3,13 @@
 set +x
 
 echo "#### SSH Key settings"
-# Define the file paths to SSH Key
-# We need this key to setup a Jenkins SSH Credentials. This credentials will be used to establish a connection from Controller to the the SSH agent
-# If your keys have different names or locations, update them here
-#export SSH_KEY_ID="id_rsa"
-#export SSH_PRIVATE_KEY_PATH="secrets/$SSH_KEY_ID"
-#export SSH_PUBLIC_KEY_PATH="secrets/$SSH_KEY_ID.pub"
+# An SSH key gets generated under this path when you run up.sh
+export SSH_KEY_ID="agent_id_rsa"
+export SSH_PRIVATE_KEY_PATH="secrets/$SSH_KEY_ID"
+export SSH_PUBLIC_KEY_PATH="secrets/$SSH_KEY_ID.pub"
 
-export SSH_PRIVATE_KEY_PATH="$HOME/.ssh/id_rsa"
-export SSH_PUBLIC_KEY_PATH="$HOME/.ssh/id_rsa.pub"
+#export SSH_PRIVATE_KEY_PATH="$HOME/.ssh/id_rsa"
+#export SSH_PUBLIC_KEY_PATH="$HOME/.ssh/id_rsa.pub"
 
 ########################################################################################################################
 
@@ -97,14 +95,7 @@ export CJOC_LOGIN_PW="admin"
 
 ########################################################################################################################
 
-echo "#### Agent settings"
 
-#see https://hub.docker.com/r/jenkins/ssh-agent
-# THE FOLLOWING IS NOT VERY SECURED, AS LONG AS WE DO SO JUST ON LOCALHOST FOR DEMO PURPOSE IT SHOULD BE OK
-# To use this image with Docker Plugin⁠, you need to pass the public SSH key using environment variable JENKINS_AGENT_SSH_PUBKEY and not as a startup argument.
-# In Environment field of the Docker Template (advanced section), just add:
-#export JENKINS_AGENT_SSH_PUBKEY="ssh-rsa AD_YOUR_JENKINS_AGENT_SSH_PUBKEY"
-export JENKINS_AGENT_SSH_PUBKEY=$(cat $SSH_PUBLIC_KEY_PATH)
 
 
 

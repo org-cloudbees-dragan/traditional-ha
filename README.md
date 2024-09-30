@@ -76,16 +76,12 @@ This demo has been tested
 Required tools:
 * [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/)
 * ping (not mandatory, but used in the `up.sh` script to test name resolution)
-* ssh-keygen (If you don't have an SSH key available)
+* ssh-keygen
 * A Web browser
 
 # Quick Start
 
 * Clone this repository
-* Ensure you have an SSH private and public key under the path `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
-  * If you don't have an SSH key, run `ssh-keygen -t rsa -f ~/.ssh/id_rsa` to create one
-  * The key is required for the agent we want to connect to the HA/HS Controller in this demo
-  * If you have your key already under another path or name, adjust it in the [env.sh](env.sh) configuration file
 * Optional: Add a CloudBees Wildcard License to avoid the license screen. 
   * If you don't add a license now, you can request a trial license later in the Operations Center welcome screen
   * Add the license key and cert to these files  [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert) and  [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key). CasC will read these files and apply for the license during the startup
@@ -113,7 +109,7 @@ Required tools:
 [env.sh](env.sh)
 
 The essential variables are explained here; for detailed settings, take a look at the `env.sh` file.
-Usually, you don't need to change something here, potentially the SSH key variables need to be adjusted to your needs
+Usually, you don't need to change something in the env settings
 
 * `CJOC_LICENSE_PRIVATE_KEY` optional: You can add your CloudBees wildcard license key to this file: [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
 * `CJOC_LICENSE_CERTIFICATE` optional: You can add your CloudBees wildcard license certificate to this file: [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
@@ -185,6 +181,10 @@ Placeholder files where to add your CloudBees Wildcard license cert and key.
 This is optional. If a wildcard license is supplied you will pass the license welcome screen on the Operations Center
 * [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
 * [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
+
+An SSH key will also be generated into the `secret` for you when you run the  `up.sh`script
+* This key will be injected automatic by casc into the Controllers SSH Credential 
+* The public key will be propagated to the Agents `authorized_keys` file
 
 # Steps
 
@@ -297,23 +297,6 @@ Note: Not required when using CasC
 Join the Controller and add an SSH Credentials (private key)
 
 ![controller-ssh-cred.png](docs/controller-ssh-cred.png)
-
-### Optional, if you don't have an SSH key: Create a key pair
-
-Note: An SSH key will be generated already for you in `up.sh`
-
-`ssh-keygen -t rsa -f ~/.ssh/id_rsa`
-
-Adjust the path to the ssh key in the `env.sh` file
-
-> export JENKINS_AGENT_SSH_PUBKEY=$(cat ~/.ssh/id_rsa.pub)
-
-or
-
-> export JENKINS_AGENT_SSH_PUBKEY=$(cat <YOUR_PATH_HERT>/agent-key.pub)
-
-Use the private part in the Controller when defining credentials to connect to the agent.
-Choose credentials with username and private key. The username is `jenkins`.
 
 ## Create a SSH Agent Node
 
