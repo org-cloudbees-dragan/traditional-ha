@@ -54,8 +54,6 @@ unclassified:
               numToKeepStr: "4"
   headerLabel:
     text: "Managed by CasC"
-  gitHubPluginConfig:
-    hookUrl: "http://client.ha/github-webhook/"
   location:
     adminAddress: "not configured <nobody@nowhere>"
     url: "http://client.ha/"

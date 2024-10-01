@@ -36,7 +36,7 @@ jenkins:
 security:
   securitySettingsEnforcement:
     global:
-      realmOnly:
+      realmAndAuthorization:
         canCustomMapping: false
         canOverride: false
         defaultMappingFactory: "restrictedEquivalentRAMF"
