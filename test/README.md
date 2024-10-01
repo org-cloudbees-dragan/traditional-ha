@@ -6,8 +6,8 @@
 
 ## Test script 
 
-Running the [testJobTrigger.sh](testJobTrigger.sh]) will trigger the Test Pipeline job in a loop by curl
-Curl doesnt send the cookie so that each Job trigger request will get balanced by HAProxy to the Controller with less workload available. 
+* Running the [testJobTrigger.sh](testJobTrigger.sh]) will trigger the Test Pipeline job in a loop by curl
+* Curl doesnt send the cookie back in the next request so that each new request will get balanced by HAProxy to the Controller with less workload available. 
 
 
 
