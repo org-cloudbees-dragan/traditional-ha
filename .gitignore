@@ -1,4 +1,8 @@
-/secret/*.cert
-/secret/*.key
-/secret/*id_rsa.*
 docker-compose.yaml
+/secrets/agent_id_rsa
+/secrets/agent_id_rsa.pub
+/secrets/acaternbergcb-wildcard-license.key
+/secrets/acaternbergcb-wildcard-license.cert
+/secrets/applyLicense.sh
+/secrets/cb-wildcard-license.cert
+/secrets/cb-wildcard-license.key
