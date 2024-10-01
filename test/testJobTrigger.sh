@@ -2,7 +2,7 @@
 
 
 
-
+#TODO: This doesnt work yet
 
 #ADMIN_USER and ADMIN_TOKEN combined
 ADMINTOKEN="$CI_ADMIN_USER:$CI_ADMIN_TOKEN"
