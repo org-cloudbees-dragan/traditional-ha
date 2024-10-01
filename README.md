@@ -181,10 +181,11 @@ It includes:
 
 [secrets](secrets)
 
-Placeholder files where to add your CloudBees Wildcard license cert and key.
+Optional, add your CloudBees Wildcard license cert and key.
 This is optional. If a wildcard license is supplied you will pass the license welcome screen on the Operations Center
-* [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
-* [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
+
+* secrets/cb-wildcard-license.key
+* secrets/cb-wildcard-license.cert
 
 An SSH key will also be generated into the `secrets` directory for you when you run the  `up.sh`script
 * This key will be injected automatic by casc into the Controllers SSH Credential 
