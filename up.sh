@@ -59,11 +59,32 @@ mkdir -p ${OC_PERSISTENCE}/cascbundle
 # copy cjoc casc bundle to JENKINS_HOME/cascbundle
 cp -Rf casc/cjoc/*.yaml ${OC_PERSISTENCE}/cascbundle/
 
+
+
+echo  "############################### Check if a wildcard license exist: $CJOC_LICENSE_PRIVATE_KEY and $CJOC_LICENSE_CERTIFICATE"
+#TODO: This can be improved
+
+# If no wild card license exist in the secrets directory, we create a dummy placeholder.
+# If we don`t do this, the Casc process complains
+if [[ ! -e "$CJOC_LICENSE_PRIVATE_KEY" && ! -e "$CJOC_LICENSE_CERTIFICATE" ]]; then
+
+cat << EOF > $CJOC_LICENSE_PRIVATE_KEY
+-----BEGIN RSA PRIVATE KEY-----
+Placeholder
+-----END RSA PRIVATE KEY-----
+EOF
+
+cat << EOF > $CJOC_LICENSE_CERTIFICATE
+-----BEGIN CERTIFICATE-----
+Placeholder
+-----END CERTIFICATE-----
+EOF
+
+fi
+
 # copy cloudbees wildcard license to cjoc JENKINS_HOME
 # We will apply the license during casc startup to the operations center
-#cp -f $CJOC_LICENSE_PRIVATE_KEY ${OC_PERSISTENCE}/cb-wildcard-license.key
 cp -f $CJOC_LICENSE_PRIVATE_KEY ${OC_PERSISTENCE}/$(basename "$CJOC_LICENSE_PRIVATE_KEY")
-#cp -f $CJOC_LICENSE_CERTIFICATE ${OC_PERSISTENCE}/cb-wildcard-license.cert
 cp -f $CJOC_LICENSE_CERTIFICATE ${OC_PERSISTENCE}/$(basename "$CJOC_LICENSE_CERTIFICATE")
 
 echo  "############################### Create Agent volume in ${AGENT_PERSISTENCE}"
