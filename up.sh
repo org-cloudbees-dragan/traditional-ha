@@ -2,7 +2,6 @@
 set +x
 source env.sh
 
-
 echo "#### generate SSH key to secrets/${SSH_KEY_ID}"
 if [[ -e "$SSH_PRIVATE_KEY_PATH" && -e "$SSH_PUBLIC_KEY_PATH" ]]; then
     echo "$SSH_PUBLIC_KEY_PATH and $SSH_PUBLIC_KEY_PATH exist already. Delete them manually if you want to re-generate the SSH keys"
@@ -16,18 +15,11 @@ echo "#### Assign $SSH_PUBLIC_KEY_PATH to JENKINS_AGENT_SSH_PUBKEY"
 # Expose SSH PUP_KEY  to Agent authorized_key , see https://hub.docker.com/r/jenkins/ssh-agent for details
 export JENKINS_AGENT_SSH_PUBKEY=$(cat $SSH_PUBLIC_KEY_PATH)
 
-
-echo "#### Create all volumes under $PERSISTENCE_PREFIX"
-
 echo "#### Create browser volume in ${BROWSER_PERSISTENCE}"
-
 # create dir for browser persistence
 mkdir -p ${BROWSER_PERSISTENCE}
 
 echo "#### Create Controller related volumes like JENKINS_HOME and cache dirs in $PERSISTENCE_PREFIX"
-
-##### Create caches
-
 # Create cache dirs for HA Controller
 # see https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_java_options
 # see https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_jenkins_args
@@ -52,7 +44,6 @@ cp -vf $SSH_PRIVATE_KEY_PATH $CONTROLLER_PERSISTENCE/id_rsa
 chmod 600 $CONTROLLER_PERSISTENCE/id_rsa
 
 echo "#### Create Operations Center related volumes JENKINS_HOME in ${OC_PERSISTENCE}"
-
 # create JENKINS_HOME dir for cjoc
 mkdir -p ${OC_PERSISTENCE}
 # create dir for cjoc casc bundle
@@ -60,11 +51,8 @@ mkdir -p ${OC_PERSISTENCE}/cascbundle
 # copy cjoc casc bundle to JENKINS_HOME/cascbundle
 cp -Rf casc/cjoc/*.yaml ${OC_PERSISTENCE}/cascbundle/
 
-
-
 echo "#### Check if a wildcard license exist: $CJOC_LICENSE_PRIVATE_KEY and $CJOC_LICENSE_CERTIFICATE"
 #TODO: This can be improved
-
 # If no wild card license exist in the secrets directory, we create a dummy placeholder.
 # If we don`t do this, the Casc process complains
 if [[ ! -e "$CJOC_LICENSE_PRIVATE_KEY" && ! -e "$CJOC_LICENSE_CERTIFICATE" ]]; then
@@ -89,12 +77,10 @@ cp -f $CJOC_LICENSE_PRIVATE_KEY ${OC_PERSISTENCE}/$(basename "$CJOC_LICENSE_PRIV
 cp -f $CJOC_LICENSE_CERTIFICATE ${OC_PERSISTENCE}/$(basename "$CJOC_LICENSE_CERTIFICATE")
 
 echo "#### Create Agent volume in ${AGENT_PERSISTENCE}"
-
 # create dir for agent
 mkdir -p ${AGENT_PERSISTENCE}
 
 echo "#### Set volume permissions"
-
 # chmod to jenkins id, not required yet, maybe later when using NFS
 #chown -R 1000:1000 ${CONTROLLER2_CACHES}
 #chown -R 1000:1000 ${CONTROLLER1_CACHES}
