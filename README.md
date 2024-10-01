@@ -417,6 +417,3 @@ Verify if the key has been applied: (Join the docker agent container and check t
 
 - Verify to introduce NFS
 - Enable SSL on HAPRoxy (Lets-encrypt or self-signed certs?)
-- Agents: Creating agent key pair in up.sh
-- Fill the public part automatically in docker compose template (with envsubst in up.sh)
-- Casc: Add configuration as code to simplify the setup and plugin installation
