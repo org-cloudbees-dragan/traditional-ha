@@ -43,7 +43,7 @@ The setup consists of the following containers:
 * Controller 2
 * SSH-Agent 1
 * HAProxy Load Balancer
-* Optional, but not required: Linux box with Firefox accessible via VNC from an external browser
+* Optional: Linux box with Firefox accessible via VNC from an external browser
 
 The setup is self-sufficient and does not require any modifications on the Docker host or anywhere else outside of the docker compose environment.
 There are two exceptions to highlight:
@@ -84,15 +84,17 @@ Required tools:
 * Clone this repository
 * Optional: Add a CloudBees Wildcard License to avoid the license screen. 
   * If you don't add a license now, you can request a trial license later in the Operations Center welcome screen
-  * Add the license key and cert to these files  [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert) and  [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key). CasC will read these files and apply for the license during the startup
+  * If you have a CloudBees wildcard license, create the following files and add the licence certificate and key there   
+    * `secrets/cb-wildcard-license.cert`  The license certificate  
+    * `secrets/cb-wildcard-license.key`   The license key
+    * CasC will read these files and apply for the license during the startup
+* Optional:
+  * if you want to use your Browser on docker host, follow these instructions:  [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
 * Run `up.sh`
   * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
   * All the configurations required by HA/HS are already set up
 * Browser access to the Operations Center
-  * When Docker Compose is fully up, you will be redirected to your browser. Two tabs in your personal browser will be opened:
-    * One tab with http://localhost:3000 (browser ina box)
-    * One tab with direct access to http://oc.ha
-    * You can decide in which one you want to continue
+  * When Docker Compose is fully up, you will be redirected to your browser. 
     * Option1: Use a Browser in a box
       * This option doesn't require changes on your host in `/etc/hosts`
       * See for details: [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
@@ -113,8 +115,8 @@ Required tools:
 The essential variables are explained here; for detailed settings, take a look at the `env.sh` file.
 Usually, you don't need to change something in the env settings
 
-* `CJOC_LICENSE_PRIVATE_KEY` optional: You can add your CloudBees wildcard license key to this file: [secrets/cb-wildcard-license.key](secrets/cb-wildcard-license.key)
-* `CJOC_LICENSE_CERTIFICATE` optional: You can add your CloudBees wildcard license certificate to this file: [secrets/cb-wildcard-license.cert](secrets/cb-wildcard-license.cert)
+* `CJOC_LICENSE_PRIVATE_KEY` optional: You can add your CloudBees wildcard license key to this file: secrets/cb-wildcard-license.key (you need to create this file)
+* `CJOC_LICENSE_CERTIFICATE` optional: You can add your CloudBees wildcard license certificate to this file: secrets/cb-wildcard-license.cert (you need to create this file)
 * `OC_URL` is the URL you want the Operations Center to respond on.
 * `CLIENTS_URL` is for the controllers. There is only one URL for both controllers.
 * `DOCKER_IMAGE_OC` and `DOCKER_IMAGE_CLIENT_CONTROLLER` are the CB CI versions on Operations Center and controllers
