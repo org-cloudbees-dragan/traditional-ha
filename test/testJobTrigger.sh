@@ -2,15 +2,12 @@
 
 source ../env.sh
 
-
-
 #see curl headers https://daniel.haxx.se/blog/2022/03/24/easier-header-picking-with-curl/
 
 echo "YOU NEED TO CREATE A ADMIN TOKEN ON THE OPERATIONS CENTER FIRST"
 
 JENKINS_TOKEN=${1:-"YOUR_ADMIN_TOKEN"}
 JENKINS_USER_TOKEN="admin:$JENKINS_TOKEN"
-
 #CONTROLLER_URL=http://client.ha
 CONTROLLER_URL=http://${CLIENTS_URL}
 #JOBNAME
@@ -20,13 +17,10 @@ CONNECT_TIMEOUT=5
 # File where to write the header
 RESPONSEHEADERS=headers
 
-
 while true
 do
  	echo "#######################################"
 	echo "start build of Job: $JOB"
-
-
   # trigger our testpipeline
 	curl --connect-timeout  $CONNECT_TIMEOUT  -s -IL -o $RESPONSEHEADERS  -u $JENKINS_USER_TOKEN -X POST  "$CONTROLLER_URL/job/$JOB/build?delay=0sec"
   # check if we got a healthy HTTP response state in the response header
@@ -47,7 +41,6 @@ do
 	    echo "CONTROLLER_STICKY_COOKIE:    $STICKY_COOKIE"
 	    #curl -u $TOKEN  -IL $LOCATION/api/json?pretty=true
 	fi
-	# sleep
 	sleep $CONNECT_TIMEOUT
 done
 
