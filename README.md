@@ -23,6 +23,7 @@ References we have used for the development of this demo environment:
 * https://www.claudiokuenzler.com/blog/900/how-to-use-docker-host-ip-address-inside-application-container
 * https://eventuate.io/docs/usingdocker.html
 * https://docs.linuxserver.io/images/docker-webtop/#lossless-mode
+* https://daniel.haxx.se/blog/2022/03/24/easier-header-picking-with-curl
 
 # Architecture
 
