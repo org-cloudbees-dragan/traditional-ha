@@ -82,7 +82,7 @@ Required tools:
 # Quick Start
 
 * Clone this repository
-* run `chmod -R a+x *`
+* run `chmod -R a+x *.sh`
 * Optional: Add a CloudBees Wildcard License to avoid the license screen. 
   * If you don't have a license now, you can request a trial license later in the Operations Center welcome screen
   * If you have a CloudBees wildcard license, create the following files and add the licence certificate and key there   
