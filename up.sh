@@ -2,7 +2,7 @@
 set +x
 source env.sh
 
-echo "############################### generate SSH key to secrets/${SSH_KEY_ID}"
+echo "#### generate SSH key to secrets/${SSH_KEY_ID}"
 if [[ -e "$SSH_PRIVATE_KEY_PATH" && -e "$SSH_PUBLIC_KEY_PATH" ]]; then
     echo "$SSH_PUBLIC_KEY_PATH and $SSH_PUBLIC_KEY_PATH exist already. Delete them manually if you want to re-generate the SSH keys"
 else
@@ -10,20 +10,20 @@ else
     ssh-keygen -t rsa -b 2048 -f secrets/${SSH_KEY_ID} -N ""
 fi
 
-echo "############################### Assign $SSH_PUBLIC_KEY_PATH to JENKINS_AGENT_SSH_PUBKEY"
+echo "#### Assign $SSH_PUBLIC_KEY_PATH to JENKINS_AGENT_SSH_PUBKEY"
 # THE FOLLOWING IS NOT VERY SECURED, AS LONG AS WE DO SO JUST ON LOCALHOST FOR DEMO PURPOSE IT SHOULD BE OK
 # Expose SSH PUP_KEY  to Agent authorized_key , see https://hub.docker.com/r/jenkins/ssh-agent for details
 export JENKINS_AGENT_SSH_PUBKEY=$(cat $SSH_PUBLIC_KEY_PATH)
 
 
-echo "############################### Create all volumes under $PERSISTENCE_PREFIX"
+echo "#### Create all volumes under $PERSISTENCE_PREFIX"
 
-echo "############################### Create browser volume in ${BROWSER_PERSISTENCE}"
+echo "#### Create browser volume in ${BROWSER_PERSISTENCE}"
 
 # create dir for browser persistence
 mkdir -p ${BROWSER_PERSISTENCE}
 
-echo "############################### Create Controller related volumes like JENKINS_HOME and cache dirs in $PERSISTENCE_PREFIX"
+echo "#### Create Controller related volumes like JENKINS_HOME and cache dirs in $PERSISTENCE_PREFIX"
 
 ##### Create caches
 
@@ -50,7 +50,7 @@ cp -Rf casc/controller/*.yaml ${CONTROLLER_PERSISTENCE}/cascbundle/
 cp -vf $SSH_PRIVATE_KEY_PATH $CONTROLLER_PERSISTENCE/id_rsa
 chmod 600 $CONTROLLER_PERSISTENCE/id_rsa
 
-echo  "############################### Create Operations Center related volumes JENKINS_HOME in ${OC_PERSISTENCE}"
+echo "#### Create Operations Center related volumes JENKINS_HOME in ${OC_PERSISTENCE}"
 
 # create JENKINS_HOME dir for cjoc
 mkdir -p ${OC_PERSISTENCE}
@@ -61,7 +61,7 @@ cp -Rf casc/cjoc/*.yaml ${OC_PERSISTENCE}/cascbundle/
 
 
 
-echo  "############################### Check if a wildcard license exist: $CJOC_LICENSE_PRIVATE_KEY and $CJOC_LICENSE_CERTIFICATE"
+echo "#### Check if a wildcard license exist: $CJOC_LICENSE_PRIVATE_KEY and $CJOC_LICENSE_CERTIFICATE"
 #TODO: This can be improved
 
 # If no wild card license exist in the secrets directory, we create a dummy placeholder.
@@ -87,12 +87,12 @@ fi
 cp -f $CJOC_LICENSE_PRIVATE_KEY ${OC_PERSISTENCE}/$(basename "$CJOC_LICENSE_PRIVATE_KEY")
 cp -f $CJOC_LICENSE_CERTIFICATE ${OC_PERSISTENCE}/$(basename "$CJOC_LICENSE_CERTIFICATE")
 
-echo  "############################### Create Agent volume in ${AGENT_PERSISTENCE}"
+echo "#### Create Agent volume in ${AGENT_PERSISTENCE}"
 
 # create dir for agent
 mkdir -p ${AGENT_PERSISTENCE}
 
-echo  "############################### Set volume permissions"
+echo "#### Set volume permissions"
 
 # chmod to jenkins id, not required yet, maybe later when using NFS
 #chown -R 1000:1000 ${CONTROLLER2_CACHES}
@@ -109,7 +109,7 @@ chmod 700 ${OC_PERSISTENCE}
 chmod 700 ${AGENT_PERSISTENCE}
 
 
-echo "###############################"
+echo "####"
 # render the compose template
 envsubst < docker-compose.yaml.template > docker-compose.yaml
 
@@ -119,7 +119,7 @@ docker compose up -d
 echo "All containers are started now. Data is persisted in ${PERSISTENCE_PREFIX}"
 
 
-echo  "############################### Open ${OC_URL} "
+echo "#### Open ${OC_URL} "
 echo "Verify if you have updated your /etc/hosts with  ${OC_URL} and  ${CLIENTS_URL}"
 if ping -c 1 "${OC_URL}" > /dev/null 2>&1 && ping -c 1 "${CLIENTS_URL}" > /dev/null 2>&1
 then
