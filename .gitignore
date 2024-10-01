@@ -1,3 +1,4 @@
 /secret/*.cert
 /secret/*.key
-/secret/*.rsa.*
+/secret/*id_rsa.*
+docker-compose.yaml
