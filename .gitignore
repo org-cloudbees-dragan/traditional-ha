@@ -6,3 +6,4 @@ docker-compose.yaml
 /secrets/applyLicense.sh
 /secrets/cb-wildcard-license.cert
 /secrets/cb-wildcard-license.key
+/CB-Wildcard-License.md
