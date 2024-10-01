@@ -313,7 +313,9 @@ Note: Not required when using CasC
 
 ![createSSHAgent.png](docs/createSSHAgent.png)
 
-## Create a test Pipeline
+## Test Pipeline
+
+see also  [test/README.md](test/README.md])
 
 Note: Not required when using CasC
 
