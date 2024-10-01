@@ -84,7 +84,7 @@ Required tools:
 * Clone this repository
 * run `chmod -R a+x *`
 * Optional: Add a CloudBees Wildcard License to avoid the license screen. 
-  * If you don't add a license now, you can request a trial license later in the Operations Center welcome screen
+  * If you don't have a license now, you can request a trial license later in the Operations Center welcome screen
   * If you have a CloudBees wildcard license, create the following files and add the licence certificate and key there   
     * `secrets/cb-wildcard-license.cert`  The license certificate  
     * `secrets/cb-wildcard-license.key`   The license key
