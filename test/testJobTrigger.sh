@@ -37,12 +37,14 @@ do
       exit 1
 	else
 	    # read the wanted information like replica host and ip address in variables
-	    LOCATION="$(cat $RESPONSEHEADERS    |grep -E "location.*"                  |  awk '{print $2}')"
-	    REPLICA="$(cat $RESPONSEHEADERS     |grep -E "x-jenkins-replica-host.*"    |  awk '{print $2}')"
-	    REPLICA_IP="$(cat $RESPONSEHEADERS  |grep -E "x-jenkins-replica-address.*" |  awk '{print $2}')"
-	    echo "LOCATION:                 $LOCATION"
-	    echo "CONTROLLER_REPLICA:       $REPLICA"
-	    echo "CONTROLLER_REPLICA_IP:    $REPLICA_IP"
+	    LOCATION="$(cat $RESPONSEHEADERS        |grep -E "location.*"                  |  awk '{print $2}')"
+	    REPLICA="$(cat $RESPONSEHEADERS         |grep -E "x-jenkins-replica-host.*"    |  awk '{print $2}')"
+	    REPLICA_IP="$(cat $RESPONSEHEADERS      |grep -E "x-jenkins-replica-address.*" |  awk '{print $2}')"
+	    STICKY_COOKIE="$(cat $RESPONSEHEADERS   |grep -E "set-cookie:.*"               |  awk '{print $2}')"
+	    echo "LOCATION:                    $LOCATION"
+	    echo "CONTROLLER_REPLICA:          $REPLICA"
+	    echo "CONTROLLER_REPLICA_IP:       $REPLICA_IP"
+	    echo "CONTROLLER_STICKY_COOKIE:    $STICKY_COOKIE"
 	    #curl -u $TOKEN  -IL $LOCATION/api/json?pretty=true
 	fi
 	# sleep
