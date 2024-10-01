@@ -96,15 +96,13 @@ chmod 700 ${OC_PERSISTENCE}
 chmod 700 ${AGENT_PERSISTENCE}
 
 
-echo "####"
-# render the compose template
+echo "#### Render the docker compose template "
 envsubst < docker-compose.yaml.template > docker-compose.yaml
 
-# start the containers
+echo "#### Start the containers"
 docker compose up -d
 
-echo "All containers are started now. Data is persisted in ${PERSISTENCE_PREFIX}"
-
+echo "#### All containers are started now. Data is persisted in ${PERSISTENCE_PREFIX}"
 
 echo "#### Open ${OC_URL} "
 echo "Verify if you have updated your /etc/hosts with  ${OC_URL} and  ${CLIENTS_URL}"
@@ -115,9 +113,9 @@ then
 else
     echo """
          Host name resolution failed for ${OC_URL} and ${CLIENTS_URL} om Docker host in /etc/hosts
-         Open browser in a container box in your browser:
-         * Open firefox FROM THE 'APPLICATIONS' menue top to the left
-         * Then open http://oc.ca
+         That's fine, so we open a browser in a container box in your browser:
+         * There: Open Firefox from the 'APPLICATIONS' menu top to the left
+         * Then open http://${OC_URL} in the URL bar
          """
     open http://localhost:3000
 fi
