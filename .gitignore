@@ -1,1 +1,3 @@
-/secret/*
+/secret/*.cert
+/secret/*.key
+/secret/*.rsa.*
