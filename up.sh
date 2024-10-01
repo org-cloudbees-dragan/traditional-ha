@@ -15,31 +15,6 @@ echo "############################### Assign $SSH_PUBLIC_KEY_PATH to JENKINS_AGE
 # Expose SSH PUP_KEY  to Agent authorized_key , see https://hub.docker.com/r/jenkins/ssh-agent for details
 export JENKINS_AGENT_SSH_PUBKEY=$(cat $SSH_PUBLIC_KEY_PATH)
 
-echo  "############################### Verify DNS"
-echo "Verify if you have updated your /etc/hosts file with the local DNS names for ${OC_URL} and  ${CLIENTS_URL}"
-checkNameResolution () {
-  HOSTNAME=$1
-  if ping -c 1 "$HOSTNAME" > /dev/null 2>&1
-  then
-      echo "Host name resolution successful for $HOSTNAME."
-  else
-      echo "Host name resolution failed for $HOSTNAME."
-      echo """
-        If you access the Operations Center from the browser in a box (http://localhost:3000) you can ignore this message.
-        However, if you want to access the Operations Center for your browser (on Docker Host):
-        Open you /etc/hosts file and add/update the following line:
-
-        127.0.0.1	localhost ${OC_URL} ${CLIENTS_URL}
-
-        # Then, optional (MacOs): flush your DNS cache running this command:
-
-        sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
-      """
-  fi
-}
-
-checkNameResolution ${OC_URL}
-checkNameResolution ${CLIENTS_URL}
 
 echo "############################### Create all volumes under $PERSISTENCE_PREFIX"
 
@@ -122,18 +97,23 @@ docker compose up -d
 
 echo "All containers are started now. Data is persisted in ${PERSISTENCE_PREFIX}"
 
-echo """
-Two browser tabs will be opened now in your Web browser:
 
-One tab with a browser in a box http://localhost:3000
-In this, open Firefox from the top left 'Applications' menu and type http://${OC_URL} in the browser bar
+echo  "############################### Open ${OC_URL} "
+echo "Verify if you have updated your /etc/hosts with  ${OC_URL} and  ${CLIENTS_URL}"
+if ping -c 1 "${OC_URL}" > /dev/null 2>&1 && ping -c 1 "${CLIENTS_URL}" > /dev/null 2>&1
+then
+    echo "Host name resolution successful for ${OC_URL} and ${CLIENTS_URL}."
+    open http://${OC_URL}
+else
+    echo """
+         Host name resolution failed for ${OC_URL} and ${CLIENTS_URL} om Docker host in /etc/hosts
+         Open browser in a container box in your browser:
+         * Open firefox FROM THE 'APPLICATIONS' menue top to the left
+         * Then open http://oc.ca
+         """
+    open http://localhost:3000
+fi
 
-Another tab tah point directly to http://${OC_URL}
-You can decide in which one to continue. This option requires you have names entries in /etc/hosts done
-"""
-# open browser on docker host
-open http://${OC_URL}
-# open browser in a box
-open http://localhost:3000
+
 
 
