@@ -42,7 +42,7 @@ Run the script:
 
 > ./testJobTrigger.sh <ADMIN_TOKEN>
 
-output:  (You can se each request  passes another controller replica) 
+output:  (You can see each request passes to another controller replica, HAPRoxy round robbin) 
 
 ```
 #######################################
