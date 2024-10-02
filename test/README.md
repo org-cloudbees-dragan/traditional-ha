@@ -14,7 +14,7 @@
 
 ## Simple Test Scenario:
 
-* Start the Pipeline, maybe increase the sleep time in the Pipeline configuration screen before to 120
+* Start the Pipeline, maybe increase the sleep time in the Pipeline configuration screen to 120 sec 
 * Review the Pipeline Build console log, you will see the agent and controller hostname (your active replica)
 * Stop the active Replica
 
