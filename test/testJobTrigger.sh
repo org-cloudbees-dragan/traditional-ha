@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # This script triggers the test pipeline on the controller and prints the response header
-#see curl headers: https://daniel.haxx.se/blog/2022/03/24/easier-header-picking-with-curl
+# See curl headers: https://daniel.haxx.se/blog/2022/03/24/easier-header-picking-with-curl
 
 source ../env.sh
 
