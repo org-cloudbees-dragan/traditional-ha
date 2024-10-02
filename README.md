@@ -116,9 +116,11 @@ This demo has been tested
       * See for details: [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
 * Open the Operations Center [http://oc.ha](http://oc.ha)
   * use `admin/admin` for login
-* If not done earlier, request a license (first option in the screen "Request trial license")
-* Click on the pre-provisioned controller "ha" in the Operations Center UI
-* Add `http://client.ha` and click `push configuration` and `join operations center`
+  * If not done earlier, request a license (first option in the screen "Request trial license")
+  * Click on the pre-provisioned controller "ha" in the Operations Center UI
+    * Add `http://client.ha`
+    * Click `push configuration` 
+    * Click `join operations center`
 * Now you are on a Controller running in HA/HS mode. 
   * A test Pipeline job using an SSH agent is already setup by CasC
     * Click "Build now" amd see the Pipeline log
