@@ -89,10 +89,11 @@ This demo has been tested
   * Update the permissions
     * `chmod -R a+x *.sh`
 * Optional: Add a CloudBees Wildcard License to avoid the license screen. 
-  * If you don't have a license now, you can request a trial license later in the Operations Center welcome screen
+  * If you don't have a license now ignore these sub steps, you can request a trial license later in the Operations Center welcome screen
   * If you have a CloudBees wildcard license, create the following files and add the licence certificate and key there   
-    * `secrets/cb-wildcard-license.cert`  The license certificate  
-    * `secrets/cb-wildcard-license.key`   The license key
+    * `mkdir secrets`
+    * `secrets/cb-wildcard-license.cert` # Add the license certificate  
+    * `secrets/cb-wildcard-license.key`  # Add the license key
     * CasC will read these files and apply for the license during the startup
 * Optional:
   * if you want to use your Browser on docker host, follow these instructions:  [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
