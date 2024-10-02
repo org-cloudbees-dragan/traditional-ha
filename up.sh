@@ -22,7 +22,6 @@ else
 fi
 
 echo "#### Assign $SSH_PUBLIC_KEY_PATH to JENKINS_AGENT_SSH_PUBKEY"
-# THE FOLLOWING IS NOT VERY SECURED, AS LONG AS WE DO SO JUST ON LOCALHOST FOR DEMO PURPOSE IT SHOULD BE OK
 # Expose SSH PUP_KEY  to Agent authorized_key , see https://hub.docker.com/r/jenkins/ssh-agent for details
 export JENKINS_AGENT_SSH_PUBKEY=$(cat $SSH_PUBLIC_KEY_PATH)
 
