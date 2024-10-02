@@ -83,9 +83,9 @@ EOF
 
 fi
 
-# copy cloudbees wildcard license (or the dummy license) to cjoc JENKINS_HOME
+# Copy license to cjoc JENKINS_HOME, regardless if it is the CB Wildcard license or the dummy license from above
 # We will apply the license during casc startup to the operations center
-# If the license is no7 valid (dummy license from above), you will see the License welcome  screen in Cjoc where you can request a trial license
+# If the license is not valid (dummy license from above), you will see the License welcome screen in Cjoc where you can request a trial license
 cp -f $CJOC_LICENSE_PRIVATE_KEY ${OC_PERSISTENCE}/$(basename "$CJOC_LICENSE_PRIVATE_KEY")
 cp -f $CJOC_LICENSE_CERTIFICATE ${OC_PERSISTENCE}/$(basename "$CJOC_LICENSE_CERTIFICATE")
 
