@@ -119,7 +119,7 @@ This demo has been tested
 * Now you are on a Controller running in HA/HS mode. 
   * A test Pipeline job using an SSH agent is already setup by CasC
     * Click "Build now" amd see the Pipeline log
-    * See also [test](test/README.md)
+    * See also the content in the [test](test) directory
   * It takes some minutes until the second Controller joins, then the Pipeline resumes
 
 # Files
