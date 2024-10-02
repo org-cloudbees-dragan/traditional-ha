@@ -425,5 +425,6 @@ Verify if the key has been applied: (Join the docker agent container and check t
 
 # TODO and next steps
 
-- Verify to introduce NFS
-- Enable SSL on HAPRoxy (Lets-encrypt or self-signed certs?)
+[] Test/update to run on Linux (whatever)
+[] Verify to introduce NFS
+[] Enable SSL on HAPRoxy (self-signed certs?)
