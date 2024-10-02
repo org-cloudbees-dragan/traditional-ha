@@ -104,16 +104,14 @@ This demo has been tested
   * Run `./up.sh`
     * The persistent volumes will be created 
     * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
-    * All the configurations required by HA/HS are already set up
-    * You will be redirected to one of the browser options
-* Browser access to the Operations Center
-  * When Docker Compose is fully up, you will be redirected to your browser. 
-    * Option1: Use a Browser in a box
-      * This option doesn't require changes on your host in `/etc/hosts`
-      * See for details: [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
-    * Option2: Use your Browser on your machine (Docker host)
-      * This option requires changes on your host in `/etc/hosts`
-      * See for details: [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
+    * All the configuration required by HA/HS is already set up
+    * When Docker Compose is fully up, you will be redirected to one of this browser options:
+      * Option1: Use a Browser in a box
+        * This option doesn't require changes on your host in `/etc/hosts`
+        * See for details: [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
+      * Option2: Use your Browser on your computer (Docker Host)
+        * This option requires changes on your host in `/etc/hosts`
+        * See for details: [Use your Browser on your Docker Host](#Option2_Use_your_browser_on_your_docker_host)
 * Open the Operations Center [http://oc.ha](http://oc.ha)
   * use `admin/admin` for login
   * If not done earlier, request a license (first option in the screen "Request trial license")
