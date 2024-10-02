@@ -7,3 +7,5 @@ docker-compose.yaml
 /secrets/cb-wildcard-license.cert
 /secrets/cb-wildcard-license.key
 /CB-Wildcard-License.md
+/test/cookies.txt
+/test/headers
