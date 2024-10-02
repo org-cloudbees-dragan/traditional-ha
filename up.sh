@@ -7,7 +7,7 @@ if docker info >/dev/null 2>&1
 then
  echo "Docker is running"
 else
- echo "DOCKER IS NOT RUNNING"
+ echo "DOCKER IS NOT RUNNING. Start Docker Desktop first!!"
  exit 2
 fi
 
