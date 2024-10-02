@@ -24,6 +24,9 @@ Simple Test Scenario:
 * Review  developer mode information below in the Controller screen 
 * Review the HA overview page under Controller -> Manage Jenkins -> HA 
 * Review the Pipeline Build console log: Agent hostname is the same, Controller hostname has changed 
+* Start the replica you have stopped previsouly again 
+ > docker compose start <ha-client-controller-1 | ha-client-controller-2>
+* Wait some minutes and review the HA overview page under Controller -> Manage Jenkins -> HA
 
 ## Test script 
 
