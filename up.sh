@@ -1,7 +1,6 @@
 #!/bin/bash
 set +x
 
-
 echo "#### Verify if Docker Desktop is running"
 if docker info >/dev/null 2>&1
 then
@@ -107,7 +106,6 @@ chmod -R 700 ${CONTROLLER1_CACHES}
 chmod 700 ${CONTROLLER_PERSISTENCE}
 chmod 700 ${OC_PERSISTENCE}
 chmod 700 ${AGENT_PERSISTENCE}
-
 
 echo "#### Render the docker compose template "
 envsubst < docker-compose.yaml.template > docker-compose.yaml
