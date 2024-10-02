@@ -120,7 +120,7 @@ This demo has been tested
   * A test Pipeline job using an SSH agent is already setup by CasC
     * Click "Build now" amd see the Pipeline log
     * See also the content in the [test](test) directory
-  * It takes some minutes until the second Controller joins, then the Pipeline resumes
+  * It takes some minutes until the second Controller joins, see also [http://client.ha/manage/highAvailability](http://client.ha/manage/highAvailability)
 
 # Files
 
