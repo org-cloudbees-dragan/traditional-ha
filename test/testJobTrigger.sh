@@ -11,14 +11,14 @@ if [ $# -eq 1 ]; then
     echo "Use token $1"
 else
     echo "Script must be called with exactly one parameter."
-    echo "YOU NEED TO CREATE A ADMIN TOKEN ON THE OPERATIONS CENTER: create on here: http://${OC_URL}/user/admin/configure"
+    echo "YOU NEED TO CREATE A ADMIN TOKEN ON THE OPERATIONS CENTER: create on here: http://${OC_URL}/user/${CJOC_LOGIN_USER}/configure"
     echo "Usage: $0 <CJOC_JENKINS_ADMIN_TOKEN>"
     exit 1
 fi
 
 
 
-JENKINS_USER_TOKEN="admin:$JENKINS_TOKEN"
+JENKINS_USER_TOKEN="${CJOC_LOGIN_USER}:$JENKINS_TOKEN"
 #CONTROLLER_URL=http://client.ha
 CONTROLLER_URL=http://${CLIENTS_URL}
 #JOBNAME
