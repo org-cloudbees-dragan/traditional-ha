@@ -112,7 +112,7 @@ This demo has been tested
       * Option2: Use your Browser on your computer (Docker Host)
         * This option requires changes on your host in `/etc/hosts`
         * See for details: [Use your Browser on your Docker Host](#Option2_Use_your_browser_on_your_docker_host)
-* Open the Operations Center [http://oc.ha](http://oc.ha)
+* In one of the browser options, open the Operations Center: [http://oc.ha](http://oc.ha) 
   * use `admin/admin` for login
   * If not done earlier, request a license (first option in the screen "Request trial license")
   * Click on the pre-provisioned controller "ha" in the Operations Center UI
