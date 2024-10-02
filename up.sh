@@ -1,8 +1,20 @@
 #!/bin/bash
 set +x
-source env.sh
 
-echo "#### generate SSH key to secrets/${SSH_KEY_ID}"
+
+echo "#### Verify if Docker Desktop is running"
+if docker info >/dev/null 2>&1
+then
+ echo "Docker is running"
+else
+ echo "DOCKER IS NOT RUNNING"
+ exit 2
+fi
+
+echo "#### Source settings file "
+source ./env.sh
+
+echo "#### Generate SSH key to secrets/${SSH_KEY_ID}"
 if [[ -e "$SSH_PRIVATE_KEY_PATH" && -e "$SSH_PUBLIC_KEY_PATH" ]]; then
     echo "$SSH_PUBLIC_KEY_PATH and $SSH_PUBLIC_KEY_PATH exist already. Delete them manually if you want to re-generate the SSH keys"
 else
