@@ -117,8 +117,10 @@ This demo has been tested
 * Click on the pre-provisioned controller "ha" in the Operations Center UI
 * Add `http://client.ha` and click `push configuration` and `join operations center`
 * Now you are on a Controller running in HA/HS mode. 
-  * A test Pipeline job using an SSH agent is already running
-  * It takes some minutes until the second Controller joins, then the Pipeline resumes 
+  * A test Pipeline job using an SSH agent is already setup by CasC
+    * Click "Build now" amd see the Pipeline log
+    * See also [test](test/README.md)
+  * It takes some minutes until the second Controller joins, then the Pipeline resumes
 
 # Files
 
