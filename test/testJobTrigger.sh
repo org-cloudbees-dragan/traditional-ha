@@ -16,12 +16,10 @@ else
     exit 1
 fi
 
-
-
 JENKINS_USER_TOKEN="${CJOC_LOGIN_USER}:$JENKINS_TOKEN"
 #CONTROLLER_URL=http://client.ha
 CONTROLLER_URL=http://${CLIENTS_URL}
-#JOBNAME
+#JOBNAME: This is the job we want to trigger on the Controller.The job mus exist on Controller root level
 JOB=testpipeline
 #curl connect_timeout
 CONNECT_TIMEOUT=5
