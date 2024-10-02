@@ -100,9 +100,12 @@ This demo has been tested
   * CasC will read these files and apply for the license during the startup
 * Optional:
   * if you want to use your Browser on docker host, follow these instructions:  [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
-* Run `up.sh`
-  * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
-  * All the configurations required by HA/HS are already set up
+* Start the containers
+  * Run `./up.sh`
+    * The persistent volumes will be created 
+    * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
+    * All the configurations required by HA/HS are already set up
+    * You will be redirected to one of the browser options
 * Browser access to the Operations Center
   * When Docker Compose is fully up, you will be redirected to your browser. 
     * Option1: Use a Browser in a box
