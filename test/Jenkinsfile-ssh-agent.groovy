@@ -8,9 +8,11 @@ pipeline {
          */
         label "ssh-agent"
     }
-    triggers {
-        cron '* * * * *'
-    }
+    /** trigger every minute
+         triggers {
+         cron '* * * * *'
+         }
+     */
 
     stages {
         stage('Stage1') {
