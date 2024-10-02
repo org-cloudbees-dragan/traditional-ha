@@ -74,7 +74,8 @@ This demo has been tested
 * Docker-compose v3
 * Web browsers, Firefox, and Chrome has been tested
 
-Required tools:
+## Required tools
+
 * [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/)
 * ping (not mandatory, but used in the `up.sh` script to test name resolution)
 * ssh-keygen
@@ -85,7 +86,7 @@ Required tools:
 * Clone this repository
   * cd into the directory 
     * `cd ci-traditional-ha`
-  * Update the permissions: run 
+  * Update the permissions
     * `chmod -R a+x *.sh`
 * Optional: Add a CloudBees Wildcard License to avoid the license screen. 
   * If you don't have a license now, you can request a trial license later in the Operations Center welcome screen
