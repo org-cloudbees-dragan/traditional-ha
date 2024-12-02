@@ -1,0 +1,21 @@
+#! /bin/bash
+
+
+export JENKINS_HOME="./jenkins-home-oc"
+export JENKINS_URL=http://oc.ha:8443
+export KEYSTORE=$(realpath ./jenkins.jks)
+export KS_PW="changeit"
+java \
+-Djenkins.model.Jenkins.crumbIssuerProxyCompatibility=true \
+-DexecutableWar.jetty.disableCustomSessionIdCookieName=true \
+-Dcom.cloudbees.jenkins.ha=false \
+-Djavax.net.ssl.keyStore=$KEYSTORE \
+-Djavax.net.ssl.keyStorePassword=$KS_PW \
+-Djavax.net.ssl.trustStore=$KEYSTORE \
+-Djavax.net.ssl.trustStorePassword=$KS_PW \
+-Djavax.net.ssl.trustStoreType=JKS \
+-jar cloudbees-core-oc.war \
+--httpPort=-1 \
+--httpsKeyStore=$KEYSTORE \
+--httpsKeyStorePassword=$KS_PW \
+--httpsPort=8443
