@@ -9,3 +9,5 @@ docker-compose.yaml
 /CB-Wildcard-License.md
 /test/cookies.txt
 /test/headers
+/ssl/jenkins-home-controller/
+/ssl/jenkins-home-oc/
