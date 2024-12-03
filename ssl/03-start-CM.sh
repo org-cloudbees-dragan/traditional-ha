@@ -7,14 +7,17 @@ VERSION=2.479.2.3
 export JENKINS_HOME="./jenkins-home-controller"
 export JENKINS_URL=http://client.ha:8444
 export KEYSTORE=$(realpath ./jenkins.jks)
+export CACERTS=$(realpath ./cacerts)
 export KS_PW="changeit"
+# #-Djavax.net.debug=ssl
+# -Djavax.net.debug=all
 java \
 -Djenkins.model.Jenkins.crumbIssuerProxyCompatibility=true \
 -DexecutableWar.jetty.disableCustomSessionIdCookieName=true \
 -Dcom.cloudbees.jenkins.ha=false \
--Djavax.net.ssl.keyStore=$KEYSTORE \
+-Djavax.net.ssl.keyStore=$CACERTS \
 -Djavax.net.ssl.keyStorePassword=$KS_PW \
--Djavax.net.ssl.trustStore=$KEYSTORE \
+-Djavax.net.ssl.trustStore=$CACERTS \
 -Djavax.net.ssl.trustStorePassword=$KS_PW \
 -Djavax.net.ssl.trustStoreType=JKS \
 -jar cloudbees-core-cm.war \
