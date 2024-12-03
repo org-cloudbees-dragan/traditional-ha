@@ -14,7 +14,7 @@ References we have used for the development of this demo environment:
 
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
-* [docs/HAProxy/1_Using_SSL_Certificates_with_HAProxy.pdf](docs/HAProxy/1_Using_SSL_Certificates_with_HAProxy.pdf)
+* [docs/HAProxy/1_Using_SSL_Certificates_with_HAProxy.pdf](ssl/1_Using_SSL_Certificates_with_HAProxy.pdf)
 * https://www.haproxy.com/blog/haproxy-configuration-basics-load-balance-your-servers
 * https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/
 * https://www.haproxy.com/documentation/haproxy-configuration-tutorials/load-balancing/websocket/#configure-websockets
@@ -55,7 +55,7 @@ There are two exceptions to highlight:
   * NFS volumes are not used at the moment in the demo lab.
 * Browser access
   * If you want to access the demo via a browser from a Docker host, you need entries in `/etc/hosts` (see chapters below)
-  * If you don't want to add entries in `/etc/hosts`, you can access a browser in a container under htpp://localhost:3000. No changes on your Docker host system are required in this case
+  * If you don't want to add entries in `/etc/hosts`, you can access a browser in a container under [htpp://localhost:3000](htpp://localhost:3000). No changes on your Docker host system are required in this case
 
 
 The Operations Center and both controllers are behind HAProxy.
