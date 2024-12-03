@@ -2,7 +2,7 @@
 
 
 export JENKINS_HOME="./jenkins-home-oc"
-export JENKINS_URL=http://oc.ha:8443
+export JENKINS_URL=https://oc.ha:8443
 
 export KEYSTORE=$(realpath ./jenkins.jks)
 export CACERTS=$(realpath ./cacerts)
