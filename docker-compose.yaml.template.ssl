@@ -23,6 +23,7 @@ services:
       - JENKINS_OPTS=${CJOC_JENKINS_OPTS}
       - CJOC_LOGIN_PW=${CJOC_LOGIN_PW}
       - CJOC_LOGIN_USER=${CJOC_LOGIN_USER}
+      - CJOC_URL=https://${OC_URL}
     container_name: operations-center
     volumes:
     - ${OC_PERSISTENCE}:/var/jenkins_home
