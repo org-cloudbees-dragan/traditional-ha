@@ -11,3 +11,11 @@ docker-compose.yaml
 /test/headers
 /ssl/jenkins-home-controller/
 /ssl/jenkins-home-oc/
+/ssl/cacerts
+/ssl/openssl.cnf
+/ssl/jenkins.pem
+/ssl/jenkins.p12
+/ssl/jenkins.key
+/ssl/jenkins.jks
+/ssl/jenkins.csr
+/ssl/jenkins.crt
