@@ -48,13 +48,16 @@ export BROWSER_IP=$IP_PREFIX.0.10
 
 ########################################################################################################################
 
-echo "#### DNS/URL settings"
+echo "#### DNS/URL/PORT settings"
 
 # Hostnames for Operations Center and Controllers
 # The controllers are in HA mode, listening on a single CLIENTS_URL
 # HAProxy listens for this URL and load balances between the controllers
 export OC_URL=oc.ha
 export CLIENTS_URL=client.ha
+export HA_PROXY_BIND_PORT=80
+export HTTP_PROTOCOL=http
+export HTTP_PORT=8080
 
 ########################################################################################################################
 
@@ -89,6 +92,7 @@ export CJOC_JAVA_OPTS="-XX:+AlwaysPreTouch -XX:+UseStringDeduplication -XX:+Para
 # https://docs.cloudbees.com/docs/cloudbees-ci/latest/casc-oc/configure-oc-traditional#_adding_the_java_system_property
 # We assign the cjoc casc bundle, comment out if you don't want to use casc
 export CJOC_JAVA_OPTS="$CJOC_JAVA_OPTS -Dcore.casc.config.bundle=/var/jenkins_home/cascbundle"
+export CJOC_JENKINS_OPTS=""
 # Cjoc login user and password
 export CJOC_LOGIN_USER="admin"
 export CJOC_LOGIN_PW="admin"

@@ -56,4 +56,4 @@ unclassified:
     text: "Managed by CasC"
   location:
     adminAddress: "not configured <nobody@nowhere>"
-    url: "http://client.ha/"
+    url: ${CONTROLLER_URL}

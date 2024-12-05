@@ -56,6 +56,6 @@ unclassified:
     text: "Managed by CasC"
   location:
     adminAddress: "Set me up <nobody@nowhere>"
-    url: ${CJOC_URL}
+    url: ${OC_URL}
   operationsCenterSharedConfiguration:
     enabled: true

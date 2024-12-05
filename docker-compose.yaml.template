@@ -13,18 +13,23 @@ services:
       - "${OC_URL}:${HAPROXY_IP}"
       - "${CLIENTS_URL}:${HAPROXY_IP}"
     healthcheck:
-      test: curl --fail http://localhost:8080/whoAmI/api/json?tree=authenticated || exit 1
+      test: curl --fail ${HTTP_PROTOCOL}://localhost:${HTTP_PORT}/whoAmI/api/json?tree=authenticated || exit 1
       interval: 3s
       timeout: 3s
       retries: 50
     environment:
       - JAVA_OPTS=${CJOC_JAVA_OPTS}
+      - JENKINS_OPTS=${CJOC_JENKINS_OPTS}
       - CJOC_LOGIN_PW=${CJOC_LOGIN_PW}
       - CJOC_LOGIN_USER=${CJOC_LOGIN_USER}
-      - CJOC_URL=http://${OC_URL}
+      - OC_URL=${HTTP_PROTOCOL}://${OC_URL}
     container_name: operations-center
     volumes:
     - ${OC_PERSISTENCE}:/var/jenkins_home
+    #{% if ssl == "true" %}
+    - ./ssl/jenkins.jks:/tmp/jenkins.jks
+    - ./ssl/cacerts:/tmp/cacerts
+      # {% endif %}
     networks:
       demo-network:
         ipv4_address: ${OC_IP}
@@ -34,7 +39,7 @@ services:
     extra_hosts:
       - "${OC_URL}:${HAPROXY_IP}"
     healthcheck:
-      test: curl --fail http://localhost:8080/whoAmI/api/json?tree=authenticated || exit 1
+      test: curl --fail ${HTTP_PROTOCOL}://localhost:${HTTP_PORT}/whoAmI/api/json?tree=authenticated || exit 1
       interval: 3s
       timeout: 3s
       retries: 50
@@ -44,6 +49,7 @@ services:
     environment:
       - JAVA_OPTS=${CONTROLLER_JAVA_OPTS}
       - JENKINS_OPTS=${CONTROLLER_JENKINS_OPTS}
+      - CONTROLLER_URL="${HTTP_PROTOCOL}://${CLIENTS_URL}"
     depends_on:
       operations-center:
         condition: service_healthy
@@ -53,6 +59,10 @@ services:
     volumes:
     - ${CONTROLLER_PERSISTENCE}:/var/jenkins_home
     - ${CONTROLLER1_CACHES}:/var/cache/cloudbees-core-cm
+    #{% if ssl == "true" %}
+    - ./ssl/jenkins.jks:/tmp/jenkins.jks
+    - ./ssl/cacerts:/tmp/cacerts
+   # {% endif %}
     networks:
       demo-network:
         ipv4_address: ${CLIENT1_IP}
@@ -62,7 +72,7 @@ services:
     extra_hosts:
       - "${OC_URL}:${HAPROXY_IP}"
     healthcheck:
-      test: curl --fail http://localhost:8080/whoAmI/api/json?tree=authenticated || exit 1
+      test: curl --fail  ${HTTP_PROTOCOL}://localhost:${HTTP_PORT}/whoAmI/api/json?tree=authenticated || exit 1
       interval: 3s
       timeout: 3s
       retries: 50
@@ -72,6 +82,7 @@ services:
     environment:
       - JAVA_OPTS=${CONTROLLER_JAVA_OPTS}
       - JENKINS_OPTS=${CONTROLLER_JENKINS_OPTS}
+      - CONTROLLER_URL="${HTTP_PROTOCOL}://${CLIENTS_URL}"
     depends_on:
       operations-center:
         condition: service_healthy
@@ -83,6 +94,10 @@ services:
     volumes:
     - ${CONTROLLER_PERSISTENCE}:/var/jenkins_home
     - ${CONTROLLER2_CACHES}:/var/cache/cloudbees-core-cm
+    #{% if ssl == "true" %}
+    - ./ssl/jenkins.jks:/tmp/jenkins.jks
+    - ./ssl/cacerts:/tmp/cacerts
+    # {% endif %}
     networks:
       demo-network:
         ipv4_address: ${CLIENT2_IP}
@@ -103,9 +118,12 @@ services:
   haproxy:
     image: ${DOCKER_IMAGE_HAPROXY}
     volumes:
-      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - ${HA_PROXY_CONFIG}:/usr/local/etc/haproxy/haproxy.cfg
+    #{% if ssl == "true" %}
+      - ./ssl/jenkins.pem:/tmp/jenkins.pem
+    # {% endif %}
     ports:
-      - "80:80"
+      - "${HA_PROXY_BIND_PORT}:${HA_PROXY_BIND_PORT}"
     networks:
       demo-network:
         ipv4_address: ${HAPROXY_IP}
