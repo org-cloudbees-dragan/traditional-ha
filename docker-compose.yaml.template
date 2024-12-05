@@ -13,7 +13,7 @@ services:
       - "${OC_URL}:${HAPROXY_IP}"
       - "${CLIENTS_URL}:${HAPROXY_IP}"
     healthcheck:
-      test: curl --fail ${HTTP_PROTOCOL}://localhost:${HTTP_PORT}/whoAmI/api/json?tree=authenticated || exit 1
+      test: curl -k --fail ${HTTP_PROTOCOL}://localhost:${HTTP_PORT}/whoAmI/api/json?tree=authenticated || exit 1
       interval: 3s
       timeout: 3s
       retries: 50
@@ -39,7 +39,7 @@ services:
     extra_hosts:
       - "${OC_URL}:${HAPROXY_IP}"
     healthcheck:
-      test: curl --fail ${HTTP_PROTOCOL}://localhost:${HTTP_PORT}/whoAmI/api/json?tree=authenticated || exit 1
+      test: curl -k --fail ${HTTP_PROTOCOL}://localhost:${HTTP_PORT}/whoAmI/api/json?tree=authenticated || exit 1
       interval: 3s
       timeout: 3s
       retries: 50
@@ -72,7 +72,7 @@ services:
     extra_hosts:
       - "${OC_URL}:${HAPROXY_IP}"
     healthcheck:
-      test: curl --fail  ${HTTP_PROTOCOL}://localhost:${HTTP_PORT}/whoAmI/api/json?tree=authenticated || exit 1
+      test: curl -k --fail  ${HTTP_PROTOCOL}://localhost:${HTTP_PORT}/whoAmI/api/json?tree=authenticated || exit 1
       interval: 3s
       timeout: 3s
       retries: 50
