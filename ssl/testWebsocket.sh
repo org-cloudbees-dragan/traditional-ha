@@ -2,6 +2,24 @@
 
 HOSTNAME=oc.ha
 JENKINS_URL=https://${HOSTNAME}:443
+
+#curl -i -N -H "Connection: Upgrade" \
+#    -H "Upgrade: websocket" \
+#    -H "Host: oc.ha" \
+#    -H "Origin: https://oc.ha" \
+#    -H "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" \
+#    -H "Sec-WebSocket-Version: 13" \
+#    https://oc.ha/ws
+#
+#
+#  curl --http1.1  -u "admin:XXX"  -i -N -H "Connection: Upgrade" \
+#      -H "Upgrade: websocket" \
+#      -H "Host: oc.ha" \
+#      -H "Origin: https://oc.ha" \
+#      -H "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" \
+#      -H "Sec-WebSocket-Version: 13" \
+#      https://oc.ha/wscontrollers
+
 #curl --http1.1 -i -N --header "Connection: Upgrade" --header "Upgrade: websocket" \
 # --header "Host: $HOSTNAME" --header "Origin: $HOSTNAME" --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" \
 # --header "Sec-WebSocket-Version: 13" --header "Secret-Key:SECRET" \
@@ -11,7 +29,7 @@ JENKINS_URL=https://${HOSTNAME}:443
 
 
 
-#websocat -v --basic-auth "admin:1159bbc243a046c3f85e73a67c0bbe1546" wss://oc.ha:443/wsecho/ 2>&1
+#websocat -v --basic-auth "admin:XXXX" wss://oc.ha:443/wsecho/ 2>&1
 
 
 export KEYSTORE=$(realpath ./jenkins.jks)

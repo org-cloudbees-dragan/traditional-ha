@@ -35,6 +35,11 @@ $JAVA_HOME/lib/security/cacerts
 * `javax.net.debug` - To switch on logging for the SSL/TLS layer, set this property to ssl.
 > -Djavax.net.debug=all or  -Djavax.net.debug=ssl
 
+
+# Download cert from URL 
+
+> openssl s_client -showcerts -connect XXXX.beescloud.com:443 </dev/null 2>/dev/null|openssl x509 -outform PEM > tmpcert.pem 
+
 # Keystore vs. Truststore 
 
 In Java, **Truststore** and **Keystore** are both used to manage certificates and keys, but they serve different purposes. Here's a detailed explanation of their differences:
@@ -209,5 +214,5 @@ These files are commonly associated with SSL/TLS certificates and keys. Here's w
    openssl pkcs12 -export -in jenkins.pem -out jenkins.p12 -name "JenkinsCert"
    ```
 
-Let me know if you'd like detailed steps for managing these files in Jenkins!
+
 
