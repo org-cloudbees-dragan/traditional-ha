@@ -10,20 +10,42 @@ else
  exit 2
 fi
 
-echo "#### Source settings file "
+# Default value
+SSL=false
+
+# Iterate over arguments
+for arg in "$@"; do
+  if [[ $arg == "ssl=true" ]]; then
+    SSL=true
+  fi
+done
+
+echo "#### Source default settings file "
 source ./env.sh
+
+# Output the result
+if [[ $SSL == true ]]; then
+  echo "SSL is enabled."
+  echo "#### Source ssl settings file "
+  source ./env-ssl.sh
+  export HA_PROXY_CONFIG=./haproxy-ssl.cfg
+else
+  echo "SSL is disabled."
+  export HA_PROXY_CONFIG=./haproxy.cfg
+fi
 
 echo "#### Generate SSH key to secrets/${SSH_KEY_ID}"
 if [[ -e "$SSH_PRIVATE_KEY_PATH" && -e "$SSH_PUBLIC_KEY_PATH" ]]; then
     echo "$SSH_PUBLIC_KEY_PATH and $SSH_PUBLIC_KEY_PATH exist already. Delete them manually if you want to re-generate the SSH keys"
 else
-    echo "$SSH_PUBLIC_KEY_PATH or $SSH_PUBLIC_KEY_PATH file do not exist. They will be generated now"
+    echo "$SSH_PRIVATE_KEY_PATH or $SSH_PUBLIC_KEY_PATH file do not exist. They will be generated now"
     ssh-keygen -t rsa -b 2048 -f secrets/${SSH_KEY_ID} -N ""
 fi
 
 echo "#### Assign $SSH_PUBLIC_KEY_PATH to JENKINS_AGENT_SSH_PUBKEY"
 # Expose SSH PUP_KEY  to Agent authorized_key , see https://hub.docker.com/r/jenkins/ssh-agent for details
 export JENKINS_AGENT_SSH_PUBKEY=$(cat $SSH_PUBLIC_KEY_PATH)
+echo $JENKINS_AGENT_SSH_PUBKEY
 
 echo "#### Create browser volume in ${BROWSER_PERSISTENCE}"
 # create dir for browser persistence
