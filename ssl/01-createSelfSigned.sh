@@ -64,8 +64,18 @@ keytool -delete -alias jenkins -keystore jenkins.jks
 openssl pkcs12 -export -in jenkins.crt -inkey jenkins.key -out jenkins.p12 -name jenkins -CAfile jenkins.crt -caname root
 
 # enter a password when prompted, for example 'changeit'
-keytool -importkeystore -destkeystore jenkins.jks -srckeystore jenkins.p12 -srcstoretype PKCS12 -alias jenkins
+keytool -importkeystore -destkeystore jenkins.jks -srckeystore jenkins.p12 -srcstoretype PKCS12 -storepass changeit -alias jenkins
 # enter the same password when prompted, for example 'changeit'
 
 # Now you have a jenkins.jks that can be used for TLS on each replica
+
+# copy cacerts from JAVA_HOME
+cp -f -v $JAVA_HOME/lib/security/cacerts .
+# create pem file, includes private key and certificate
+# PEM  will be referenced by HApproxy and by the patched cacerts
+cat jenkins.crt jenkins.key > jenkins.pem
+# Add the pem file to the cacerts
+#keytool -delete -noprompt -alias jenkins -keystore cacerts -storepass changeit
+keytool -import -noprompt -keystore cacerts -file jenkins.pem -storepass changeit -alias jenkins;
+
 

@@ -5,7 +5,7 @@ This directory contains some resources to test running CloudBees on Port 443 by 
 * [01-createSelfSigned.sh](01-createSelfSigned.sh) Creates a self singed certificate: 
   * Use "changeit" multiple times for the password
   * For all the other questions use the default
-* [02-patchcacerts.sh](02-patchcacerts.sh) copies cacerts from JAVA_HOME and add the self singed certificate (private key and certificate crt) as a pem to the java keystore
+  * Output: pem file for haproxy and the java keystores, jenkins.jks keystore and patched cacerts for outbound traffic 
 * [03-start-CM.sh](03-start-CM.sh) starts a CloudBees Controller on HTTPS port using the jenkins.jks store 
 * [03-start-OC.sh](03-start-OC.sh) starts a CloudBees Operations center on HTTPS port using the jenkins.jks store
 * [cacerts](cacerts) The default Java keystore plus the self singed cert (already added). Used for the java option for outbound traffic
