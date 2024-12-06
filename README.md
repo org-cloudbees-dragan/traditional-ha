@@ -61,7 +61,9 @@ This demo has been tested
 * [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/)
 * ping (not mandatory, but used in the `up.sh` script to test name resolution)
 * ssh-keygen
-* optional: openssl (to create a self signed certificate)
+* When running in HTTPS modde:
+  * openssl (to create a self signed certificate)
+  * JAVA_HOME referencing to a supported jdk (currently java 17)
 * A Web browser
 
 # Quick Start
@@ -87,10 +89,7 @@ This demo has been tested
   * Option HTTP mode: Run `./up.sh` to start in plain HTTP mode (no ssl certificates are required)
   * Option HTTPS mode: 
     * Create a self signed certificate: [01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
-      * `cd ssl && ./ssl/01-createSelfSigned.sh`. this creates:
-          * pem file: used by HAProxy for the frontend (includes the private key and certificate crt)
-          * cacerts: The Java default cacerts with the pem added, used for jenkins outbound connections
-          * Jenkins keystore: Jenkins.jks keystore, includes the pem only, used for the HTTPS_KESTROE 
+      * `cd ssl && ./ssl/01-createSelfSigned.sh`
       * Optional: To make the certificate trusted in your browser: [Add the certificate to your Keychain Access](https://support.apple.com/guide/keychain-access/add-certificates-to-a-keychain-kyca2431/mac)
     * Run `./up.sh ssl=true` to start in HTTPS mode 
 * The following steps will be executed by the `up.sh` script
@@ -134,6 +133,10 @@ Usually, you don't need to change something in the env settings
 * `CONTROLLER_JENKINS_OPTS` required JENKINS settings for HA/HS  see https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_jenkins_args
 * `CONTROLLER_JAVA_OPTS` required JAVA settings for HA/HS see https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional#_java_options
 
+[env-ssl.sh](env-ssl.sh)
+
+Optional config file containing the settings when running in SSL mode
+
 [docker-compose.yaml.template](docker-compose.yaml.template)
 
 This template is used to render the `docker-compose.yaml` file using the environment variables in `env.sh`. Please do not modify docker-compose.yaml directly since it will be overwritten by `up.sh`. Instead, modify this template.
@@ -146,6 +149,13 @@ A helper script to:
 - Render the docker-compose.yaml from the template.
 - Run `docker compose up`
 
+[01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
+
+Script to create a self singed certificate
+* pem file: used by HAProxy for the frontend (includes the private key and certificate crt)
+* cacerts: The Java default cacerts with the pem added, used for jenkins outbound connections
+* Jenkins keystore: Jenkins.jks keystore, includes the pem only, used for the Jenkins HTTPS_KEYSTORE
+
 [haproxy.cfg](haproxy.cfg)
 
 This is the haproxy configuration used in the haproxy container to balance and forward the incoming traffic to the related CloudBees components
@@ -157,6 +167,10 @@ It includes:
 * enabled sticky sessions
 * balance mode (round robin)
 * health checks
+
+[haproxy-ssl.cfg](haproxy-ssl.cfg)
+
+Contains the haproxy config for SSL 
 
 [restartControllers.sh](restartControllers.sh)
 
@@ -206,7 +220,7 @@ An SSH key will also be generated into the `secrets` directory for you when you 
 
 - Examine `env.sh` and modify if needed.
 - Examine `docker-compose.yaml.template` and modify if needed.
-- Run `up.sh`
+- Run `up.sh` (or `up.sh ssl=true`)
 - Wait until all components are up and access via one of the browser options
 
 ## Stop
