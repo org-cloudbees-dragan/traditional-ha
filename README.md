@@ -386,7 +386,6 @@ curl -u ${CJOC_LOGIN_USER}:${CJOC_LOGIN_PW}  -v -H "Host: custom.example.com" ${
 
 ## Browser shows SSL issues or side is not secured/Missing SSL Certificate
 
-We run on localhost, an SSL certificate is not part of the demo now.
 If you hit SSL issues in your browser when you access the Operations Center, do the following:
 
 ### Disable "HTTPS Only" mode
