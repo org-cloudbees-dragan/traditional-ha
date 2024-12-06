@@ -2,28 +2,11 @@
 
 Docker compose setup for a [Cloudbees CI traditional installation](https://docs.cloudbees.com/docs/cloudbees-ci/latest/traditional-install-guide/) in [HA (active/active) mode](https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-fundamentals)
 
-See these links for the background
+See these links for the background details
 
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-fundamentals
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
-
-# Links
-
-References we have used for the development of this demo environment:
-
-* https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
-* https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
-* [docs/HAProxy/1_Using_SSL_Certificates_with_HAProxy.pdf](ssl/1_Using_SSL_Certificates_with_HAProxy.pdf)
-* https://www.haproxy.com/blog/haproxy-configuration-basics-load-balance-your-servers
-* https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/
-* https://www.haproxy.com/documentation/haproxy-configuration-tutorials/load-balancing/websocket/#configure-websockets
-* https://www.haproxy.com/documentation/haproxy-configuration-tutorials/core-concepts/backends/
-* https://docs.docker.com/compose/networking/
-* https://www.claudiokuenzler.com/blog/900/how-to-use-docker-host-ip-address-inside-application-container
-* https://eventuate.io/docs/usingdocker.html
-* https://docs.linuxserver.io/images/docker-webtop/#lossless-mode
-* https://daniel.haxx.se/blog/2022/03/24/easier-header-picking-with-curl
 
 # Architecture
 
@@ -32,7 +15,6 @@ Each CloudBees component as well as the HAProxy is running in a dedicated docker
 
 The demo has the following limitations:
 
-* SSL 443 is not enabled yet. All traffic for local demo is going through port 80/8080
 * The NFS server is not part of the demo. Instead, we will use a single shared local directory on the host system for the JENKINS_HOME directory referenced by the Controller replicas.
 
 ![Ci-HAProxy.png](docs/Ci-HAProxy.png)
@@ -79,6 +61,7 @@ This demo has been tested
 * [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/)
 * ping (not mandatory, but used in the `up.sh` script to test name resolution)
 * ssh-keygen
+* optional: openssl (to create a self signed certificate)
 * A Web browser
 
 # Quick Start
@@ -101,22 +84,31 @@ This demo has been tested
 * Optional:
   * if you want to use your Browser on docker host, follow these instructions:  [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
 * Start the containers
-  * Run `./up.sh`
-    * The persistent volumes will be created 
-    * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
-    * All the configuration required by HA/HS is already set up
-    * When Docker Compose is fully up, you will be redirected to one of this browser options:
-      * Option1: Use a Browser in a box
-        * This option doesn't require changes on your host in `/etc/hosts`
-        * See for details: [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
-      * Option2: Use your Browser on your computer (Docker Host)
-        * This option requires changes on your host in `/etc/hosts`
-        * See for details: [Use your Browser on your Docker Host](#Option2_Use_your_browser_on_your_docker_host)
-* In one of the browser options, open the Operations Center: [http://oc.ha](http://oc.ha) 
+  * Option HTTP mode: Run `./up.sh` to start in plain HTTP mode (no ssl certificates are required)
+  * Option HTTPS mode: 
+    * Create a self signed certificate: [01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
+      * `cd ssl && ./ssl/01-createSelfSigned.sh`. this creates:
+          * pem file: used by HAProxy for the frontend (includes the private key and certificate crt)
+          * cacerts: The Java default cacerts with the pem added, used for jenkins outbound connections
+          * Jenkins keystore: Jenkins.jks keystore, includes the pem only, used for the HTTPS_KESTROE 
+      * Optional: To make the certificate trusted in your browser: [Add the certificate to your Keychain Access](https://support.apple.com/guide/keychain-access/add-certificates-to-a-keychain-kyca2431/mac)
+    * Run `./up.sh ssl=true` to start in HTTPS mode 
+* The following steps will be executed by the `up.sh` script
+  * The persistent volumes will be created 
+  * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
+  * All the configuration required by HA/HS is already set up
+  * When Docker Compose is fully up, you will be redirected to one of this browser options:
+    * Option1: Use a Browser in a box
+      * This option doesn't require changes on your host in `/etc/hosts`
+      * See for details: [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
+    * Option2: Use your Browser on your computer (Docker Host)
+      * This option requires changes on your host in `/etc/hosts`
+      * See for details: [Use your Browser on your Docker Host](#Option2_Use_your_browser_on_your_docker_host)
+* In one of the browser options, open the Operations Center: [http://oc.ha](http://oc.ha) or for HTTPS mode [https://oc.ha](https://oc.ha) 
   * use `admin/admin` for login
   * If not done earlier, request a license (first option in the screen "Request trial license")
   * Click on the pre-provisioned controller "ha" in the Operations Center UI
-    * Add `http://client.ha`
+    * Add `http://client.ha` (or `https://client.ha` in HTTPS mode)
     * Click `push configuration` 
     * Click `join operations center`
 * Now you are on a Controller running in HA/HS mode. 
@@ -458,8 +450,27 @@ Restart the agent container if required
 
 Verify if the key has been applied: (Join the docker agent container and check the `/home/jenkins/.ssh` directory)
 
+# Links
+
+References we have used for the development of this demo environment:
+
+* https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
+* https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
+* [docs/HAProxy/1_Using_SSL_Certificates_with_HAProxy.pdf](ssl/1_Using_SSL_Certificates_with_HAProxy.pdf)
+* https://www.haproxy.com/blog/haproxy-configuration-basics-load-balance-your-servers
+* https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/
+* https://www.haproxy.com/documentation/haproxy-configuration-tutorials/load-balancing/websocket/#configure-websockets
+* https://www.haproxy.com/documentation/haproxy-configuration-tutorials/core-concepts/backends/
+* https://docs.docker.com/compose/networking/
+* https://www.claudiokuenzler.com/blog/900/how-to-use-docker-host-ip-address-inside-application-container
+* https://eventuate.io/docs/usingdocker.html
+* https://docs.linuxserver.io/images/docker-webtop/#lossless-mode
+* https://daniel.haxx.se/blog/2022/03/24/easier-header-picking-with-curl
+
+
+
 # TODO and next steps
 
 [] Test/update to run on Linux (whatever)
 [] Verify to introduce NFS
-[] Enable SSL on HAPRoxy (self-signed certs?)
+[x] Enable SSL on HAPRoxy (self-signed certs?)
