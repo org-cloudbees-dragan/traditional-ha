@@ -13,19 +13,25 @@ fi
 echo "#### Source default settings file "
 source ./env.sh
 
-# Default value
+echo "#### Verify if SSL is enabled"
 SSL=false
-
-# Iterate over arguments
 for arg in "$@"; do
   if [[ $arg == "ssl=true" ]]; then
     SSL=true
   fi
 done
-
-# Check if SSL is enabled
 if [[ $SSL == true ]]; then
   echo "SSL is enabled: source ssl settings file"
+  SSL_DIR="ssl"
+  # Check each file individually
+  for file in cacerts jenkins.jks jenkins.pem; do
+    if [[ ! -f "$SSL_DIR/$file" ]]; then
+      echo "Missing file: $SSL_DIR/$file"
+      echo "Create a certificate first to run in SSL mode. Run:"
+      echo "cd $SSL_DIR && ./01-createSelfSigned.sh"
+      exit 2
+    fi
+  done
   source ./env-ssl.sh
 else
   echo "SSL is disabled."
