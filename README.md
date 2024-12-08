@@ -68,7 +68,6 @@ The Operations Center and both controllers are behind HAProxy.
 * Optional: Add a CloudBees Wildcard License to avoid the license screen.
   * If you don't have a license now ignore these sub steps, you can request a trial license later in the Operations Center welcome screen
   * If you have a CloudBees wildcard license, create the following files and add the licence certificate and key there
-  *
    ```
     mkdir secrets
     touch secrets/cb-wildcard-license.cert # Add the license certificate  
