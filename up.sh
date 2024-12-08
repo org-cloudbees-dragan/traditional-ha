@@ -10,6 +10,9 @@ else
  exit 2
 fi
 
+echo "#### Source default settings file "
+source ./env.sh
+
 # Default value
 SSL=false
 
@@ -20,18 +23,12 @@ for arg in "$@"; do
   fi
 done
 
-echo "#### Source default settings file "
-source ./env.sh
-
-# Output the result
+# Check if SSL is enabled
 if [[ $SSL == true ]]; then
-  echo "SSL is enabled."
-  echo "#### Source ssl settings file "
+  echo "SSL is enabled: source ssl settings file"
   source ./env-ssl.sh
-  export HA_PROXY_CONFIG=./haproxy-ssl.cfg
 else
   echo "SSL is disabled."
-  export HA_PROXY_CONFIG=./haproxy.cfg
 fi
 
 echo "#### Generate SSH key to secrets/${SSH_KEY_ID}"

@@ -58,6 +58,7 @@ export CLIENTS_URL=client.ha
 export HA_PROXY_BIND_PORT=80
 export HTTP_PROTOCOL=http
 export HTTP_PORT=8080
+export HA_PROXY_CONFIG=./haproxy.cfg
 
 ########################################################################################################################
 

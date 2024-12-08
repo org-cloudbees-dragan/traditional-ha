@@ -21,9 +21,10 @@ export CJOC_JAVA_OPTS="$CJOC_JAVA_OPTS $JAVA_SSL_OPTS"
 export CJOC_JENKINS_OPTS="$JENKINS_SSL_OPTS"
 
 export HA_PROXY_BIND_PORT=443
+export HA_PROXY_CONFIG=./haproxy-ssl.cfg
 export HTTP_PROTOCOL=https
 export HTTP_PORT=8443
-########################################################################################################################
+########################################################################
 
 
 
