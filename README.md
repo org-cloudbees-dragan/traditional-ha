@@ -17,7 +17,15 @@ The demo has the following limitations:
 
 * The NFS server is not part of the demo. Instead, we will use a single shared local directory on the host system for the JENKINS_HOME directory referenced by the Controller replicas.
 
-![Ci-HAProxy.png](docs/Ci-HAProxy.png)
+Two models are supported: 
+
+## HTTP  (All traffic plain on HTTP port 80 and 8080)
+
+![HTTP-HAProxy-Cjoc.png](docs/HTTP-HAProxy-Cjoc.png)
+
+## HTTPS  (All traffic on HTTPS port 443 and 8443)
+
+![HTTPS-HAProxy-Cjoc.png](docs/HTTPS-HAProxy-Cjoc.png)
 
 The setup consists of the following containers:
 
