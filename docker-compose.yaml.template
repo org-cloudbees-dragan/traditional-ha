@@ -49,7 +49,7 @@ services:
     environment:
       - JAVA_OPTS=${CONTROLLER_JAVA_OPTS}
       - JENKINS_OPTS=${CONTROLLER_JENKINS_OPTS}
-      - CONTROLLER_URL="${HTTP_PROTOCOL}://${CLIENTS_URL}"
+      - CONTROLLER_URL=${HTTP_PROTOCOL}://${CLIENTS_URL}
     depends_on:
       operations-center:
         condition: service_healthy
@@ -82,7 +82,7 @@ services:
     environment:
       - JAVA_OPTS=${CONTROLLER_JAVA_OPTS}
       - JENKINS_OPTS=${CONTROLLER_JENKINS_OPTS}
-      - CONTROLLER_URL="${HTTP_PROTOCOL}://${CLIENTS_URL}"
+      - CONTROLLER_URL=${HTTP_PROTOCOL}://${CLIENTS_URL}
     depends_on:
       operations-center:
         condition: service_healthy
