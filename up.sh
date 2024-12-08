@@ -141,13 +141,13 @@ echo "Verify if you have updated your /etc/hosts with  ${OC_URL} and  ${CLIENTS_
 if ping -c 1 "${OC_URL}" > /dev/null 2>&1 && ping -c 1 "${CLIENTS_URL}" > /dev/null 2>&1
 then
     echo "Host name resolution successful for ${OC_URL} and ${CLIENTS_URL}."
-    open http://${OC_URL}
+    open ${HTTP_PROTOCOL}://${OC_URL}
 else
     echo """
          Host name resolution failed for ${OC_URL} and ${CLIENTS_URL} om Docker host in /etc/hosts
          That's fine, so we open a browser in a container box in your browser:
          * There: Open Firefox from the 'APPLICATIONS' menu top to the left
-         * Then open http://${OC_URL} in the URL bar
+         * Then open ${HTTP_PROTOCOL}://${OC_URL} in the URL bar
          """
     open http://localhost:3000
 fi
