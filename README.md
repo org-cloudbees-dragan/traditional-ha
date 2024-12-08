@@ -88,7 +88,7 @@ This demo has been tested
 * Start the containers
   * Option HTTP mode: Run `./up.sh` to start in plain HTTP mode (no ssl certificates are required)
   * Option HTTPS mode: 
-    * Create a self signed certificate: [01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
+    * Create a self singed certificate: [01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
       * `cd ssl && ./ssl/01-createSelfSigned.sh`
       * Optional: To make the certificate trusted in your browser: [Add the certificate to your Keychain Access](https://support.apple.com/guide/keychain-access/add-certificates-to-a-keychain-kyca2431/mac)
     * Run `./up.sh ssl=true` to start in HTTPS mode 
