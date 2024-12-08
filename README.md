@@ -46,25 +46,36 @@ The Operations Center and both controllers are behind HAProxy.
 * If a request comes with $CLIENTS_URL host header, it is load balanced between all client controllers
 * The load balancing for client controllers has sticky sessions enabled
 
-# Pre-requirements
+# Pre-requirements /tools
 
-This demo has been tested
-* on MacOs 14.7
-* Docker-Desktop 4.24.0 (122432)
+* MacOs 14.7
+* [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/)
+  * Tested: 4.24.0 (122432)
 * Engine: 24.0.6
 * Compose: v2.22.0-desktop.2
 * Docker-compose v3
 * Web browsers, Firefox, and Chrome has been tested
-
-## Required tools
-
-* [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/)
 * ping (not mandatory, but used in the `up.sh` script to test name resolution)
-* ssh-keygen
-* When running in HTTPS modde:
-  * openssl (to create a self signed certificate)
-  * JAVA_HOME referencing to a supported jdk (currently java 17)
-* A Web browser
+* ssh-keygen (`up.sh`  generates a ssh private and public key used by the ssh build agent)
+* Optional: Add a CloudBees Wildcard License to avoid the license screen.
+  * If you don't have a license now ignore these sub steps, you can request a trial license later in the Operations Center welcome screen
+  * If you have a CloudBees wildcard license, create the following files and add the licence certificate and key there
+  *
+   ```
+    mkdir secrets
+    touch secrets/cb-wildcard-license.cert # Add the license certificate  
+    touch secrets/cb-wildcard-license.key  # Add the license key
+  ```
+* Optional: When using Browser on Docker Host (you Laptop)
+  * This option requires changes on your host in `/etc/hosts`
+  * See for details: [Use your Browser on your Docker Host](#Option2_Use_your_browser_on_your_docker_host)
+* Optional: When running in HTTPS Mode: Create a self singed certificate
+  * Create a self singed certificate: [01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
+    * `cd ssl && ./ssl/01-createSelfSigned.sh`
+    * requires:   
+      * openssl (to create a self signed certificate)
+      * Environment variable: JAVA_HOME referencing to a supported jdk (currently java 17)
+  * Optional: To make the certificate trusted in your browser: [Add the certificate to your Keychain Access](https://support.apple.com/guide/keychain-access/add-certificates-to-a-keychain-kyca2431/mac)
 
 # Quick Start
 
@@ -73,25 +84,9 @@ This demo has been tested
     * `cd ci-traditional-ha`
   * Update the permissions
     * `chmod -R a+x *.sh`
-* Optional: Add a CloudBees Wildcard License to avoid the license screen. 
-  * If you don't have a license now ignore these sub steps, you can request a trial license later in the Operations Center welcome screen
-  * If you have a CloudBees wildcard license, create the following files and add the licence certificate and key there   
-  *
-     ```
-      mkdir secrets
-      touch secrets/cb-wildcard-license.cert # Add the license certificate  
-      touch secrets/cb-wildcard-license.key  # Add the license key
-    ```
-  * CasC will read these files and apply for the license during the startup
-* Optional:
-  * if you want to use your Browser on docker host, follow these instructions:  [Use your Browser on your docker host](#Option2_Use_your_browser_on_your_docker_host)
 * Start the containers
-  * Option HTTP mode: Run `./up.sh` to start in plain HTTP mode (no ssl certificates are required)
-  * Option HTTPS mode: 
-    * Create a self singed certificate: [01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
-      * `cd ssl && ./ssl/01-createSelfSigned.sh`
-      * Optional: To make the certificate trusted in your browser: [Add the certificate to your Keychain Access](https://support.apple.com/guide/keychain-access/add-certificates-to-a-keychain-kyca2431/mac)
-    * Run `./up.sh ssl=true` to start in HTTPS mode 
+  * Option HTTP mode:  Run `./up.sh` to start in plain HTTP mode (no ssl certificates are required)
+  * Option HTTPS mode: Run `./up.sh ssl=true` to start in HTTPS mode. See pre requirements: create s self singed certificate first
 * The following steps will be executed by the `up.sh` script
   * The persistent volumes will be created 
   * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
@@ -103,7 +98,7 @@ This demo has been tested
     * Option2: Use your Browser on your computer (Docker Host)
       * This option requires changes on your host in `/etc/hosts`
       * See for details: [Use your Browser on your Docker Host](#Option2_Use_your_browser_on_your_docker_host)
-* In one of the browser options, open the Operations Center: [http://oc.ha](http://oc.ha) or for HTTPS mode [https://oc.ha](https://oc.ha) 
+* In one of the browser options, open the Operations Center: [http://oc.ha](http://oc.ha) (or for HTTPS mode [https://oc.ha](https://oc.ha))
   * use `admin/admin` for login
   * If not done earlier, request a license (first option in the screen "Request trial license")
   * Click on the pre-provisioned controller "ha" in the Operations Center UI
@@ -253,14 +248,14 @@ There are two options on how to access the CloudBess CI demo lab:
 
 > 127.0.0.1	localhost oc.ha client.ha
 
-* Then open Firefox/Chrome on your PC: [http://oc.ha](http://oc.ha)
+* Then open Firefox/Chrome on your PC: [http://oc.ha](http://oc.ha) / or  [https://oc.ha](https://oc.ha)
 * Optional (if you can not resolve the hostnames): Flush the DNS cache (MacOs)
 
 > sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
 
 ## Open the Operations Center
 
-* Point the browser to http://$OC_URL  (by default this is http://oc.ha/)
+* Point the browser to http(s)://$OC_URL  (by default this is http://oc.ha/)
 * (Not required when using CasC) Unlock the Operations Center, you will find the key in the docker-compose logs on your console
 * (Not required when using CasC) You can use this command to get the password
 
