@@ -75,7 +75,7 @@ The Operations Center and both controllers are behind HAProxy.
     * requires:   
       * openssl (to create a self signed certificate)
       * Environment variable: JAVA_HOME referencing to a supported jdk (currently java 17)
-  * Optional: To make the certificate trusted in your browser: [Add the certificate to your Keychain Access](https://support.apple.com/guide/keychain-access/add-certificates-to-a-keychain-kyca2431/mac)
+  * Optional: To make the certificate trusted see [When-using-self-singed-certificate-(HTTPS-mode)](###Option:-When-using-self-singed-certificate-(HTTPS-mode))
 
 # Quick Start
 
@@ -383,13 +383,25 @@ curl -u ${CJOC_LOGIN_USER}:${CJOC_LOGIN_PW}  -v -H "Host: custom.example.com" ${
 
 If you hit SSL issues in your browser when you access the Operations Center, do the following:
 
-### Disable "HTTPS Only" mode
+### Option:-When-using-self-singed-certificate-(HTTPS-mode)
+
+To make the certificate trusted in your browser: 
+
+* [Add the certificate to your Keychain Access](https://support.apple.com/guide/keychain-access/add-certificates-to-a-keychain-kyca2431/mac)
+* Import the certificate into MacOs "Keychain Access"
+* Once imported: click the certificate and select  "Always trusted" 
+
+![keychainaccess.png](docs/keychainaccess.png)
+
+![keychainaccess-trust.png](docs/keychainaccess-trust.png)
+
+### Option: When not using self singed certificates: Disable "HTTPS Only" mode
 
 If you hit SSL cert issues in your browser, do the following:
 
 (I haven't checked yet how to do this in Chrome)
 
-* As the demo HAProxy doesn't support HTTPS/SSL yet, we use Firefox with disabled `HTTPS only mode` see https://support.mozilla.org/en-US/kb/https-only-prefs
+* use Firefox with disabled `HTTPS only mode` see https://support.mozilla.org/en-US/kb/https-only-prefs
 * Adjust the following exceptions:
 
 Under Firefox settings search "HTTPS Only"
