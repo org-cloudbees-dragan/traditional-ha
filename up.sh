@@ -32,6 +32,7 @@ if [[ $SSL == true ]]; then
       exit 2
     fi
   done
+  #Sorce SSl specific overrides
   source ./env-ssl.sh
 else
   echo "SSL is disabled."
