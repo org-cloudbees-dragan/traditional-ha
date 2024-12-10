@@ -77,7 +77,7 @@ The Operations Center and both controllers are behind HAProxy.
   * This option requires changes on your host in `/etc/hosts`
   * See for details: [Use your Browser on your Docker Host](#Option2_Use_your_browser_on_your_docker_host)
 * Optional: When running in HTTPS Mode: Create a self singed certificate
-  * Create a self singed certificate: [01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
+  * Create a self singed certificate: [ssl/01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
     * `cd ssl && ./ssl/01-createSelfSigned.sh`
     * requires:   
       * openssl (to create a self signed certificate)
@@ -92,7 +92,7 @@ The Operations Center and both controllers are behind HAProxy.
   * Update the permissions
     * `chmod -R a+x *.sh`
 * Start the containers
-  * Option HTTP mode:  Run `./up.sh` to start in plain HTTP mode (no ssl certificates are required)
+  * Option HTTP mode:  Run `./up.sh` to start in HTTP mode (no ssl certificates are required)
   * Option HTTPS mode: Run `./up.sh ssl=true` to start in HTTPS mode. See pre requirements: create s self singed certificate first
 * The following steps will be executed by the `up.sh` script
   * The persistent volumes will be created 
