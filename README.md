@@ -483,6 +483,7 @@ References we have used for the development of this demo environment:
 
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/specific-ha-installation-traditional
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/ha/ha-considerations
+* https://www.cloudbees.com/blog/analyzing-cloudbees-ci-high-availability-performance-bottlenecks-and
 * [docs/HAProxy/1_Using_SSL_Certificates_with_HAProxy.pdf](ssl/1_Using_SSL_Certificates_with_HAProxy.pdf)
 * https://www.haproxy.com/blog/haproxy-configuration-basics-load-balance-your-servers
 * https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/
