@@ -1,0 +1,61 @@
+jenkins:
+  authorizationStrategy: "cloudBeesRoleBasedAccessControl"
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  numExecutors: 2
+  remotingSecurity:
+    enabled: true
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+      - id: "admin"
+        password: ${CJOC_LOGIN_PW}
+        name: ${CJOC_LOGIN_USER}
+        properties:
+        - "consoleUrlProvider"
+        - "blueSteelRedirectOptOutProperty"
+        - "myView"
+        - preferredProvider:
+            providerId: "default"
+        - "timezone"
+        - "experimentalFlags"
+        - "apiToken"
+        - mailer:
+            emailAddress: "user@example.com"
+        - "apiToken"
+  slaveAgentPort: -1
+  updateCenter:
+    sites:
+    - id: "core-oc-traditional-offline"
+      url: "file:/var/jenkins_home/war/WEB-INF/plugins/update-center.json"
+    - id: "cap-core-oc-traditional"
+      url: "https://jenkins-updates.cloudbees.com/update-center/envelope-core-oc-traditional/update-center.json"
+security:
+  securitySettingsEnforcement:
+    global:
+      realmAndAuthorization:
+        canCustomMapping: false
+        canOverride: false
+        defaultMappingFactory: "restrictedEquivalentRAMF"
+license:
+  certificate: |
+    ${readFile:${JENKINS_HOME}/cb-wildcard-license.cert}
+  key: |
+    ${readFile:${JENKINS_HOME}/cb-wildcard-license.key}
+unclassified:
+  bundleUpdateTiming:
+    automaticReload: true
+    automaticRestart: true
+    rejectWarnings: false
+    reloadAlwaysOnRestart: false
+    skipNewVersions: false
+  headerLabel:
+    text: "Managed by CasC"
+  location:
+    adminAddress: "Set me up <nobody@nowhere>"
+    url: ${OC_URL}
+  operationsCenterSharedConfiguration:
+    enabled: true

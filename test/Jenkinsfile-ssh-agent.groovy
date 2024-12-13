@@ -1,0 +1,35 @@
+/**
+ * Request was, if an pipeline using an SSH Agent gets reconnected to the next replica when the active replica fails
+ */
+pipeline {
+    agent {
+        /**
+         * This label reference an SSH agent
+         */
+        label "ssh-agent"
+    }
+    /** trigger every minute
+         triggers {
+         cron '* * * * *'
+         }
+     */
+
+    stages {
+        stage('Stage1') {
+            steps {
+                script {
+                    //Print Controller hostname to console, requires script approval!
+                    def hostname = InetAddress.getLocalHost().getHostName()
+                    echo "Jenkins Controller Hostname: ${hostname}"
+                }
+                //Print agent hostname to console and pause the build for X seconds
+                sh '''
+                    set +x
+                    printf '%s %s\n' "$(date) Running on Agent-Pod: $(hostname)"
+                    #sleep for 60 sec, kill the active replica now and check if SSH agent gets reconnected to the other replica
+                    sleep 60
+                '''
+            }
+        }
+    }
+}

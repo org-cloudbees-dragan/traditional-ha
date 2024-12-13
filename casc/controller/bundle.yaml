@@ -1,0 +1,10 @@
+apiVersion: "2"
+id: "controller"
+description: "Controller bundle descriptor"
+version: "1"
+jcasc:
+  - "jenkins.yaml"
+plugins:
+  - "plugins.yaml"
+items:
+  - "items.yaml"

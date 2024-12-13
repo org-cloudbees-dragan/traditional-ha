@@ -1,0 +1,59 @@
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - basicSSHUserPrivateKey:
+              description: "ssh-cred"
+              id: "ssh-cred"
+              privateKeySource:
+                directEntry:
+                  # THE FOLLOWING IS NOT VERY SECURED, AS LONG AS WE DO SO JUST ON LOCALHOST FOR DEMO PURPOSE IT SHOULD BE OK
+                  privateKey: ${readFile:${JENKINS_HOME}/id_rsa}
+              scope: GLOBAL
+              username: "jenkins"
+jenkins:
+  nodes:
+  - permanent:
+      labelString: "ssh-agent"
+      launcher:
+        nioSsh:
+          connectionDetails:
+            credentialsId: "ssh-cred"
+            displayEnvironment: false
+            keyVerificationStrategy: "blindlyTrust"
+            port: 22
+          host: "agent"
+      name: "ssh-agent"
+      nodeProperties:
+      - cloudbeesHighAvailabilityMultipleExecutors:
+          numExecutors: 2
+      remoteFS: "/tmp"
+      retentionStrategy: "cloudbeesHighAvailability"
+  numExecutors: 0
+security:
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "noHostKeyVerificationStrategy"
+  # We allow script approval to print out the Controlelr hostname in our test pipeline
+  scriptApproval:
+    approvedSignatures:
+      - "method java.net.InetAddress getHostName"
+      - "staticMethod java.net.InetAddress getLocalHost"
+highAvailability:
+  highAvailabilityConfiguration:
+    developerMode: true
+  highAvailabilityQueueThrottler:
+    maximumLoad: 0
+unclassified:
+  buildDiscarders:
+    configuredBuildDiscarders:
+      - "jobBuildDiscarder"
+      - simpleBuildDiscarder:
+          discarder:
+            logRotator:
+              artifactNumToKeepStr: "4"
+              numToKeepStr: "4"
+  headerLabel:
+    text: "Managed by CasC"
+  location:
+    adminAddress: "not configured <nobody@nowhere>"
+    url: ${CONTROLLER_URL}
