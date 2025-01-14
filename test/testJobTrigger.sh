@@ -18,7 +18,7 @@ fi
 
 JENKINS_USER_TOKEN="${CJOC_LOGIN_USER}:$JENKINS_TOKEN"
 #CONTROLLER_URL=http://client.ha
-CONTROLLER_URL=http://${CLIENTS_URL}
+CONTROLLER_URL=https://${CLIENTS_URL}
 #JOBNAME: This is the job we want to trigger on the Controller.The job mus exist on Controller root level
 JOB=testpipeline
 #curl connect_timeout
@@ -38,6 +38,7 @@ do
 	curl --connect-timeout  $CONNECT_TIMEOUT \
 	 -v -s -IL -o $RESPONSEHEADERS  \
 	 -c $COOKIE \
+	 -b $COOKIE \
 	 -u $JENKINS_USER_TOKEN -X POST \
 	 "$CONTROLLER_URL/job/$JOB/build?delay=0sec"
 
