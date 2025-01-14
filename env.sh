@@ -23,12 +23,12 @@ export CJOC_LICENSE_CERTIFICATE=secrets/cb-wildcard-license.cert
 ########################################################################################################################
 
 echo "#### Docker image settings"
-
+export DOCKER_IMAGE_CLOUDBEES_TAG=2.479.3.1-jdk21
 # CB CI version for Operations Center and Controllers
-export DOCKER_IMAGE_OC=cloudbees/cloudbees-core-oc:latest
-export DOCKER_IMAGE_CLIENT_CONTROLLER=cloudbees/cloudbees-core-cm:latest
+export DOCKER_IMAGE_OC=cloudbees/cloudbees-core-oc:${DOCKER_IMAGE_CLOUDBEES_TAG}
+export DOCKER_IMAGE_CLIENT_CONTROLLER=cloudbees/cloudbees-core-cm:${DOCKER_IMAGE_CLOUDBEES_TAG}
 # SSH AGENT see https://hub.docker.com/r/jenkins/ssh-agent
-export DOCKER_IMAGE_JENKINS_SSH_AGENT=jenkins/ssh-agent:jdk17
+export DOCKER_IMAGE_JENKINS_SSH_AGENT=jenkins/ssh-agent:jdk21 #:jdk71
 export DOCKER_IMAGE_HAPROXY=haproxy:alpine
 # see https://docs.linuxserver.io/images/docker-webtop/#version-tags
 export DOCKER_IMAGE_BROWSER_BOX=lscr.io/linuxserver/webtop:latest
@@ -67,6 +67,7 @@ echo "#### Docker host volume settings"
 #### Paths on Docker host for mapped volumes
 export PERSISTENCE_PREFIX=$(pwd)/cloudbees_ci_ha_volumes
 export BROWSER_PERSISTENCE=$PERSISTENCE_PREFIX/browser
+export HAPROXY_PERSISTENCE=$PERSISTENCE_PREFIX/haproxy
 export OC_PERSISTENCE=$PERSISTENCE_PREFIX/oc
 export CONTROLLER_PERSISTENCE=$PERSISTENCE_PREFIX/controllers
 export CONTROLLER1_CACHES=$PERSISTENCE_PREFIX/controller1_caches
@@ -85,6 +86,7 @@ export CONTROLLER_JAVA_OPTS="--add-exports=java.base/jdk.internal.ref=ALL-UNNAME
 # https://docs.cloudbees.com/docs/cloudbees-ci/latest/casc-oc/configure-oc-traditional#_adding_the_java_system_property
 # We assign the controller casc bundle directly, comment out if you don't want to use casc
 export CONTROLLER_JAVA_OPTS="$CONTROLLER_JAVA_OPTS -Dcore.casc.config.bundle=/var/jenkins_home/cascbundle"
+export CONTROLLER_JAVA_OPTS="$CONTROLLER_JAVA_OPTS -Djenkins.websocket.pingInterval=10"
 
 ########################################################################################################################
 

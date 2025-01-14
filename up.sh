@@ -79,6 +79,19 @@ cp -Rf casc/controller/*.yaml ${CONTROLLER_PERSISTENCE}/cascbundle/
 cp -vf $SSH_PRIVATE_KEY_PATH $CONTROLLER_PERSISTENCE/id_rsa
 chmod 600 $CONTROLLER_PERSISTENCE/id_rsa
 
+if [[ $SSL == true ]]; then
+  echo "#### Create HAProxy volumes JENKINS_HOME in $HAPROXY_PERSISTENCE"
+  mkdir -p $HAPROXY_PERSISTENCE
+  # Create dir for trusted self signed cert.
+  #mkdir -p $HAPROXY_PERSISTENCE/usr/local/share/ca-certificates/
+  mkdir -p $HAPROXY_PERSISTENCE/etc/ssl/certs
+  #Copy cert pem to alpines /usr/local/share/ca-certificates/ directory because HAProxy must trust this cert in the backend and fronted
+  #cp -v ssl/jenkins.pem  $HAPROXY_PERSISTENCE/usr/local/share/ca-certificates/
+  cp -v ssl/jenkins.pem  $HAPROXY_PERSISTENCE/etc/ssl/certs
+fi
+
+
+
 echo "#### Create Operations Center related volumes JENKINS_HOME in ${OC_PERSISTENCE}"
 # create JENKINS_HOME dir for cjoc
 mkdir -p ${OC_PERSISTENCE}
@@ -136,7 +149,7 @@ echo "#### Render the docker compose template "
 envsubst < docker-compose.yaml.template > docker-compose.yaml
 
 echo "#### Start the containers"
-docker compose up -d
+docker compose up -d --force-recreate
 
 echo "#### All containers are started now. Data is persisted in ${PERSISTENCE_PREFIX}"
 
