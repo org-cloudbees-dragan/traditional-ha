@@ -3,9 +3,7 @@ jenkins:
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: false
-  numExecutors: 2
-  remotingSecurity:
-    enabled: true
+  numExecutors: 1
   securityRealm:
     local:
       allowsSignup: false
