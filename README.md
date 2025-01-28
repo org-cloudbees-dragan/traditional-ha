@@ -360,6 +360,14 @@ docker-compose stop ha-client-controller-1 # or ha-client-controller-2 depending
 
 # Troubleshooting
 
+## HA/HS Trouble shooting
+
+* https://docs.cloudbees.com/docs/cloudbees-ci/latest/troubleshooting/install-ha-active-active#_troubleshoot_cloudbees_ci_on_traditional_platforms_installations 
+
+## Reconnect Controllers to CJOC 
+
+Ü https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/operations-center/how-do-i-reconnect-a-controller-to-joc-after-changing-joc-to-https#_if_client_controller_is_not_accessible_from_the_ui 
+
 ## curl to inspect headers
 
 To show only headers using a GET request (with no body):
@@ -494,6 +502,7 @@ References we have used for the development of this demo environment:
 * https://eventuate.io/docs/usingdocker.html
 * https://docs.linuxserver.io/images/docker-webtop/#lossless-mode
 * https://daniel.haxx.se/blog/2022/03/24/easier-header-picking-with-curl
+* https://www.tonmann.com/2017/11/12/running-jenkins-with-ssl-on-default-https-port/
 
 
 
