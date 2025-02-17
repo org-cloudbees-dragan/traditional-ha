@@ -93,7 +93,7 @@ The Operations Center and both controllers are behind HAProxy.
     * `chmod -R a+x *.sh`
 * Start the containers
   * Option HTTP mode:  Run `./up.sh` to start in HTTP mode (no ssl certificates are required)
-  * Option HTTPS mode: Run `./up.sh ssl=true` to start in HTTPS mode. See pre requirements: create s self singed certificate first
+  * Option HTTPS mode: Run `./up.sh ssl=true` to start in HTTPS mode. You need to create first a certificate,s ee pre requirements: create a [01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
 * The following steps will be executed by the `up.sh` script
   * The persistent volumes will be created 
   * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
