@@ -16,6 +16,9 @@ else
 fi
 
 
+# copy cacerts from JAVA_HOME
+cp -f -v $JAVA_HOME/lib/security/cacerts .
+
 # Generate a self-seigned TLS certificate, with a subject alternative name matching two additional hostnames:
 
 ## Create a file named openssl.cnf for the CSR
@@ -50,9 +53,12 @@ subjectAltName = @alt_names
 DNS.1   = oc.ha
 DNS.2   = client.ha
 DNS.3   = ha-client-controller-1
-DNS.4   = ha-client-controller-2
-DNS.5   = operations-center
-DNS.6   = haproxy
+DNS.4   = 172.47.0.7
+DNS.5   = ha-client-controller-2
+DNS.6   = 172.47.0.8
+DNS.7   = operations-center
+DNS.8   = 172.47.0.6
+DNS.9   = haproxy
 EOF
 
 
@@ -80,8 +86,6 @@ keytool -importkeystore -destkeystore jenkins.jks -srckeystore jenkins.p12 -srcs
 
 # Now you have a jenkins.jks that can be used for TLS on each replica
 
-# copy cacerts from JAVA_HOME
-cp -f -v $JAVA_HOME/lib/security/cacerts .
 # create pem file, includes private key and certificate
 # PEM  will be referenced by HApproxy and by the patched cacerts
 cat jenkins.crt jenkins.key > jenkins.pem
