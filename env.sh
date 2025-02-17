@@ -23,7 +23,9 @@ export CJOC_LICENSE_CERTIFICATE=secrets/cb-wildcard-license.cert
 ########################################################################################################################
 
 echo "#### Docker image settings"
-export DOCKER_IMAGE_CLOUDBEES_TAG=2.479.3.1-jdk21
+#export DOCKER_IMAGE_CLOUDBEES_TAG=latest-jdk21
+#export DOCKER_IMAGE_CLOUDBEES_TAG=2.479.3.2-jdk21
+export DOCKER_IMAGE_CLOUDBEES_TAG=2.492.1.3-jdk21
 # CB CI version for Operations Center and Controllers
 export DOCKER_IMAGE_OC=cloudbees/cloudbees-core-oc:${DOCKER_IMAGE_CLOUDBEES_TAG}
 export DOCKER_IMAGE_CLIENT_CONTROLLER=cloudbees/cloudbees-core-cm:${DOCKER_IMAGE_CLOUDBEES_TAG}
@@ -86,7 +88,7 @@ export CONTROLLER_JAVA_OPTS="--add-exports=java.base/jdk.internal.ref=ALL-UNNAME
 # https://docs.cloudbees.com/docs/cloudbees-ci/latest/casc-oc/configure-oc-traditional#_adding_the_java_system_property
 # We assign the controller casc bundle directly, comment out if you don't want to use casc
 export CONTROLLER_JAVA_OPTS="$CONTROLLER_JAVA_OPTS -Dcore.casc.config.bundle=/var/jenkins_home/cascbundle"
-export CONTROLLER_JAVA_OPTS="$CONTROLLER_JAVA_OPTS -Djenkins.websocket.pingInterval=10"
+#export CONTROLLER_JAVA_OPTS="$CONTROLLER_JAVA_OPTS -Djenkins.websocket.pingInterval=10"
 
 ########################################################################################################################
 
