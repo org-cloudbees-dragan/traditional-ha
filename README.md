@@ -62,12 +62,13 @@ The Operations Center and both controllers are behind HAProxy.
 * Engine: 24.0.6
 * Compose: v2.22.0-desktop.2
 * Docker-compose v3
-* Web browsers, Firefox, and Chrome has been tested
+* gettext (for using envsubst in the up.sh script to render the docker-compose template)
+* Web browsers, Firefox, and Chrome have been tested
 * ping (not mandatory, but used in the `up.sh` script to test name resolution)
-* ssh-keygen (`up.sh`  generates a ssh private and public key used by the ssh build agent)
+* ssh-keygen (`up.sh`  generates a SSH private and public key used by the SSH build agent)
 * Optional: Add a CloudBees Wildcard License to avoid the license screen.
-  * If you don't have a license now ignore these sub steps, you can request a trial license later in the Operations Center welcome screen
-  * If you have a CloudBees wildcard license, create the following files and add the licence certificate and key there
+  * If you don't have a license now ignore these sub-steps, you can request a trial license later in the Operations Center welcome screen
+  * If you have a CloudBees wildcard license, create the following files and add the license certificate and key there
    ```
     mkdir secrets
     touch secrets/cb-wildcard-license.cert # Add the license certificate  
@@ -76,12 +77,12 @@ The Operations Center and both controllers are behind HAProxy.
 * Optional: When using Browser on Docker Host (your Laptop)
   * This option requires changes on your host in `/etc/hosts`
   * See for details: [Use your Browser on your Docker Host](#Option2_Use_your_browser_on_your_docker_host)
-* Optional: When running in HTTPS Mode: Create a self singed certificate
-  * Create a self singed certificate: [ssl/01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
+* Optional: When running in HTTPS Mode: Create a self signed certificate
+  * Create a self signed certificate: [ssl/01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
     * `cd ssl && ./ssl/01-createSelfSigned.sh`
     * requires:   
-      * openssl (to create a self signed certificate)
-      * Environment variable: JAVA_HOME referencing to a supported jdk (currently java 17)
+      * OpenSSL (to create a self-signed certificate)
+      * Environment variable: JAVA_HOME referencing to a supported jdk (currently Java 17)
   * Optional: To make the certificate trusted see [When-using-self-singed-certificate-(HTTPS-mode)](###Option:-When-using-self-singed-certificate-(HTTPS-mode))
 
 # Quick Start
@@ -92,13 +93,13 @@ The Operations Center and both controllers are behind HAProxy.
   * Update the permissions
     * `chmod -R a+x *.sh`
 * Start the containers
-  * Option HTTP mode:  Run `./up.sh` to start in HTTP mode (no ssl certificates are required)
-  * Option HTTPS mode: Run `./up.sh ssl=true` to start in HTTPS mode. You need to create first a certificate,s ee pre requirements: create a [01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
+  * Option HTTP mode:  Run `./up.sh` to start in HTTP mode (no SSL certificates are required)
+  * Option HTTPS mode: Run `./up.sh ssl=true` to start in HTTPS mode. You need to create first a certificate,s ee pre-requirements: create a [01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
 * The following steps will be executed by the `up.sh` script
   * The persistent volumes will be created 
   * The related containers will start now. This might take some minutes because the required containers get pulled the first time to your docker host
   * All the configuration required by HA/HS is already set up
-  * When Docker Compose is fully up, you will be redirected to one of this browser options:
+  * When Docker Compose is fully up, you will be redirected to one of these browser options:
     * Option1: Use a Browser in a box
       * This option doesn't require changes on your host in `/etc/hosts`
       * See for details: [Join the containerized browser in a Box](#Option1_Join_the_containerized_browser_in_a_Box)
@@ -113,8 +114,8 @@ The Operations Center and both controllers are behind HAProxy.
     * Click `push configuration` 
     * Click `join operations center`
 * Now you are on a Controller running in HA/HS mode. 
-  * A test Pipeline job using an SSH agent is already setup by CasC
-    * Click "Build now" amd see the Pipeline log
+  * A test Pipeline job using an SSH agent is already set by CasC
+    * Click "Build now" and see the Pipeline log
     * See also the content in the [test](test) directory
   * It takes some minutes until the second Controller joins, see also [http://client.ha/manage/highAvailability](http://client.ha/manage/highAvailability)
 
@@ -153,9 +154,9 @@ A helper script to:
 
 [01-createSelfSigned.sh](ssl/01-createSelfSigned.sh)
 
-Script to create a self singed certificate
+Script to create a self signed certificate
 * pem file: used by HAProxy for the frontend (includes the private key and certificate crt)
-* cacerts: The Java default cacerts with the pem added, used for jenkins outbound connections
+* cacerts: The Java default cacerts with the pem added, used for Jenkins outbound connections
 * Jenkins keystore: Jenkins.jks keystore, includes the pem only, used for the Jenkins HTTPS_KEYSTORE
 
 [haproxy.cfg](haproxy.cfg)
@@ -213,7 +214,7 @@ This is optional. If a wildcard license is supplied you will pass the license we
 * secrets/cb-wildcard-license.cert
 
 An SSH key will also be generated into the `secrets` directory for you when you run the  `up.sh`script
-* This key will be injected automatic by casc into the Controllers SSH Credential 
+* This key will be injected automatically by casc into the Controllers SSH Credential 
 * The public key will be propagated to the Agents `authorized_keys` file
 
 # Steps
@@ -221,13 +222,13 @@ An SSH key will also be generated into the `secrets` directory for you when you 
 ## Start/Deploy
 
 - Examine `env.sh` and modify if needed.
-- Examine `docker-compose.yaml.template` and modify if needed.
+- Examine `docker-compose.yaml.template` and modify it if needed.
 - Run `up.sh` (or `up.sh ssl=true`)
 - Wait until all components are up and access via one of the browser options
 
 ## Stop
 
-Run `down.sh`. This will issue docker compose down to stop the running containers.
+Run `down.sh`. This will issue docker-compose down to stop the running containers.
 
 ## Clean up
 
@@ -360,7 +361,7 @@ docker-compose stop ha-client-controller-1 # or ha-client-controller-2 depending
 
 # Troubleshooting
 
-## HA/HS Trouble shooting
+## HA/HS Troubleshooting
 
 * https://docs.cloudbees.com/docs/cloudbees-ci/latest/troubleshooting/install-ha-active-active#_troubleshoot_cloudbees_ci_on_traditional_platforms_installations 
 
@@ -368,7 +369,7 @@ docker-compose stop ha-client-controller-1 # or ha-client-controller-2 depending
 
 Ü https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/operations-center/how-do-i-reconnect-a-controller-to-joc-after-changing-joc-to-https#_if_client_controller_is_not_accessible_from_the_ui 
 
-## curl to inspect headers
+## Curl to inspect headers
 
 To show only headers using a GET request (with no body):
 
@@ -410,7 +411,7 @@ To make the certificate trusted in your browser:
 
 ![keychainaccess-trust.png](docs/keychainaccess-trust.png)
 
-### Option: When not using self singed certificates: Disable "HTTPS Only" mode
+### Option: When not using self signed certificates: Disable "HTTPS Only" mode
 
 If you hit SSL cert issues in your browser, do the following:
 
